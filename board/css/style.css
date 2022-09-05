@@ -1,0 +1,132 @@
+* {
+    box-sizing: border-box;
+}
+
+ul{
+    list-style: none;
+}
+
+td a {
+    text-decoration-line: none;
+    border-bottom: none !important;
+    
+}
+
+.button {
+    margin-top:10px !important;
+    border: 1px solid blue !important;
+    max-width: 5rem !important;
+    justify-content: space-around;
+    height: 2rem;
+    float: right;
+}
+
+.nav {
+    text-align: center;
+    border-bottom: 1px blue solid;
+    font-size: 2rem;
+    height: 3rem;
+    margin: 50px;
+    padding-bottom : 100px;
+}
+
+
+.board_list * {
+    align-items: center;
+    width : 100%;
+    align-items: center;
+    max-width: 100rem;
+    margin : 0 auto;
+    text-align: center;
+    border-bottom: 1px black solid;
+    /* margin : 100px; */
+}
+
+.board_number {
+    text-align: center;
+    width : 5%;
+}
+
+.board_subject {
+    width : 75%;
+}
+
+.board_writerDate {
+    width : 10%;
+}
+
+.board_writer {
+    width : 10%;
+}
+
+table tr th {
+    border-bottom : 1px black solid;
+    font-size : 1rem;
+    /* display: inline-block; */
+}
+
+
+.content {
+    height: 3rem;
+    padding: 20px;
+    margin-bottom: 20px;
+
+}
+
+
+
+/* 게시글 작성 css */
+
+.write_box {
+    width: 100%;
+    align-items: center;
+    margin : 0 auto;
+    max-width: 100rem;
+    min-width: 300px;
+}
+
+.write_name {
+    min-height:27px;
+    font-size: 1.1rem; 
+    padding: 11px 12px 10px; 
+    font-size: 15px;
+    letter-spacing: -.23px; 
+    line-height: 17px;
+}
+
+.write_subject {
+    min-height:40px;
+    font-size: 1.3rem; 
+    padding: 11px 12px 10px; 
+    font-size: 15px;
+    letter-spacing: -.23px; 
+    width:100%;
+    line-height: 17px;
+}
+
+.write_body {
+    width:100%;
+    height: 45%;
+}
+
+
+/* 게시글 내용 css */
+.content_body {
+    border: 5px solid rgb(53, 197, 233);
+    border-radius: 5;
+    min-height: 350px;
+}
+
+.comment {
+    width: 100% !important;
+    padding: 10px;
+    margin-top: 10px;
+    border-bottom: 1px solid rgb(114, 227, 235);
+    
+}
+
+.comment_writer {
+    border-bottom: 1px red solid;
+    padding-bottom: 10px;
+    display: inline-block;
+}
