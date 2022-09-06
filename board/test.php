@@ -1,4 +1,4 @@
-<?php
+<?
     $mysqlDB = new mysqli('localhost', 'root', 'clzls123', 'test_board');
     if ($mysqlDB->connect_errno)
     {

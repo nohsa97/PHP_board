@@ -1,54 +1,68 @@
-           
-                 <?php 
+<?
+    include_once "./include/dbConnection.php";
+    $mysqlDB = mysqlConnect();
+    if(!$mysqlDB) {
+        echo "<script>alert('DB연결 실패');</script>";
+        exit;
+    }
 
-                    $subject = $_POST['subject']; // 게시글 제목
-                    $body = $_POST['body']; // 게시글 내용
-                    $writer = $_POST['writer'];
-                    $password = $_POST['password'];
-                  
+    $subject = $_POST['subject']; // 게시글 제목
+    $body = $_POST['body']; // 게시글 내용
+    $writer = $_POST['writer'];
+    $password = $_POST['password'];
+    
 
-                    if($subject=="" || $body ==""){ //비어있을 경우.
-                       
-                        echo " <script> alert(\"다시 작성해주세요\");
-                        location.href= \"write.php\"; </script>";            
-                    }  
-                 
-                    
-                    else {
-                        $mysqlDB = new mysqli('localhost', 'root', 'clzls123', 'test_board');
-                        if ($mysqli->connect_errno)
-                        {
-                            echo 'mysql error';
-                        }
-                        else
-                        {
-                            
-            
-                            $result =  mysqli_query($mysqlDB,$RESET);
-                            // $sql = "insert into board values(NULL,'$subject','$writer','$body',NOW(),'$password',10)";
-                            $sql = "INSERT INTO board SET
-                                    number = NULL,
-                                    subject = '$subject',
-                                    writer = '$writer',
-                                    body = '$body',
-                                    date = NOW(),
-                                    password = '$password',
-                                    visited = 10
-                                    ";
-                            // echo $sql;
-                            // exit;  테스트할때 유용한 코드  exit와 $sql 바로출력. 굿.
-                            $result = mysqli_query($mysqlDB,$sql);  
-                            
-                        }
+    if($subject=="" || $body ==""){ //비어있을 경우.
+        alerting("입력한이 비어있습니다.");
+        echo " <script>location.href= \"write.php\"; </script>";            
+    }  
+    
+    
+    else {
+            $select = $_POST['selected'];
+            if($select == 'new_write') {        
+                // $sql = "insert into board values(NULL,'$subject','$writer','$body',NOW(),'$password',10)";
+                $sql = "INSERT INTO board SET
+                        number = NULL,
+                        subject = '$subject',
+                        writer = '$writer',
+                        body = '$body',
+                        date = NOW(),
+                        password = '$password',
+                        visited = 10
+                        ";
 
-                       
-                        mysqli_close($mysqlDB);
-                    }
-                   
-                ?>
+                $result = mysqli_query($mysqlDB,$sql);    
+                alerting("게시글 작성 완료");        
+                location("list.php");
 
-                <script>
-                    alert("게시글 작성 완료");
-                    location.href= "list.php";
-                </script>
-<!-- insert into board values (NULL,"테스트2","노홍석2","테스트용 바디2","2022-09-05 10:58:00", "12343", 10); -->
+                mysqli_close($mysqlDB);
+            }
+            else if($select == 'modify') {
+                $number = $_POST['number'];
+                
+                $sql = "UPDATE board SET
+                        number = $number,
+                        subject = '$subject',
+                        writer = '$writer',
+                        body = '$body',
+                        date = NOW(),
+                        password = '$password',
+                        visited=10
+                        WHERE number = $number
+                        ";
+                
+                $result = mysqli_query($mysqlDB,$sql);   
+                alerting("게시글 수정 완료");         
+                echo "
+                    <script>
+                        location.href= 'content.php?number=$number';
+                    </script>
+                ";
+                mysqli_close($mysqlDB);
+                }
+
+          }
+?>
+
+

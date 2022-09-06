@@ -1,3 +1,12 @@
+<?
+    include_once "./include/dbConnection.php";
+    $mysqlDB = mysqlConnect();
+    if(!$mysqlDB) {
+        echo "<script>alert('DB연결 실패');</script>";
+        exit;
+    }
+?>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,40 +16,27 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div class="nav">
-        UCERT 자유게시판 
-    </div>
+    <?
+        include_once "./include/header.html";
+    ?>
 
 
     <div class="board_list">
         <div class="subject">
          <table>
-            <tr>
-                
+            <tr>        
                 <th class="board_number">번호</th>
                 <th class="board_subject">제목</th>
                 <th class="board_writer">작성자</th>
                 <th class="board_writeDate">작성일자</th>
-            </tr>
-
-              
-            
-                <?php 
-                    $mysqlDB = new mysqli('localhost', 'root', 'clzls123', 'test_board');
-                    if ($mysqli->connect_errno)
-                    {
-                        echo 'mysql error';
-                    }
-                    else //db에 저장된 내용들이 있다면 해당 내용을 출력합니다. 
-                    {
-                    
-                        $sql = "select * FROM board";
+            </tr>                      
+                <?                                    
+                        $sql = selectSQL($mysqlDB,'board'); // dbConnection에 존재하는 함수.
                         $result = mysqli_query($mysqlDB,$sql);
                         if($result){
                             $listnum = 1;
                             while($row=mysqli_fetch_assoc($result)) {  //게시글 보내면서 게시글 번호를 전달하기 
                                 echo "
-                                    
                                     <tr class='content'>
                                         <td class='board_number'>",$listnum,"</td>
                                         <td class='board_subject'>","<a href='content.php?number=",$row['number'],"'>",$row['subject'],"</a>","</td> 
@@ -51,10 +47,7 @@
                                     ";
                                     $listnum++;
                             }
-                        }
-
-                    }
-                
+                        }  
                     mysqli_close($mysqlDB);
                 ?>
 
@@ -65,13 +58,9 @@
          <input class="button" type="button" value="글쓰기" onclick=goWrite()>
         </div>
        
-
-        <script>
-            function goWrite() {
-                       location.href="write.php";
-                    }            
-        </script>
     </div>    
 
 </body>
+
+<script src="js/basic.js"></script>
 </html>

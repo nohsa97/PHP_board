@@ -9,7 +9,6 @@ ul{
 td a {
     text-decoration-line: none;
     border-bottom: none !important;
-    
 }
 
 .button {
@@ -30,6 +29,10 @@ td a {
     padding-bottom : 100px;
 }
 
+.nav a {
+    text-decoration-line: none;
+    border-bottom: none !important;
+}
 
 .board_list * {
     align-items: center;

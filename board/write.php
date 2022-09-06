@@ -7,9 +7,9 @@
     <title>Document</title>
 </head>
 <body>
-    <div class="nav">
-        UCERT 자유게시판 
-    </div>
+    <?
+        include_once "./include/header.html";
+    ?>
 
 
     <div class="write_box">
@@ -20,7 +20,7 @@
             <input type="password" name="password" required class="write_name" placeholder="비밀번호">
             <p><input type="text" name="subject" size="50px" class="write_subject" placeholder="게시글 제목을 입력해주세요."></p>
             <textarea name="body" class="write_body" id="" placeholder="내용을 입력해주세요."></textarea>
-
+            <input type="hidden" name="selected" value="new_write">
             <input class="button" type="submit" value="글쓰기">
         </form>
 

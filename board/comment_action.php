@@ -1,27 +1,35 @@
-<!-- <?php 
-                    $comment = $_POST['comment']; // 댓글내용
-                    $writer = $_POST['writer'];
-                    $password = $_POST['password'];
-       
-                    
-                   
-                        $mysqlDB = new mysqli('localhost', 'root', 'clzls123', 'test_board');
-                        if ($mysqli->connect_errno)
-                        {
-                            echo 'mysql error';
-                        }
-                        else
-                        {
-                            $sql = "INSERT INTO comment SET
-                            number = $_POST['number'],
-                            comment_number = NULL,
-                            comment
-                            ";
-                            
-                        }
+<?
+    include_once "./include/dbConnection.php";
+    // include_once "content.php";
+    $mysqlDB = mysqlConnect();
+    if(!$mysqlDB) {
+        alerting("DB연결 실패.");
+        exit;
+    }
+    
+    $comment = $_POST['comment']; // 댓글내용
+    $writer = $_POST['writer'];
+    $password = $_POST['password'];
+    $number = $_POST['number'];
 
+    $mysqlDB = mysqlConnect();
+    $sql = "
+    INSERT INTO comment SET
+    comment_number = NULL,
+    number = $number,
+    comment = '$comment',
+    writer = '$writer',
+    password = '$password',
+    date = NOW(),
+    re_comment =NULL;
+    ";
+
+    $result = mysqli_query($mysqlDB,$sql);
+    alerting("댓글이 작성되었습니다.");
+    location("content.php?number=$number");
+            
                        
-                        mysqli_close($mysqlDB);
+    // mysqli_close($mysqlDB);
                     
                 
-                ?> -->
+?>
