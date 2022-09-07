@@ -133,3 +133,15 @@ table tr th {
     padding-bottom: 10px;
     display: inline-block;
 }
+
+.search_box{
+    width: 50%;
+}
+a::after {
+    color :rgb(114, 227, 235);
+}
+
+a:hover {
+    background-color: aquamarine;
+}
+

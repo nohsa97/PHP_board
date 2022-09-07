@@ -19,7 +19,7 @@
     <?
         include_once "./include/header.html";
     ?>
-    
+
     <div class='write_box'>
     <?        
         $number = $_GET['number']; //get으로 게시글 번호 받고 반영하기.
@@ -28,7 +28,9 @@
         $row=mysqli_fetch_assoc($result);
         
         
-        echo "<h2 style='border-bottom:1px blue solid;padding:10px;'>",$row['subject'],"  <input class='button' type='submit' value='수정하기' onclick='modify()'></h2>";
+        echo "<h2 style='border-bottom:1px blue solid;padding:10px;'>",$row['subject'],"  <input class='button' type='submit' value='삭제하기' onclick='modify()'>
+        <input class='button' type='submit' style='margin:20px' value='수정하기' onclick='modify()'></h2>";
+        
 
         echo "<script>
         function modify(){
@@ -38,7 +40,7 @@
 
 
         echo "<div class='content_body'>
-                ",$row['body'],"
+                <pre style='padding:10px;'>",$row['body'],"</pre>
                 </div>
         ";    
     ?>
@@ -70,22 +72,22 @@
                         ";
                     }
                     mysqli_close($mysqlDB);
-                ?>    
-                 
+                ?>
+
+            <form id='modify_comment' action="comment_action.php" method="post"> 
+                <input type="hidden" name="writer"  required  class="write_name" placeholder="작성자">
+                <input type="hidden" name="password" required class="write_name" placeholder="비밀번호">
+                <input class="button" type="hidden" value="댓글수정">
+                <input type="hidden" name="number" value=<?echo $number;?>>
+                <p><input type="hidden" name="comment" required size="50px" class="write_subject" placeholder="댓글 입력해주세요."></p>
+            </form>   
                  
                 
                 <script>
                     function modify_comment(){
-                    // var news = document.getElementById('comment');
-                    var coments = document.getElementsByTagName("li");
-                    // coments.item(1).innerHTML = "asdasd";
-                    coments.item(1).style.border = "1px solid pink";
-                    // coments.item(1).appendChild(news);
-                    }
-                    
-        
-
-                            
+                    var coments = document.getElementsByTagName("li");     
+                    coments.item(1).style.border = "1px solid pink";   
+                    }                            
                 </script>
         </div>
     </div>
