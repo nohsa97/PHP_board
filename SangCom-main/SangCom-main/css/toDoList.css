@@ -1,0 +1,161 @@
+html, body, input {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* 박스의 크기를 박스의 테두리까지 포함시킴 */
+    font-family: 'Gamja Flower', 'cursive'; /* 설정해놓은 웹 폰트 지정, cursive는 필기체 */
+}
+
+button {
+    font-family: 'Gamja Flower', 'cursive';
+    background: cornflowerblue;
+    color: white;
+    font-size: 1.7rem;
+    cursor: pointer;
+}
+
+.list-box {
+    /* width: 100%; */
+    margin: 65px auto; /* 위, 아래는 100px / 좌, 우는 중앙으로 정렬 */
+    border: 1px solid white;
+    padding: 20px 30px 50px; /* 위 20 오른쪽, 왼쪽 30 아래 50 */
+    background: #e3ffff;
+    padding-right: var(--bs-gutter-x, 0.75rem);
+    padding-left: var(--bs-gutter-x, 0.75rem);
+    margin-right: auto;
+    margin-left: auto;
+    display: grid;
+}
+/* .list-box {
+    width: 500px;
+    margin: 100px auto; /* 위, 아래는 100px / 좌, 우는 중앙으로 정렬 */
+/*    border: 1px solid white;
+    padding: 20px 30px 50px; /* 위 20 오른쪽, 왼쪽 30 아래 50 */
+/*    background: #999;
+} */
+
+.list-box h1 {
+    text-align: center;
+    color: #0e4deb;
+    border-bottom: 1px solid gray;
+    padding-bottom: 10px;
+}
+.list-box h5 {
+    text-align: center;
+    color: #0e4deb;
+}
+
+.write-box {
+    width: 100%;
+    height: 35px;
+}
+
+ /* 입력창 */
+.write-box input {
+    width: 180px;
+    font-size: 20px;
+    border: none;
+    padding: 0 10px;
+    height: 100%;
+}
+
+.write-box button {
+    width: 20%;
+    border: none;
+    height: 100%;
+}
+
+.list-table {
+    border-spacing: 0px; /* 셀 테두리 간격 없음 */
+    border-collapse: collapse; /* 셀 테두리 선 겹쳐서 표현 */
+    width: 100%;
+    margin: 20px 0;
+}
+
+th, td {
+
+    font-size: 15px;
+    border: 1px solid lightgray;
+    padding: 10px 20px;
+}
+
+th {
+    background: lightblue;
+}
+
+td {
+    background: white;
+}
+
+tbody td:first-child {
+    text-align: center;
+}
+
+.btn-area {
+    text-align: center;
+}
+
+.btn-area button {
+    height: 35px;
+    padding: 0 10px;
+    border: none;
+    
+}
+#btnDelLast {
+  display : none;
+}
+
+
+.mainBorder {
+    border: 2px solid #819fea; 
+    background-color: #e3ffff; 
+    border-radius: 10px;
+    margin: 15px;
+
+}
+
+.mainBorder h2 , .mainBorder h3 {
+    text-align: center;
+}
+
+.reportBox {
+    min-width: 450px !important;
+    min-height: 450px;
+    padding : 100px !important;
+    
+}
+
+.reportSelect {
+    text-align:center; margin-bottom: 10px;
+}
+
+.mainBtn {
+    border:none;
+    padding: 5px;
+    background: cornflowerblue; 
+    border-radius: 4px;
+  }
+
+.mainBtn a {
+    color: white !important;
+}
+
+.hotPost{
+    width: 47%; 
+    min-width: 400px; 
+    padding:10px; 
+    /* margin : 10px; */
+    margin-bottom: auto;
+    margin: auto;
+}
+
+/* #userIdent .mainBtn {
+    width:30%;
+} */
+
+.lunchBox {
+    margin-top: 150px; 
+    margin-bottom: 30px; 
+    display: flex; 
+    flex-wrap: wrap; 
+    align-items: center
+}
