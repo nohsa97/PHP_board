@@ -304,3 +304,15 @@
     width : 100px !important;
     margin: 1px !important;
   }
+
+  .checkInput { 
+    width : 32%;
+  }
+
+
+  @media (max-width: 768px){
+
+    .checkInput { 
+      width : auto;
+    }
+  }

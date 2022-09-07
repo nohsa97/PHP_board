@@ -76,7 +76,7 @@
 
             <h2>회원가입</h2>
 
-              <label class="field field_v3" style="width: 32%;" for="api/regiseter/userID">
+              <label class="field field_v3 checkInput" for="api/regiseter/userID">
                 <input th:field="*{id}" class="field__input" placeholder="ex)asd123" required autocomplete="off" id="inputID">
                 <span class="field__label-wrap">
                   <span class="field__label">ID 입력</span>
@@ -131,7 +131,7 @@
                     <input th:field="*{schoolnumber}" type="text" name = "schoolnumber" id ="schoolnumber"  placeholder="ex)01"  style="width:60px" size="5"><br>
               </div>
 
-              <label style="width: 32%;" class="field field_v3" for="api/regiseter/userYear">
+              <label class="field field_v3 checkInput" for="api/regiseter/userYear">
                 <input  th:field="*{year}" type="number" class="field__input" placeholder="ex)2022" required autocomplete="off" id="userYear">
                 <span  class="field__label-wrap">
                   <span class="field__label" >입학년도</span>
