@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>상콤 - 상명여고 학생들을 위한 커뮤니티</title>
+  <link rel="shortcut icon" href="img/ic_sangcom.png">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon_sangcom.png">
+  <!-- <link rel="apple-touch-icon" sizes="72x72" href="img/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="img/apple-touch-icon-114x114.png"> -->
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="fonts/font-awesome/css/font-awesome.css">
+  <link rel="stylesheet" type="text/css" href="css/Innova/style.css">
+  <link rel="stylesheet" type="text/css" href="css/nivo-lightbox/nivo-lightbox.css">
+  <link rel="stylesheet" type="text/css" href="css/nivo-lightbox/default.css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="css/board.css">
+  <link rel="stylesheet" type="text/css" href="css/navbar.css">
+  <link rel="stylesheet" type="text/css" href="css/toDoList.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+</head>
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+  <nav id="menu" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand page-scroll" href="main.html">SANGCOM</a>
+      </div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-right">
+          <div class="dropdown nav navbar-nav">
+            <!-- <li><a href=" boardFree.html" class="page-scroll dropdown">게시판</a> -->
+              <li><span>게시판</span>
+              <div class="dropdown-content">
+                <a class="downList" href="boardFree.html">전교생 자유게시판</a><br>
+                <a class="downList" href="boardFree1.html">1학년 게시판</a><br>
+                <a class="downList" href="boardFree2.html">2학년 게시판</a><br>
+                <a class="downList" href="boardFree3.html">3학년 게시판</a><br>
+              </div>
+            </li>
+          </div>
+          <div class="dropdown nav navbar-nav">
+            <li><a href="#" class="page-scroll dropdown">학생회</a>
+              <div class="dropdown-content">
+                <a class="downList" href="#">학생회</a><br>
+                <a class="downList" href="#">학생 건의함</a><br>
+                <a class="downList" href="#">학생회 공지</a><br>
+                <a class="downList" href="#">동아리 활동</a><br>
+              </div>
+            </li>
+          </div>
+          <div class="dropdown nav navbar-nav">
+            <li><a href="myPage.html" class="page-scroll">마이 페이지</a></li>
+          </div>
+          <div class="dropdown nav navbar-nav">
+            <li><a href="login.html" class="page-scroll">로그아웃</a></li>
+          </div>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!-- 네비게이션 끝 자유게시판 컨텐츠 시작 -->
+
+
+  <div class="container" style="margin-top: 120px; margin-bottom: 30px; display: flex; flex-wrap: wrap; align-items: center; flex-direction: row-reverse;">
+    <!-- 내정보 -->
+    <div style="width: 30%; min-width: 310px; margin: auto;  margin-top: 1%">
+      <div>
+        <div id="userIdent" class="mainBorder" style="padding:40px;">
+          <img src="img/ic_cloudy.png" width = "70" style="float: left">
+          <p class="nickname">상콤달콤</p>
+          <p class="school">김경은</p>
+          <p class="school">1학년 2반 34번</p>
+          <div style="margin: auto">
+            <!-- <a href="  #"><input class="mainBtn" type="button" value="알림"></a> -->
+            <!-- <a href="mypage.html"><input class="mainBtn" type="button" value="내 정보"></a> -->
+            <!-- <a href="mypage.html"><input class="mainBtn" type="button" value="로그아웃"></a> -->
+            <button class="mainBtn"><a href="#">알림</a></button>
+            <button class="mainBtn"><a href="myPage.html">내 정보</a></button>
+            <button class="mainBtn"><a href="login.html">로그아웃</a></button>
+          </div>
+        </div>
+      </div>
+      <div class="list-box mainBorder" style="padding:10%;">
+        <h1>To Do List</h1>
+        <div class="write-box">
+          <input type="text" class="text-basic">
+          <button type="button" id="btnAdd">추가</button>
+        </div>
+
+        <table class="list-table">
+          <colgroup>
+            <!-- column을 1:9로 나눔 -->
+            <col width="30%">
+            <col width="70%">
+          </colgroup>
+          <thead>
+            <tr>
+              <th>확인</th>
+              <th>할 일</th>
+            </tr>
+          </thead>
+          <tbody id="listBody">
+          </tbody>
+        </table>
+        <div class="btn-area">
+          <!-- 삭제 기능 -->
+
+          <button type="buton" id="DeleteSel">선택 삭제</button>
+          <button type="buton" id="btnDelLast">마지막 항목 삭제</button>
+          <button type="buton" id="btnDelAll">전체 삭제</button>
+        </div>
+      </div>
+    </div>
+    <!--게시글 -->
+    <div class="hotPost">
+      <div class="mainBorder" style="display: flex; flex-direction: row">
+        <div class="board" style="display: flex; width: 50%; flex-direction: column; padding: 1px;">
+          <h5>실시간 인기 글</h5>
+          <a href="boardContent.html">
+            <article class="post_auto" style="position: relative;">
+              <h5 class="postName">종강축하해~</h5>
+              <p class="postContent">근데 난 과제중</p>
+              <p style="color:gray;">전교생 자유게시판</p>
+              <span class="material-symbols-outlined symbols" style="">favorite</span>
+              <span class="symbols" style="right:10px">50</span>
+            </article>
+          </a>
+          <a href="boardContent0.html">
+            <article class="post_auto" style="position: relative;">
+              <h5 class="postName">진짜 김경은은 전설이다</h5>
+              <p class="postContent">그 찐따같던 김경은이 맞다</p>
+              <p style="color:gray;">2학년 게시판</p>
+              <span class="material-symbols-outlined symbols" style="">favorite</span>
+              <span class="symbols" style="right:10px">36</span>
+            </article>
+          </a>
+        </div>
+        <div class="board" style="display: flex; width: 50%; flex-direction: column; padding: 1px;">
+          <h5>HOT 게시물</h5>
+          <a href="boardContent.html">
+            <article class="post_auto" style="position: relative;">
+              <h5 class="postName">지금은 새벽다섯시 반~</h5>
+              <p class="postContent">근데 난 과제중</p>
+              <p style="color:gray;">1학년 게시판</p>
+              <span class="material-symbols-outlined symbols" style="">favorite</span>
+              <span class="symbols" style="right:10px">120</span>
+            </article>
+          </a>
+          <a href="boardContent.html">
+            <article class="post_auto" style="position: relative;">
+              <h5 class="postName">삼성전자 언제오르냐</h5>
+              <p class="postContent">10만전자까지 숨 참으,,윽</p>
+              <p style="color:gray;">전교생 자유게시판</p>
+              <span class="material-symbols-outlined symbols" style="">favorite</span>
+              <span class="symbols" style="right:10px">85</span>
+            </article>
+          </a>
+        </div>
+      </div>
+        <!-- <input type="color" name="" id=""> -->
+      <!-- 시간표 -->
+      <div class="mainBorder" style="padding: 10px;">
+        <table width=90% height=90% style="margin: auto; padding:0 ;color: #121212">
+          <caption class="text-center">▶  시간표  ◀</caption>
+          <tr width=20%>
+            <th></th>
+            <th class="text-center">월</th>
+            <th class="text-center">화</th>
+            <th class="text-center">수</th>
+            <th class="text-center">목</th>
+            <th class="text-center">금</th>
+          </tr>
+          <tr>
+            <th class="text-center">9</th>
+            <td style="text-align: center;" onclick="changeColor()">자습</td>
+            <td style="text-align: center;" >자습</td>
+            <td style="text-align: center; ">자습</td>
+            <td style="text-align: center; ">자습</td>
+            <td rowspan="2" style="text-align: center; ">자습</td>
+          </tr>
+          <tr>
+            <th class="text-center">10</th>
+            <td style="text-align: center; ">자습</td>
+            <td style="text-align: center; ">자습</td>
+            <td style="text-align: center; ">자습</td>
+            <td style="text-align: center; ">자습</td>
+          </tr>
+          <tr>
+            <th class="text-center">11</th>
+            <td style="text-align: center; ">국어</td>
+            <td style="text-align: center; ">수학</td>
+            <td style="text-align: center; ">영어</td>
+            <td style="text-align: center; ">체육</td>
+            <td style="text-align: center; ">물리</td>
+          </tr>
+          <tr>
+            <th class="text-center">12</th>
+            <td style="text-align: center; ">수학</td>
+            <td style="text-align: center; ">영어</td>
+            <td style="text-align: center; ">체육</td>
+            <td style="text-align: center; ">물리</td>
+            <td style="text-align: center; ">국어</td>
+          </tr>
+          <tr>
+            <th class="text-center">1</th>
+            <td style="text-align: center; ">영어</td>
+            <td style="text-align: center; ">체육</td>
+            <td style="text-align: center; ">물리</td>
+            <td style="text-align: center; ">국어</td>
+            <td style="text-align: center; ">수학</td>
+          </tr>
+          <tr>
+            <th class="text-center">2</th>
+            <td style="text-align: center; ">체육</td>
+            <td style="text-align: center;">물리</td>
+            <td style="text-align: center; ">국어</td>
+            <td style="text-align: center; ">수학</td>
+            <td style="text-align: center; ">영어</td>
+          </tr>
+          <tr>
+            <th class="text-center">3</th>
+            <td style="text-align: center;">물리</td>
+            <td style="text-align: center; ">국어</td>
+            <td style="text-align: center; ">수학</td>
+            <td style="text-align: center; ">영어</td>
+            <td style="text-align: center; ">체육</td>
+          </tr>
+          <tr>
+            <th class="text-center">4</th>
+            <td style="text-align: center; ">국어</td>
+            <td style="text-align: center; ">수학</td>
+            <td style="text-align: center; ">영어</td>
+            <td style="text-align: center; ">체육</td>
+            <td style="text-align: center; ">물리</td>
+          </tr>
+          <tr>
+            <th class="text-center">5</th>
+            <td style="text-align: center; ">물리</td>
+            <td style="text-align: center; ">국어</td>
+            <td style="text-align: center; ">수학</td>
+            <td style="text-align: center; ">영어</td>
+            <td style="text-align: center; ">체육</td>
+          </tr>
+          <tr>
+            <th class="text-center">6</th>
+            <td style="text-align: center; ">체육</td>
+            <td style="text-align: center; ">물리</td>
+            <td style="text-align: center; ">국어</td>
+            <td style="text-align: center; ">수학</td>
+            <td style="text-align: center; ">영어</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <!-- 시간표 끝 -->
+    <!-- 오늘의 메뉴 -->
+    <div class="mainBorder list-box" style="width: 20%; min-width: 210px; padding:5px; margin: auto;  margin-top: 2%">
+      <h1>오늘의 메뉴</h1>
+      <h5>현미밥</h5>
+      <h5>소고기뭇국</h5>
+      <h5>김치</h5>
+      <h5>닭강정</h5>
+      <h5>피크닉</h5>
+      <div class="" style="margin: auto">
+        <a href="#" role="button" class="" id="" onclick="" style="text-align: left;"><span class="">👈(어제)</span></a><span> / </span>
+        <a href="#" role="button" class="" id="" onclick="" style="text-align: right;"><span class="">(내일)👉</span></a>
+      </div>
+    </div>
+  </div>
+
+
+    <!-- Footer Section -->
+    <div id="footer">
+      <div class="container text-center">
+        <a href="https://sangmyung-agh.sen.hs.kr/" target="_blank"><img src="icon/상명여고.png" alt="X"></a>
+      </div>
+    </div>
+    <script type="text/javascript" src="js/jquery.1.11.1.js"></script>
+    <script type="text/javascript" src="js/bootstrap.js"></script>
+    <script type="text/javascript" src="js/SmoothScroll.js"></script>
+    <script type="text/javascript" src="js/nivo-lightbox.js"></script>
+    <script type="text/javascript" src="js/jqBootstrapValidation.js"></script>
+    <script type="text/javascript" src="js/contact_me.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    <script src="js/toDoList.js"></script>
+    <script src="js/board.js"></script>
+  </body>
+  </html>

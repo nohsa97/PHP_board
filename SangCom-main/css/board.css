@@ -1,0 +1,164 @@
+
+ .commentInput {
+   padding: 3px; 
+   border: 1px solid #529aff; 
+   border-radius: 10px; 
+   margin-bottom: 1px; 
+   position: absolute; 
+   bottom: 0; width: 100%;
+ }
+
+.commentList{
+   float: left; 
+   border-radius: 70%;
+   border: 1px solid #90e1f5;
+}
+
+.articleBoard {
+   position: relative;
+   border: 1px solid #90e1f5; 
+   border-radius: 10px;
+   width : 60%;
+}
+
+@media (max-width:990px) {
+   .articleBoard {
+      position: relative;
+      border: 1px solid #90e1f5; 
+      border-radius: 10px;
+      width : 100% !important;
+   }
+   .boardContent {
+      width : auto;
+   }
+}
+
+.comment {
+   border: 1px solid #90e1f5; 
+   padding: 1px; 
+   border-radius: 10px;
+}
+
+.comment img {
+   float: left; 
+   border-radius: 70%;
+   border: 1px solid #90e1f5;
+   width : 40px;
+}
+
+.comment time {
+   text-align: right;
+}
+
+.comment h6 {
+   margin-left: 15px
+}
+
+.comment h5 {
+   display: inline;
+}
+
+
+
+.boardContent {
+   /* border: 1px solid #90e1f5;  */
+   padding: 1px; 
+   border-radius: 10px;
+}
+
+
+ .post{
+     padding: 10px;
+     margin: 5px;
+
+     min-width: 550px;
+     min-height: 100px;
+     position: relative;
+     border: 1px solid #90e1f5; 
+     border-radius: 10px;
+ }
+ .post_auto{
+     padding: auto;
+     margin: auto;
+     border: 1px solid #0fb3ff;
+     border-radius: 10px;
+     min-width: auto;
+     min-height: auto;
+ }
+
+ .post .bottom {
+     position:  relative;
+     left:450px;
+ }
+
+ .commentBtn{
+    border: none;
+    background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) ;
+
+ }
+
+ @media (min-width:1200px) {
+    .content nav {
+      width : 100%;
+    }
+
+    .borderContent {
+
+        border: 3px solid aquamarine;
+     }
+  }
+
+  @media (max-width:600px)
+  {
+   .borderList {
+      border-left:0;
+      padding-left:0;
+      margin-left:0;
+      min-width:400px;
+      margin-left:0;
+      margin-top: 20px;
+   }
+
+   .post{
+      padding: 10px;
+      margin: 5px;
+      border: 1px solid gray;
+      min-width: 350px;
+      min-height: 100px;
+  }
+
+  }
+
+
+  .borderCreate {
+   border: 2px solid black;
+   padding: 0;
+  }
+
+  .borderInner {
+    border: 2px solid black;
+    min-width: 500px;
+    min-height: 200px;
+
+  }
+
+
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 48
+}
+
+.symbols {
+  position: absolute;
+  bottom: 0;
+  right: 30px;
+}
+
+.boardCreat{
+  min-width: 600px;
+  min-height: 400px;
+  border: 2px solid black;
+}
