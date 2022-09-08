@@ -3,31 +3,10 @@ function checkUser() {
 }
 
 function goWrite() {
-           location.href="write.php";
-        }            
+           location.href="../content/write.php";
+}            
 
-function header () {
-    document.write( '<div class="nav"><a href="list.php">UCERT 자유게시판 </a></div>');
-}
-
-// function alerting(text) {
-//     alert(text);
-// }
-
-
-// function includeHTML(){
-//     var allTag;
-//     var element;s
-//     var HTML;
-//     allTag = document.getElementsByTagName('*');
-//     for(i=0;i<allTag.length<i++){
-//         element=allTag[i];
-//         HTML = element.getAttribute("include-HTML");
-//         if(HTML) {
-//             xhttp = new XMLHttpRequest();
-//             xhttp.onreadystatechange == function () {
-//                 if(this.readyState)
-//             }
-//         }
-//     }
-// }
+function modify_comment(){
+    var coments = document.getElementsByTagName("li");     
+    coments.item(1).style.border = "1px solid pink";   
+}  
