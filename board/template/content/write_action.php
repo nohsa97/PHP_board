@@ -20,8 +20,8 @@
     
     else {
             $select = $_POST['selected'];
-            if($select == 'new_write') {        
-                // $sql = "insert into board values(NULL,'$subject','$writer','$body',NOW(),'$password',10)";
+            if($select == 'new_write') {  
+
                 $sql = "INSERT INTO board SET
                         number = NULL,
                         subject = '$subject',
@@ -29,7 +29,7 @@
                         body = '$body',
                         date = NOW(),
                         password = '$password',
-                        visited = 10
+                        visited = 0;
                         ";
 
                 $result = mysqli_query($mysqlDB,$sql);    
@@ -40,6 +40,11 @@
             }
             else if($select == 'modify') {
                 $number = $_POST['number'];
+                $findSQL =FindSQL($mysqlDB,'board','number',$number);
+                $result = mysqli_query($mysqlDB,$findSQL);
+
+                $row = mysqli_fetch_assoc($result);
+  
                 
                 $sql = "UPDATE board SET
                         number = $number,
@@ -48,7 +53,7 @@
                         body = '$body',
                         date = NOW(),
                         password = '$password',
-                        visited=10
+                        visited = ".$row['visited']."
                         WHERE number = $number
                         ";
                 

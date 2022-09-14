@@ -13,7 +13,7 @@ td a {
 
 .button {
     margin-top:10px !important;
-    border: 1px solid blue !important;
+    border: 1px solid rgb(233, 58, 224) !important;
     max-width: 5rem !important;
     justify-content: space-around;
     height: 2rem;
@@ -22,7 +22,7 @@ td a {
 
 .nav {
     text-align: center;
-    border-bottom: 1px blue solid;
+    border-bottom: 1px rgb(109, 205, 243) solid;
     font-size: 2rem;
     height: 3rem;
     margin: 50px;
@@ -145,3 +145,9 @@ a:hover {
     background-color: aquamarine;
 }
 
+
+.search_form {
+    margin : 0 5 0 5 ;
+    text-align: center;
+    text-decoration: none;
+}
