@@ -23,17 +23,10 @@
 
     <div class="board_list">
         <div class="subject">
-         <table>
-            <tr>        
-                <th class="board_number">번호</th>
-                <th class="board_subject">제목</th>
-                <th class="board_writer">작성자</th>
-                <th class="board_writeDate">작성일자</th>
-            </tr>                      
+         <table>                     
                 <?      
                     include_once 'list_form.php';
                 ?>  
-
          </table>
         <!-- 페이징 -->
         <? include_once '../include/paging.php'; ?>   
@@ -48,11 +41,11 @@
     </div>    
 
 </body>
-
-<script>
-    function goWrite() {
-           location.href="../content/write.php";
-    }            
+<!-- <script>function goWrite() {
+    location.href="../content/write_modify.php";
+}       -->
 
 </script>
+
+<script src="../../js/basic.js"></script>
 </html>

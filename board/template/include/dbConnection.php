@@ -73,10 +73,37 @@
         mysqli_query($mysqlDB,$sql);
     }
 
+    function dataUpdate($mysqlDB,string $TABLE,$selCOL,string $newData,$COL, int $number) {
+        if($mysqlDB) {
+            $sql = "UPDATE $TABLE SET $selCOL='$newData' WHERE $COL=$number;";
+            return $sql;
+        }
+        else return false;
+    }
+
     
     function remove($mysqlDB,string $TABLE,string $COL, $VAR) { // 댓글 삭제 한번에 날림
         if($mysqlDB) {
             $sql = "DELETE FROM $TABLE WHERE $COL=$VAR";
+            return $sql;
+        }
+        else return false;
+    }
+
+
+    // 게시물 아래 footer에 넣을 함수들
+    function bottom_max($mysqlDB,string $TABLE,string $COL, $VAR) {
+        if($mysqlDB) {
+            $sql = "SELECT number,subject FROM $TABLE WHERE $COL < $VAR ORDER BY $COL DESC LIMIT 1";
+            return $sql;
+        }
+        else return false;
+    }
+  
+    
+    function bottom_min($mysqlDB,string $TABLE,string $COL, $VAR) {
+        if($mysqlDB) {
+            $sql = "SELECT number,subject FROM $TABLE WHERE $COL > $VAR  ORDER BY $COL LIMIT 1";
             return $sql;
         }
         else return false;

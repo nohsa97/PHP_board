@@ -2,6 +2,10 @@
     box-sizing: border-box;
 }
 
+.hidden {
+    display: none;
+}
+
 ul{
     list-style: none;
 }
@@ -120,18 +124,37 @@ table tr th {
     min-height: 350px;
 }
 
+.content_bottom {
+    text-align: center;
+}
+
 .comment {
     width: 100% !important;
     padding: 10px;
     margin-top: 10px;
-    border-bottom: 1px solid rgb(114, 227, 235);
-    
+    border-bottom: 1px solid rgb(114, 227, 235);    
+}
+
+.verify_btn {
+    float: left;
+    left: 300px;
+    position: relative;
 }
 
 .comment_writer {
     border-bottom: 1px red solid;
     padding-bottom: 10px;
     display: inline-block;
+}
+
+.comment_input {
+    border :1px rgb(43, 100, 60) solid;
+    padding: 20px;
+}
+
+.comment_about {
+    border :1px rgb(51, 106, 110) solid;
+    padding: 20px;
 }
 
 .search_box{
@@ -150,4 +173,20 @@ a:hover {
     margin : 0 5 0 5 ;
     text-align: center;
     text-decoration: none;
+}
+
+.upload_img {
+    margin: 5px 0px 15px 20px;
+}
+
+
+
+.content_footer {
+    padding-top: 20px;
+    border-top: 1px rgb(226, 69, 187) solid;
+}
+
+.sub_com {
+    margin: 10px 0px 5px 10px;
+    width: 90%;
 }
