@@ -1,13 +1,27 @@
 
  .commentInput {
    padding: 3px; 
+   /* padding-top: 6px; */
    border: 1px solid #529aff; 
    border-radius: 10px; 
    margin-bottom: 1px; 
-   position: absolute; 
    bottom: 0; width: 100%;
+   min-height: 35px;
  }
 
+ .c_input{
+   padding-top: 3px;
+ }
+
+ .c_button {
+   min-width: 85px ;  
+   padding: 3px 0px 5px 0px;
+   width: 20% ; 
+   float: right ;
+   border-radius: 5px;
+   border: none;
+   background-color: #90e1f5;
+ }
 .commentList{
    float: left; 
    border-radius: 70%;
@@ -21,22 +35,22 @@
    width : 60%;
 }
 
-@media (max-width:990px) {
-   .articleBoard {
-      position: relative;
-      border: 1px solid #90e1f5; 
-      border-radius: 10px;
-      width : 100% !important;
-   }
-   .boardContent {
-      width : auto;
-   }
-}
 
 .comment {
    border: 1px solid #90e1f5; 
    padding: 1px; 
    border-radius: 10px;
+   font-size: 1rem;
+}
+
+.comment_list{
+   overflow-y: scroll;
+   max-height: 450px;
+}
+
+
+.comment p {
+   margin:15px;
 }
 
 .comment img {
@@ -61,9 +75,9 @@
 
 
 .boardContent {
-   /* border: 1px solid #90e1f5;  */
    padding: 1px; 
    border-radius: 10px;
+   max-height: 490px;
 }
 
 
@@ -97,16 +111,6 @@
 
  }
 
- @media (min-width:1200px) {
-    .content nav {
-      width : 100%;
-    }
-
-    .borderContent {
-
-        border: 3px solid aquamarine;
-     }
-  }
 
   @media (max-width:600px)
   {
@@ -146,9 +150,14 @@
 .material-symbols-outlined {
   font-variation-settings:
   'FILL' 0,
-  'wght' 400,
-  'GRAD' 0,
+  'wght' 100,
+  'GRAD' 200,
   'opsz' 48
+}
+
+.hid{
+   border: 1px solid #90e1f5 ;
+   min-height: 20%;
 }
 
 .symbols {
@@ -162,3 +171,126 @@
   min-height: 400px;
   border: 2px solid black;
 }
+
+.content_bottom {
+   text-align: right;
+   font-size: 13px;
+   /* right:0 */
+   margin: 5px;
+   padding: 10px;
+   width: 100%;
+}
+
+.content_bottom button {
+   background-color: white;
+   border: none;
+}
+
+.comment .content_bottom {
+   display: inline-block;
+   margin: 0;
+   padding: 5px;
+}
+
+
+
+
+.comment .material-symbols-outlined {
+   font-size: 20px;
+   padding: 0;
+   font-variation-settings:
+   'FILL' 0,
+   'wght' 100,
+   'GRAD' 200,
+   'opsz' 48
+ } 
+
+
+
+.comment_sub .reply{
+   float: left;
+   margin-left: 13px;
+   transform: rotate(180deg);
+}
+
+.comment_sub > .comment {
+   background-color: white !important;
+   width: 91%;
+   display: flow-root;
+}
+
+
+.board_input {
+   width: 75%;
+   border: none;
+   margin: 1px 0px 0px 5px;
+}
+
+
+ @media (max-width:990px) {
+   .articleBoard {
+      position: relative;
+      border: 1px solid #90e1f5; 
+      border-radius: 10px;
+      width : 100% !important;
+   }
+   .boardContent {
+      width : auto;
+   }
+   .comment .content_bottom {
+
+      padding-bottom: 30px;
+   }
+   .comment_sub > .comment {
+     /* padding-bottom: px; */
+     margin-bottom: 40px;
+   }
+}
+
+/* 게시글 작성 */
+
+.write_subject {
+   margin-top: 120px; 
+   margin-bottom: 30px !important;
+   text-align: center;
+   border-bottom: 1px solid rgb(31, 189, 241);
+}
+
+.write_bottom {
+   margin-top: 20px;
+   display: flex;
+   /* text-align: left; */
+   justify-content: flex-end;
+   margin-bottom: 20px;
+}
+
+.add_img {
+   display: flex;
+   margin: 10 10 0 0;
+   justify-content: flex-end;
+   margin-bottom: 20px;
+}
+
+.write_board {
+   width: 100%;
+   min-height: 400px;
+}
+
+
+
+
+.loginBtn {
+   font-size: 1.7rem;
+      width: 100%;
+   border:none;
+   background: #90e1f5; 
+   color: blue;
+   border-radius: 4px;
+ }
+
+
+ .subject {
+   width: 100%;
+   min-height: 50px;
+   font-size: 20px;
+ }

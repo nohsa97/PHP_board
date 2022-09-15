@@ -304,3 +304,9 @@
     width : 100px !important;
     margin: 1px !important;
   }
+
+  
+.gray_font  {
+	margin: 35px;
+  color:rgba(128, 128, 128, 0.745);
+}
