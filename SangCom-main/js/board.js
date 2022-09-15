@@ -95,21 +95,37 @@ function removeContent() {
 var thumb_check = false;
 
 
-$(function(){
-  $('.bottom_icon').click(function(){
-    if(thumb_check==false) {
-      $(this).css("font-variation-settings","'FILL' 1, 'wght' 100, 'GRAD' 200, 'opsz' 48");
-      $(this).css("color","#06cded");
-      thumb_check=true;
+// $(function(){
+//   $('.bottom_icon').click(function(){
+//     if(thumb_check==false) {
+//       $(this).css("font-variation-settings","'FILL' 1, 'wght' 100, 'GRAD' 200, 'opsz' 48");
+//       $(this).css("color","#06cded");
+//       thumb_check=true;
+//     }
+//     else {
+//       $(this).css("font-variation-settings","'FILL' 0, 'wght' 100, 'GRAD' 200, 'opsz' 48");
+//       $(this).css("color","black");
+//       thumb_check=false;
+//     }
+   
+//   });
+// });  //개별 색변경  추후에 하얀색으로 바꾸기할예정 하얀색은 fill을 0으로 바꾸면끝.
+
+
+
+
+$(function() {
+  $('.bottom_icon').click(function() {
+    if($(this).hasClass('filled')) {
+      $(this).removeClass('filled');
     }
     else {
-      $(this).css("font-variation-settings","'FILL' 0, 'wght' 100, 'GRAD' 200, 'opsz' 48");
-      $(this).css("color","black");
-      thumb_check=false;
+      $(this).addClass('filled');
     }
-   
   });
-});  //개별 색변경  추후에 하얀색으로 바꾸기할예정 하얀색은 fill을 0으로 바꾸면끝.
+});
+
+
 
 $(function(){
   $('.sur_comment_count').click(function(){
