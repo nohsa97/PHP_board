@@ -23,7 +23,6 @@ button {
     padding-left: var(--bs-gutter-x, 0.75rem);
     margin-right: auto;
     margin-left: auto;
-    display: grid;
 }
 /* .list-box {
     width: 500px;
@@ -51,7 +50,7 @@ button {
 
  /* 입력창 */
 .write-box input {
-    width: 180px;
+    width: 60%;
     font-size: 20px;
     border: none;
     padding: 0 10px;
@@ -59,8 +58,8 @@ button {
 }
 
 .write-box button {
-    width: 20%;
     border: none;
+    width:30%;
     height: 100%;
 }
 
@@ -129,7 +128,9 @@ tbody td:first-child {
 }
 
 .mainBtn {
+    margin: 5px auto;
     border:none;
+    width:100%;
     padding: 5px;
     background: cornflowerblue; 
     border-radius: 4px;
