@@ -89,3 +89,58 @@
   padding:10px !important;
 }
   }
+
+
+.mypage_top {
+  display: flex; 
+  align-items: center; 
+  margin: 50px;
+}
+
+
+.mypage_inform {
+  width: 70%; 
+  text-align: center;
+  border: 2px solid #90e1f5; 
+  border-radius: 10px;
+  margin-left: 100px;
+}
+
+
+.mypage_bottom {
+	display: flex;
+}
+
+.mypage_bottom_container {
+  width: 33%;
+}
+
+.mypageTitle {
+	margin: 5px;
+	border: 2px solid #90e1f5; 
+	border-radius: 10px;
+	min-height: 250px;
+	text-align: center;
+  display: grid;
+}
+
+
+@media (max-width : 600px) {
+  .mypage_top {
+   margin: 0px !important;
+  }
+  .mypage_inform{
+    margin-left: 0px;
+    border: none;
+  }
+  
+.mypage_bottom {
+	display: block;
+}
+.mypage_bottom_container {
+  width: 100%;
+  height: auto;
+}
+
+
+ }

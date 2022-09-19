@@ -528,21 +528,14 @@ color: #777;
 	font-size:1.7rem !important; 
 }
 
-.mypageTitle {
-	margin: 5px;
-	border: 2px solid #90e1f5; 
-	border-radius: 10px;
-	min-height: 250px;
-	text-align: center;
+.mypage_bottom {
+	display: flex;
 }
 
-<<<<<<< Updated upstream
-=======
 .bluePrint {
 	color: #442ded;
 }
 
->>>>>>> Stashed changes
 .report {
 	display: inline-block;
 	padding: 6px 12px;
@@ -563,3 +556,4 @@ color: #777;
 	border: 1px solid transparent;
 	border-radius: 4px;
 }
+
