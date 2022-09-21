@@ -17,7 +17,7 @@
 </head>
 <body>
     <?
-        include_once "../include/header.html";
+        include_once "../include/header.php";
     ?>
 
 
@@ -29,9 +29,9 @@
                 ?>
          </table>
          
-              <? include_once '../include/paging.php'; ?>   
+              <? include_once 'paging.php'; ?>   
          
-         <input class="button" type="button" value="글쓰기" onclick=goWrite()>
+         <input class = "button" type = "button" value = "글쓰기" onclick = goWrite()>
 
          <!-- 검색폼 -->
          <? include_once 'list_bottom.php' ?>
@@ -44,6 +44,6 @@
     </div>    
 
 </body>
-   <script src="../../js/basic.js"> </script>            
+   <script src = "../../js/basic.js"> </script>            
 
 </html>

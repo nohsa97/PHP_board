@@ -1,0 +1,17 @@
+.loginForm {
+    text-align: center;
+}
+
+.input {
+    margin: 10px;
+    font-size: 1.5rem;
+}
+
+.loginBtn{
+    background-color: aquamarine;
+    border: none;
+    border-radius: 10px;
+    min-height: 3rem;
+    min-width: 150px;
+    margin: 15px 15px 0px 15px;
+}

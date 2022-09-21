@@ -17,6 +17,15 @@ td a {
 
 .button {
     margin-top:10px !important;
+    margin-bottom: 10px;
+    border: 1px solid rgb(233, 58, 224) !important;
+    max-width: 5rem !important;
+    justify-content: space-around;
+    height: 2rem;
+    float: right;
+}
+.content-button {
+    margin: -24px 21px 0px 0px;
     border: 1px solid rgb(233, 58, 224) !important;
     max-width: 5rem !important;
     justify-content: space-around;
@@ -128,11 +137,15 @@ table tr th {
     text-align: center;
 }
 
+.base {
+    border: 1px solid rgba(26, 97, 73, 0.356);
+}
+
 .comment {
     width: 100% !important;
     padding: 10px;
     margin-top: 10px;
-    border-bottom: 1px solid rgb(114, 227, 235);    
+    border-bottom: 1px solid rgb(140, 114, 235);    
 }
 
 .verify_btn {
@@ -146,6 +159,7 @@ table tr th {
     padding-bottom: 10px;
     display: inline-block;
 }
+
 
 .comment_input {
     border :1px rgb(43, 100, 60) solid;
@@ -189,4 +203,34 @@ a:hover {
 .sub_com {
     margin: 10px 0px 5px 10px;
     width: 90%;
+}
+
+
+.reply {
+    margin: 10px 0px 5px 10px;
+    width: 95%;
+    position: relative;
+    left: 67px;
+    background-color: rgb(211, 231, 229);
+}
+
+.reply .material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 48;
+  transform: rotate(180deg);
+}
+
+.text-basic {
+    display: flex;
+    margin-bottom: -7px;
+    font-size: 1rem;
+    flex-direction: row-reverse;
+}
+
+.content_subject {
+    border-bottom: 1px blue solid;
+    padding: 10px 0px 0px 26px;
 }

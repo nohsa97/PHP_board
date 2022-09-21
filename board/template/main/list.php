@@ -17,7 +17,9 @@
 </head>
 <body>
     <?
-        include_once "../include/header.html";
+        include_once "../include/header.php";
+        session_start();
+        $userID = $_SESSION['userID'];
     ?>
 
 
@@ -29,9 +31,9 @@
                 ?>  
          </table>
         <!-- 페이징 -->
-        <? include_once '../include/paging.php'; ?>   
+        <? include_once 'paging.php'; ?>   
          
-         <input class="button" type="button" value="글쓰기" onclick=goWrite()>        
+         <input class = "button" type = "button" value = "글쓰기" onclick = goWrite()>        
 
          <!-- 검색폼 -->
         <? include_once 'list_bottom.php' ?>
@@ -41,9 +43,10 @@
     </div>    
 
 </body>
-<!-- <script>function goWrite() {
+<script>
+    function goWrite() {
     location.href="../content/write_modify.php";
-}       -->
+}      
 
 </script>
 
