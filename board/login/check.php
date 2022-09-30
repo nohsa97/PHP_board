@@ -66,7 +66,7 @@
                 $_SESSION['userID'] = $_POST['id'];
                 $_SESSION['userPass'] = $_POST['password'];
                 alerting("로그인 완료");
-                location("../template/main/list.php?board_number=0");
+                location("../template/main/list.php?b_seq=0");
         }
         
         else 

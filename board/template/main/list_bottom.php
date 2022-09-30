@@ -23,7 +23,7 @@
 
     else{ //기본
         echo '
-        <form action="list_search.php?board_number=0" method="get">
+        <form action="list_search.php?list_seq=0" method="get">
             <select name="search_index" id="" style="width:100px;">
                 <option value="writer">작성자</option>
                 <option value="subject">제목</option>
@@ -32,7 +32,8 @@
     echo '  
             <input class="search_box" style="width:200px; margin:15px;"type="search" name="search_for" value="',$search_for,'" placeholder="검색">
             <input type="submit" style="width:50px;" value="검색">
-            <input type="hidden" name="board_number" value="0">
+            <input type="hidden" name="b_seq" value="0">
+            <input type="hidden" name="list_seq" value="0">
         </form>
 '   
 ;  

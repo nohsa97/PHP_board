@@ -58,9 +58,9 @@ td a {
     /* margin : 100px; */
 }
 
-.board_number {
+.b_seq {
     text-align: center;
-    width : 5%;
+    width : 5% !important;
 }
 
 .board_subject {
@@ -109,6 +109,13 @@ table tr th {
     letter-spacing: -.23px; 
     line-height: 17px;
 }
+
+.user > .write_name {
+    min-height: 0px;
+    padding : 0px 12px 0px;
+    margin: 0px;
+}
+
 
 .write_subject {
     min-height:40px;

@@ -27,28 +27,31 @@
 
     <div class='write_box'>
         <?
-            $number = $_GET['number']; //get으로 게시글 번호 받고 반영하기.
-            $board_number = $_GET['board_number'];
+            $b_seq = $_GET['b_seq']; //get으로 게시글 번호 받고 반영하기.
+            $list_seq = $_GET['list_seq']; //get으로 넘어온 보드 넘버(리스트 페이징넘버)
 
             //검색해서 왔을경우.
             $search_idx = $_GET['search_index'];
             $search_for = $_GET['search_for'];
 
+            $depth_0 = getCount_table_option($mysqlDB, 'comment_test', 'c_depth', 0);//댓글 수 
+            //입장시 조회수 증가
+            // visitedUpdate( $mysqlDB, 'board', $b_seq );
+        
 
-            visitedUpdate( $mysqlDB, 'board', $number );
-        
-            $sql = "select * FROM board WHERE number = $number";
-            $result = mysqli_query( $mysqlDB, $sql );
-            $row_board = mysqli_fetch_assoc( $result );
-        
+            $select_board = new board();
+            $select_board = $select_board->getBoard($mysqlDB, $b_seq); //시퀀스 넘버를 넘겨서 보드 값을 데베에서 가져옴.
+
             echo "
-            <h2 class='content_subject'>",$row_board['subject']," </h2>
-            <span style='margin:0px 3em 10px 0px;'> 작성자:".$row_board['writer']."</span> 
-            <span> 조회수:".$row_board['visited']."</span>
+            <h2 class='content_subject'>",$select_board->subject," </h2>
+            <span style='margin:0px 3em 10px 0px;'> 작성자:".$select_board->writer."</span> 
+            <span> 조회수:".$select_board->visited."</span>
 
             <form action='content_modify.php' method='post'>
-                <input type='hidden' name='number' value=".$number.">
-                <input type='hidden' name='b_number' value=".$board_number.">";
+                <input type='hidden' name='b_seq' value=".$b_seq."> 
+                <input type='hidden' name='list_seq' value=".$list_seq.">
+                ";
+                
 
         if($search_for)
         {
@@ -57,28 +60,28 @@
                 <input type='hidden' name='search_idx' value=".$search_idx.">";
         }
                 
-        if( $row_board['permission'] == 0 )
+        if( $select_board->permission == 0 )
         { //비회원 게시글 일때
             echo "
-                <input class = 'delete content-button' name = 'status' type = 'submit' value = '삭제하기'>
-                <input class = 'modify content-button' name = 'status' type = 'submit' value = '수정하기'>       
+                <input class = 'delete content-button' name = 'status' type = 'submit' value = 'remove'>
+                <input class = 'modify content-button' name = 'status' type = 'submit' value = 'modify'>       
             </form>
             ";
         }
         
-        else if($row_board['writer'] == $userID) 
+        else if($select_board->writer == $userID)  // 회원 게시글이며 동일한 유저 게시글일때
         {
             echo "
-                <input class = 'delete content-button' name = 'status' onclick='del()' type = 'button' value = '삭제하기'>
-                <input class = 'modify content-button' name = 'status' type = 'submit' value = '수정하기'>       
+                <input class = 'delete content-button' name = 'status' onclick='del()' type = 'button' value = 'remove'>
+                <input class = 'modify content-button' name = 'status' type = 'submit' value = 'modify'>       
             </form>
             ";
         }
         else { echo "</form>"; } //로그인상태에서 다른유저 게시글 들어갔을때는 form이 깨지므로 추후에 이쁘게 바꾸겠지만 지금당장은 땜빵.
             echo "
                     <div class='content_body'>
-                    <pre style='padding:10px;'>",$row_board['body'],"</pre>
-                    <pre>",$row_board['img'],"</pre>
+                    <pre style='padding:10px;'>",$select_board->body,"</pre>
+                    
                     </div>
             ";    
         ?>
@@ -86,22 +89,21 @@
 
         <div style = "padding:10px;">
                 <?php
+                    $depth_num = 0;
                     include_once 'comment_write_form.php';
-                    $sql = "
-                    SELECT B.number , C.number , C.body , C.writer , C.b_number, C.permission
-                    FROM board as B 
-                    JOIN comment as C
-                    WHERE B.number = C.b_number AND B.number = $number;
-                    ";
-                  
-                    $result  = mysqli_query( $mysqlDB, $sql );
-                
+            
+                    $result = $select_board->comment_list($mysqlDB, $b_seq);
+                    
+
+
                     while( ( $row = mysqli_fetch_assoc( $result ) ) ) 
                     {
-                        access_content( $row, 'comment', $number );
-                
-                        include 'reply.php';
+                        access_content( $row, $b_seq,  $row['c_depth']); //conmment_list에 있음        
                     }
+
+                   
+                    
+
                 ?>
 
                 <div class="content_footer"> 
@@ -123,7 +125,7 @@
     echo '
         <script>
             function back() {
-                location.href = "../main/list.php?board_number=',$board_number,'";
+                location.href = "../main/list.php?list_seq=',$list_seq,'";
             }
         </script>
     ';
@@ -133,7 +135,7 @@
     echo '
         <script>
             function back() {
-                location.href = "../main/list_search.php?board_number=',$board_number,'&search_index=',$search_idx,'&search_for=',$search_for,'";
+                location.href = "../main/list_search.php?list_seq=',$list_seq,'&search_index=',$search_idx,'&search_for=',$search_for,'";
             }
         </script>
     ';
@@ -146,9 +148,10 @@
 
 
 <script>
-    function del() 
+    function del() //삭제 누를시 (로그인시 나오는 컨텐츠 페이지에서 버튼 클릭시)
     {
-        var permission = <? echo $row_board['permission']; ?>;
+        var permission = <? echo  $select_board->permission; ?>;
+        var sel_seq = <? echo  $select_board->b_seq; ?>;
         if( permission == 1 ) 
         {
             if (!confirm("삭제하시겠습니까?")) 
@@ -157,26 +160,21 @@
             } 
             else 
             {
-                var board = {
-                writer : '<? echo $row_board['writer']; ?>',
-                permission : 1,
-                status : "삭제하기",
-                number : <? echo $number; ?>,
-                };
+
                 $.ajax({
                     url : "content_modify.php",
                     type : "post",
-                    data : board, 
-                }).done(function(){
+                    data : {
+                        status : 'remove',
+                        b_seq : sel_seq,
+                        
+                    }, 
+                }).done(function()
+                {
                     alert("회원님 게시글이 삭제되었습니다.");
-                    location.href = "../main/list.php?board_number=0"
+                    location.href = "../main/list.php?list_seq=0"
                 });
             }
-        }
-
-        else if( permission == 0 ) 
-        {
-           var input_pass =  prompt( "비밀번호를 입력해주세요." );
         }
 
     }
@@ -187,12 +185,18 @@
 echo  
 "
     <script>
-        var link = 'reply_create.php?number=",$number,"&comment_number=';
+        var wind;
+        var link = 'reply_create.php?b_seq=",$b_seq,"&c_seq=';
         $(document).ready(function() 
         {
             $('.reply_btn').on('click',function()
             {
-                    window.open(link+$(this).attr('id'),'_blank','width=700,height=180,top=300,left=300, resizeable=no');
+                if(wind != null)
+                {
+                    wind.close();    
+                   
+                }
+                wind = window.open(link+$(this).attr('id'),'_blank','width=700,height=200,top=300,left=300, resizeable=no');
             });
         });
 

@@ -21,26 +21,25 @@ if (!$mysqlDB) {
 <body>
     <?
     include_once "../include/header.php";
-    session_start();
-    $userID = $_SESSION['userID'];
-    $userPass = $_SESSION['userPass'];
+    include_once "../include/session.php";
     ?>
 
     <?php
-    $number = $_GET['number']; //get으로 게시글 번호 받고 반영하기.
-    $b_number = $_GET['board_number'];
+    $b_seq = $_GET['b_seq']; //get으로 게시글 번호 받고 반영하기.
+    $list_seq = $_GET['list_seq'];
 
     //검색해서 왔을경우 돌아갈길 확보
     $search_for = $_GET['search_for'];
     $search_idx = $_GET['search_index'];
 
-    if ($number) 
+    if ($b_seq) 
     { //게시글 번호가 있다 >> 수정 
-        $sql = "select * FROM board WHERE number = $number";
-        $result = mysqli_query($mysqlDB, $sql);
+        // $sql = "select * FROM board WHERE seq = $seq";
+        // $result = mysqli_query($mysqlDB, $sql);
 
-
-        $row = mysqli_fetch_assoc($result);  
+        // $row = mysqli_fetch_assoc($result);  
+        $select_board = new board();
+        $select_board = $select_board->getBoard($mysqlDB, $b_seq);
         //데이터 전송
         echo '
             <div class="write_box">
@@ -48,21 +47,21 @@ if (!$mysqlDB) {
                     <h3 style="border-bottom:1px solid blue; padding:20px;">게시글 수정</h3>';
 
             
-            if ( !$userID || ( $row['permission'] == 0)) 
+            if ( !$userID || ( $select_board->permission == 0)) 
             { //세션에 유저아이디가 없거나 보드퍼미션이 0인 경우
                 echo '
-                        <input type="text" name="writer" required  class="write_name" placeholder="작성자" value=', $row['writer'], '>
-                        <input type="password" name="password" required class="write_name" placeholder="비밀번호" value=', $row['password'], '>
+                        <input type="text" name="writer" required  class="write_name" placeholder="작성자" value=', $select_board->writer, '>
+                        <input type="password" name="password" required class="write_name" placeholder="비밀번호" value=', $select_board->password, '>
                         <input type="hidden" name="permission" value="0">
                     ';
             } 
             
-            else if ( $userID && ( $row['permission'] == 1)) 
+            else if ( $userID && ( $select_board->permission== 1)) 
             {
 
                 echo '
-                        <input type="hidden" name="writer"   class="write_name" placeholder="작성자" value=',$row['writer'], '>
-                        <input type="hidden" name="password"  class="write_name" placeholder="비밀번호" value=',$row['password'], '>
+                        <input type="hidden" name="writer"   class="write_name" placeholder="작성자" value=',$select_board->writer, '>
+                        <input type="hidden" name="password"  class="write_name" placeholder="비밀번호" value=',$select_board->password, '>
                         <input type="hidden" name="permission" value="1">
                         ';
 
@@ -76,14 +75,15 @@ if (!$mysqlDB) {
             }
 
                 echo '
-                        <p><input type="text" required name="subject" size="50px" class="write_subject" value=', $row['subject'], '></p>
-                        <textarea name="body" required class="write_body" id="">', $row['body'], '</textarea>
+                        <p><input type="text" required name="subject" size="50px" class="write_subject" value=', $select_board->subject, '></p>
+                        <textarea name="body" required class="write_body" id="">', $select_board->body, '</textarea>
 
                         <input class="button" type="submit" value="글쓰기">
                         
                         <input type="hidden" name="selected" value="modify">
-                        <input type="hidden" name="b_number" value="',$b_number,'">
-                        <input type="hidden" name="number" value="' . $number . '">
+                        <input type="hidden" name="list_seq" value="',$list_seq,'">
+                        <input type="hidden" name="b_seq" value="' . $b_seq . '">
+                        <input type="hidden" name="visited" value="' .$select_board->visited. '">
                 </form>
             </div>
                 ';
@@ -127,5 +127,7 @@ if (!$mysqlDB) {
 
 
 </body>
+<script  src = "http://code.jquery.com/jquery-latest.min.js"></script>
+<script src = "../../js/basic.js"></script>
 
 </html>

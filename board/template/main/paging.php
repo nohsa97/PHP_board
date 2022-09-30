@@ -8,7 +8,7 @@
 
     $board_MAX = 10;
     $board_list = array();
-    $board_number = 0;
+    $b_seq = 0;
 
     $search_idx = $_GET['search_index']; // 찾는 것의 column 
     if(!$search_idx) 
@@ -31,7 +31,7 @@
                 $board_list[$i] = $i + 1;
             }
 
-            $current = $_GET['board_number'];
+            $current = $_GET['b_seq'];
 
             echo "<div>";
             echo " < ";
@@ -43,7 +43,7 @@
                 }
                 else 
                 {
-                    echo "<a href='list.php?board_number=".( $number - 1)."' class='search_form'>";
+                    echo "<a href='list.php?list_seq=".( $number - 1 )."' class='search_form'>";
                     echo " ".$number." ";
                     echo "</a>";
                 }
@@ -73,19 +73,19 @@
                 $board_list[$i] = $i + 1;
             }
 
-            $current = $_GET['board_number'];
+            $current = $_GET['b_seq'];
 
             echo "<div>";
             echo " < ";
             foreach( $board_list as $number)
             {
-                if( $current == ( $number - 1) )
+                if( $current == ( $number - 1 ) )
                 {
                     echo "<span class='search_form'> ".$number."</span> ";
                 }
                 else 
                 {
-                    echo "<a href='list_search.php?board_number=".( $number - 1)."&search_index=".$search_idx."&search_for=".$search_for."' class='search_form'>";
+                    echo "<a href='list_search.php?list_seq=".( $number - 1 )."&search_index=".$search_idx."&search_for=".$search_for."' class='search_form'>";
                     echo " ".$number." ";
                     echo "</a>";
                 }

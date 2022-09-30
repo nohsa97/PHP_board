@@ -14,22 +14,31 @@
     $writer = $_POST['writer'];
     $password = $_POST['password'];
     $permission = $_POST['permission'];
+    $visited = $_POST['visited'];
 
     $select = $_POST['selected']; //새글 or 수정하기
-    $number = $_POST['number'];
-    $b_number = $_POST['b_number'];
+    $b_seq = $_POST['b_seq'];
+    $list_seq = $_POST['list_seq'];
 
     //검색해서 왔을경우 돌아갈길 확보
     $search_for = $_POST['search_for'];
     $search_idx = $_POST['search_idx'];
- 
-    $new_board = new board(NULL, $subject, $writer, $body, $password, 0, $permission);
+
+   
+    $new_board = new board();
+    $new_board->b_seq=NULL;
+    $new_board->subject = $subject;
+    $new_board->writer = $writer;
+    $new_board->body = $body;
+    $new_board->password = $password;
+    $new_board->visited = $visited;
+    $new_board->permission = $permission;
+   
    
     if( $select == 'new_write' ) 
-    {  
-        
+    {   
         $new_board->insertFunc( $mysqlDB );
-        location("../main/list.php?board_number=0");
+        location("../main/list.php?list_seq=0");
 
         mysqli_close( $mysqlDB );
 
@@ -37,12 +46,11 @@
 
     else if ( $select == 'modify') 
     {
-        $number = $_POST['number'];
-        $new_board->updateFunc( $mysqlDB, $number );
+        $new_board->updateFunc( $mysqlDB, $b_seq );
         
         echo "
             <script>
-                location.href= '../content/content.php?number=$number&board_number=$b_number&search_for=$search_for&search_index=$search_idx';
+                location.href= '../content/content.php?b_seq=$b_seq&list_seq=$list_seq&search_for=$search_for&search_index=$search_idx';
             </script>
         ";
         mysqli_close( $mysqlDB );

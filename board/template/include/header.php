@@ -8,7 +8,7 @@
 <?
     echo  ' 
         <div class="nav">
-            <a href="../main/list.php?board_number=0">UCERT 자유게시판</a>';
+            <a href="../main/list.php?list_seq=0">UCERT 자유게시판</a>';
 
     if($userID)
     {
@@ -25,3 +25,4 @@
         ';
     }
 ?>
+

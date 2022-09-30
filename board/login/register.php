@@ -9,7 +9,7 @@
 </head>
 
 <body>
-<? include_once 'login_header.php'?>
+<? include_once 'login_header.php';?>
     <? include_once '../template/include/dbConnection.php';
         $mysqlDB = mysqlConnect();
         if (!$mysqlDB) 

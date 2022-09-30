@@ -18,29 +18,31 @@
 <body>
     <?
         include_once "../include/header.php";
-        session_start();
-        $userID = $_SESSION['userID'];
     ?>
 
 
     <div class="board_list">
         <div class="subject">
-         <table>                     
-                <?      
+         <table>                  
+                <?                              
                     include_once 'list_form.php';
-                ?>  
+                ?>
          </table>
-        <!-- 페이징 -->
-        <? include_once 'paging.php'; ?>   
          
+              <? include_once 'paging.php'; ?>   
+         
+
          <!-- 검색폼 -->
-        <? include_once 'list_bottom.php' ?>
+         <? include_once 'list_bottom.php'; ?>
      
+
+         
         </div>
-   
+
+       
     </div>    
 
 </body>
+   <script src = "../../js/basic.js"> </script>            
 
-<script src="../../js/basic.js"></script>
 </html>

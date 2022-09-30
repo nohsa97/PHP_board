@@ -46,7 +46,7 @@
     
     $("#no_login").click(function() 
     {
-        location.href = "../template/main/list.php?board_number=0";
+        location.href = "../template/main/list.php?b_seq=0";
     });
 </script>
 </html>

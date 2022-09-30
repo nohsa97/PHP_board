@@ -12,7 +12,6 @@
 
 
     abstract class boardContent {
-        public $number; //각각 번호 
         public $writer;
         public $password;
         public $body;
@@ -31,25 +30,44 @@
  
 
 
-    class board extends boardContent {
-
+    class board extends boardContent 
+    {
+        public $b_seq;
         public $visited;
         public $subject;
         
-        public function __construct($input_number, $input_sub, $input_writer, $input_body, $input_pass, $input_visited, $input_per)
+        public function __construct()
         {
-            $this->number = $input_number;
-            $this->subject = $input_sub;
-            $this->writer = $input_writer;
-            $this->body = $input_body;
-            $this->password = $input_pass;
-            $this->visited = $input_visited;
-            $this->permission = $input_per;
+            $this->b_seq;
+            $this->subject;
+            $this->writer;
+            $this->body;
+            $this->password;
+            $this->visited;
+            $this->permission;
         }
-        //DATE는 일단 넣을때만 하기로. 
-        public function insertFunc( $mysqlDB ) {
+
+        public function getBoard($mysqlDB , $b_seq) 
+        {
+            $sql = FindSQL($mysqlDB, 'board', 'b_seq', $b_seq);
+            $result = mysqli_query($mysqlDB, $sql);
+            $row = mysqli_fetch_assoc($result);
+
+            $this->b_seq = $row['b_seq'];
+            $this->subject = $row['subject'];
+            $this->writer = $row['writer'];
+            $this->body = $row['body'];
+            $this->password = $row['password'];
+            $this->visited = $row['visited'];
+            $this->permission = $row['permission'];
+
+            return $this;
+        }
+        
+        public function insertFunc( $mysqlDB ) 
+        {
             $sql = "INSERT INTO board SET
-                    number = NULL,
+                    b_seq = NULL,
                     subject = '$this->subject',
                     writer = '$this->writer',
                     body = '$this->body',
@@ -63,18 +81,18 @@
                
         }
 
-        public function delFunc($mysqlDB) {
-            $sql = remove($mysqlDB, 'board', 'number', $this->number);
+        public function delFunc($mysqlDB) 
+        {
+            $sql = remove($mysqlDB, 'board', 'b_seq', $this->b_seq);
             mysqli_query( $mysqlDB, $sql ); //게시글 삭제
-            $sql = remove($mysqlDB, 'comment', 'b_number', $this->number);
-            mysqli_query( $mysqlDB, $sql );   
-            $sql = remove($mysqlDB, 'reply', 'b_number', $this->number);
-            mysqli_query( $mysqlDB, $sql );          
+            $sql = remove($mysqlDB, 'comment_test', 'b_seq', $this->b_seq);
+            mysqli_query( $mysqlDB, $sql );      
         }
         
-        public function updateFunc($mysqlDB, $selectNum){
+        public function updateFunc($mysqlDB, $b_seq)
+        {
             $sql = "UPDATE board SET
-                    number = $selectNum,
+                    b_seq = $b_seq,
                     subject = '$this->subject',
                     writer = '$this->writer',
                     body = '$this->body',
@@ -82,103 +100,127 @@
                     password = '$this->password',
                     visited = $this->visited,
                     permission = $this->permission
-                    WHERE number = $selectNum;
+                    WHERE b_seq = $b_seq;
                 ";
                 mysqli_query( $mysqlDB, $sql );
                 alerting("게시글 수정 완료");  
         }
 
+        public function comment_list($mysqlDB, $seq) 
+        {                            
+            $sql = "SELECT B.b_seq, C.b_seq, C.c_seq, C.body, C.writer, C.c_depth, C.permission, C.sort, C.parent_seq 
+            FROM board as B
+            JOIN comment_test as C
+            WHERE B.b_seq = C.b_seq AND B.b_seq = $seq ORDER BY C.parent_seq DESC, C.sort;";
+
+            return mysqli_query($mysqlDB, $sql);
+        }
+
     }
 
-
-
-
-    class comment extends boardContent implements comment_content {
-        public $b_number;
+    class comment_TEST extends boardContent implements comment_content {
+        public $c_seq;
+        public $b_seq;
+        public $parent_seq;
+        public $sort;
+        public $c_depth;
         //b넘버는 게시글넘버 인풋넘버가 널이면 새로 생성
-        public function __construct($input_number, $input_b_number, $input_writer, $input_body, $input_pass, $input_per)
+        public function __construct()
         {
-            $this->number = $input_number;
-            $this->b_number = $input_b_number;
-            $this->writer = $input_writer;
-            $this->body = $input_body;
-            $this->password = $input_pass;
-            $this->permission = $input_per;
+            $this->c_seq;
+            $this->b_seq;
+            $this->parent_seq;
+            $this->sort;
+            $this->c_depth;
+            $this->writer;
+            $this->body;
+            $this->password;
+            $this->permission;
+        }
+
+        public function getComment($mysqlDB , $c_seq) 
+        {
+            $sql = FindSQL($mysqlDB, 'comment_test', 'c_seq', $c_seq);
+            $result = mysqli_query($mysqlDB, $sql);
+            $row = mysqli_fetch_assoc($result);
+
+            $this->c_seq = $row['c_seq'];
+            $this->b_seq = $row['b_seq'];
+            $this->parent_seq = $row['parent_seq'];
+            $this->sort = $row['sort'];
+            $this->c_depth = $row['c_depth'];
+            $this->writer = $row['writer'];
+            $this->body = $row['body'];
+            $this->password = $row['password'];
+            $this->permission = $row['permission'];
+
+            return $this;
         }
 
         public function insertFunc($mysqlDB)
         {
-            $sql = "INSERT INTO comment SET
-                    number = NULL,
-                    b_number = $this->b_number,
+            if($this->parent_seq == 0) //원댓글일때
+            {
+                $sql = "INSERT INTO comment_test SET
+                    c_seq = NULL,
+                    b_seq = $this->b_seq,
+                    parent_seq = $this->parent_seq,
+                    sort = $this->sort,
+                    c_depth = $this->c_depth,
                     writer = '$this->writer',
                     body = '$this->body',
                     password = '$this->password',
                     date = NOW(),
                     permission = $this->permission;
                ";
-                
                mysqli_query( $mysqlDB, $sql );
+               $sql = "UPDATE comment_test SET parent_seq = (select last_insert_id()) WHERE c_seq = (select last_insert_id());";
+               mysqli_query( $mysqlDB, $sql );
+            }
+            else 
+            {
+                $sql = "INSERT INTO comment_test SET
+                c_seq = NULL,
+                b_seq = $this->b_seq,
+                parent_seq = $this->parent_seq,
+                sort = $this->sort,
+                c_depth = $this->c_depth,
+                writer = '$this->writer',
+                body = '$this->body',
+                password = '$this->password',
+                date = NOW(),
+                permission = $this->permission;
+                ";
+               mysqli_query( $mysqlDB, $sql );
+            }
+    
         }
-        public function delFunc($mysqlDB) {
-            $sql = remove($mysqlDB, 'comment', 'number', $this->number);
+
+        public function delFunc($mysqlDB) 
+        {
+            // if($this->c_depth == 0)
+            // {
+                $sql = remove($mysqlDB, 'comment_TEST', 'c_seq', $this->c_seq);
+            // }
+            // else 
+            // {
+            //     $sql = "delete from comment_test where parent_seq=$this->parent_seq AND sort=$this->sort AND c_depth >= $this->c_depth";
+            // }
             mysqli_query( $mysqlDB, $sql ); //게시글 삭제
-            $sql = remove($mysqlDB, 'reply', 'c_number', $this->number);
-            mysqli_query( $mysqlDB, $sql ); //  
 
         }
+
+    
+
 
         public function updateFunc($mysqlDB, $newData)
         {
-            $sql = "UPDATE comment SET body = '$newData' WHERE  number = $this->number ;";
-            mysqli_query($mysqlDB, $sql);
-
-        }
-    }
-
-    class reply extends boardContent implements comment_content 
-    {
-        public $c_number;
-        public $b_number;
-
-        public function __construct($input_number, $input_b_number, $input_c_number, $input_writer, $input_pass, $input_body, $input_per)
-        {
-            $this->number = $input_number;
-            $this->b_number = $input_b_number;
-            $this->c_number = $input_c_number;
-            $this->writer = $input_writer;
-            $this->password = $input_pass;
-            $this->body = $input_body;
-            $this->permission = $input_per;
-        }
-
-        public function insertFunc($mysqlDB)
-        {
-            $sql = "INSERT INTO reply SET
-                    number = NULL,
-                    b_number = $this->b_number,
-                    c_number = $this->c_number,
-                    writer = '$this->writer',
-                    body = '$this->body',
-                    password = '$this->password',
-                    date = NOW(),
-                    permission = $this->permission;
-               ";     
-               mysqli_query( $mysqlDB, $sql );
-        }
-
-        public function delFunc($mysqlDB)
-        {
-            $sql = "DELETE FROM reply WHERE number = $this->number";
-            mysqli_query($mysqlDB, $sql);
-        }
-
-        public function updateFunc($mysqlDB, $newData)
-        {
-            $sql = "UPDATE reply SET body = '$newData' WHERE  number = $this->number ;";
+            $sql = "UPDATE comment_TEST SET body = '$newData' WHERE  c_seq = $this->seq ;";
             mysqli_query($mysqlDB, $sql);
         }
     }
+
+
 
 
 
@@ -199,7 +241,7 @@
     function selectSQL_option( $mysqlDB, string $TABLE, $COL, $OPTION, $start, bool $COUNT ) 
     { //마지막 매개변수는 숫자를 가져올지 sql을 가져올지
         if( $mysqlDB && $COUNT == false ) {
-            $sql = "SELECT * FROM $TABLE where $COL LIKE '%$OPTION%'  ORDER BY number DESC limit $start,10 ;";
+            $sql = "SELECT * FROM $TABLE where $COL LIKE '%$OPTION%'  ORDER BY b_seq DESC limit $start,10 ;";
             return $sql;
         }
         else if( $mysqlDB && $COUNT == true ) {
@@ -240,6 +282,24 @@
         return $NUMBER;
     }
 
+    function getMAX_table_col($mysqlDB, string $TABLE, $COL) 
+    {  // 테이블 크기 조회 
+        $sql = "SELECT MAX($COL) FROM $TABLE";
+        $result = mysqli_query( $mysqlDB, $sql );
+        $row = mysqli_fetch_assoc( $result );
+        $NUMBER = $row['MAX('.$COL.')'];
+        return $NUMBER;
+    }
+
+    function getCount_table_option($mysqlDB, string $TABLE, $COL, $OPTION) 
+    {  // 테이블 크기 조회 
+        $sql = "SELECT COUNT(*) FROM $TABLE WHERE $COL = $OPTION";
+        $result = mysqli_query( $mysqlDB, $sql );
+        $row = mysqli_fetch_assoc( $result );
+        $NUMBER = $row['COUNT(*)'];
+        return $NUMBER;
+    }
+
 
     function FindSQL( $mysqlDB, string $TABLE, string $COL, $value ) {  
         if( $mysqlDB ) {
@@ -264,7 +324,7 @@
 
     function visitedUpdate( $mysqlDB, string $TABLE, int $number ) 
     {
-        $sql = "UPDATE $TABLE SET visited = visited + 1 WHERE number = $number;"; // 조회수 증가
+        $sql = "UPDATE $TABLE SET visited = visited + 1 WHERE seq = $number;"; // 조회수 증가
         mysqli_query( $mysqlDB , $sql );
     }
 
@@ -288,11 +348,12 @@
     }
 
 
+
     // 게시물 아래 footer에 넣을 함수들
     function bottom_max( $mysqlDB, string $TABLE, string $COL, $VAR) 
     {
         if( $mysqlDB ) {
-            $sql = "SELECT number,subject FROM $TABLE WHERE $COL < $VAR ORDER BY $COL DESC LIMIT 1";
+            $sql = "SELECT b_seq,subject FROM $TABLE WHERE $COL < $VAR ORDER BY $COL DESC LIMIT 1";
             return $sql;
         }
         else return false;
@@ -302,10 +363,23 @@
     function bottom_min( $mysqlDB, string $TABLE, string $COL, $VAR) 
     {
         if($mysqlDB) {
-            $sql = "SELECT number,subject FROM $TABLE WHERE $COL > $VAR  ORDER BY $COL LIMIT 1";
+            $sql = "SELECT b_seq,subject FROM $TABLE WHERE $COL > $VAR  ORDER BY $COL LIMIT 1";
             return $sql;
         }
         else return false;
+    }
+
+    function bottom_func ($mysqlDB, $TABLE, $COL, $VAL, $MODE) { //db, 테이블, 컬럼, 값, 모드 = (0= min, 1= max) 실질적인 실행부분
+        if($MODE == 0) {
+            $sql = bottom_min( $mysqlDB, $TABLE, $COL, $VAL );
+
+            return mysqli_query( $mysqlDB, $sql );
+        }
+        else {
+            $sql = bottom_max( $mysqlDB, $TABLE, $COL, $VAL );
+            return mysqli_query( $mysqlDB, $sql );
+        }
+       
     }
 
 
@@ -347,5 +421,11 @@
             location.href = '$href';
         </script>";
     }
+
+
+
     
     ?>
+
+
+
