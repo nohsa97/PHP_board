@@ -1,0 +1,105 @@
+.header {
+    background-color: black;
+    color: white;
+    /* display: contents; */
+    height: 15%;
+    padding: 30px;
+    width: 100%;
+    box-sizing: border-box;
+    border: 2px solid white;
+    border-radius: 10px;
+}
+
+.header > .btn {
+    margin: -37px 50px 0px 0px;
+    float: right;
+}
+
+.inline {
+    display : inline !important;
+}
+
+.mg-auto {
+    margin: 0px auto;
+}
+
+.input_box{
+    padding : 1.0rem !important;
+}
+
+
+.sign-in {
+    max-width: 400px;
+    margin: 0px auto;
+    padding-top: 50px;
+}
+
+
+.id-box
+{
+    float: left;
+    width: 70%;
+}
+
+
+.list{
+    width: 86% !important;
+    text-align: center !important;
+    margin: 50px auto !important;
+}
+
+
+a {
+    color: black !important;
+    text-decoration-line: none !important;
+}
+
+.table th {
+    padding: 17px 0px !important;
+}
+
+
+
+.content_top2{
+    display: flex;
+    justify-content: end;
+}
+
+
+.mr-30 {
+    margin-right: 30px !important;
+}
+
+.mr-80 {
+    margin-right: 80px !important;
+}
+
+.content_box 
+{
+    margin-top: 30px; 
+    border:3px solid blue;
+    padding : 40px 50px 40px 50px !important;
+
+}
+
+.content_body
+{
+    border:5px solid #00BFFF; 
+    padding:25px 30px 25px 30px !important;
+    text-align: start;
+}
+
+.remove
+{
+    display: flex;
+    float: right;
+}
+
+.comment 
+{
+    height : 2.4rem;
+}
+
+.hidden {
+    display: none !important;
+}
