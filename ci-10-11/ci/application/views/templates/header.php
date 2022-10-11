@@ -12,8 +12,7 @@
 
 <body style="background-color: #F2F2F2;">
     <header class="header text-center">
-        <h1>UCERT</h1>
-        
+        <a href="http://ci.test.co.kr/board_con/0" style="color : white !important;"><h1>UCERT</h1></a>        
         <?
         
             session_start();

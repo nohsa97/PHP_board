@@ -103,3 +103,9 @@ a {
 .hidden {
     display: none !important;
 }
+
+.c_write
+{
+    float: right;
+    margin-top: -53px;
+}

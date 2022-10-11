@@ -30,20 +30,28 @@
             return $result;
         }
 
-        public function get_comment($b_seq)
+        public function visited_update($b_seq)
         {
-            $this->db->select('b.b_seq, c.b_seq, c.c_seq, c.writer, c.body');
-            $this->db->from('board as b');
-            $this->db->join('comment_test as c','b.b_seq = '.$b_seq.' AND b.b_seq = c.b_seq');
-            $result = $this->db->get()->result_array();
-            return $result;
+            $result = $this->db->get_where('board', array('b_seq' => $b_seq))->result_array();
+            
+            $data = array(
+                'visited' => $result[0]['visited'] + 1  
+            );
+            
+            $where = array(
+                'b_seq' => $b_seq
+            );
+            $this->db->update('board', $data, $where);
+            return 0;
         }
+
 
         public function insert_board($array)
         {
             $this->db->insert('board', $array);
             return 0;
         }
+
 
         public function remove_board($input_arr)
         {
@@ -60,7 +68,16 @@
            {
                 return 0;
            }
-            
+        }
+
+        
+        public function update_board($array)
+        {
+            $where = array(
+              'b_seq' => $array['b_seq']  
+            );
+            $this->db->update('board', $array, $where);
+            return 0;
         }
 
     }

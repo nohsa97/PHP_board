@@ -8,7 +8,7 @@
 
         public function check_user($input_arr)
         {
-            $result = $this->db->get_where('user',$input_arr)->result_array();
+            $result = $this->db->get_where('user', $input_arr)->result_array();
             
             return $result;
         }

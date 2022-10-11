@@ -25,6 +25,6 @@
 
 <p><?=$links?></p>
 <div class="float-end">
-    <a href="/board_con/write"><button class="btn btn-primary mr-80">글 작성</button></a>
+    <a href="/board_con/write/0"><button class="btn btn-primary mr-80">글 작성</button></a>
 </div>
 
