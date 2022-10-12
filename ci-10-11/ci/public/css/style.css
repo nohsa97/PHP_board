@@ -109,3 +109,10 @@ a {
     float: right;
     margin-top: -53px;
 }
+
+
+.search-select {
+    height: 2.5rem !important; 
+    width:6% !important; 
+    display:inline !important;
+}

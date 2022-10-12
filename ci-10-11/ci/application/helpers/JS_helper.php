@@ -8,6 +8,13 @@
               </script>";
     }
 
+    function locationing($VAR)
+    {
+        echo "<script>
+                location.href = $VAR;
+              </script>";
+    }
+
     function history_back()
     {
         echo "<script>

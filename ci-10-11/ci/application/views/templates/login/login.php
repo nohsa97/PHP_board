@@ -25,7 +25,7 @@
 <script>
     function no_login()
     {
-        location.href = '/board_con';
+        location.href = '/board_con?list_seq=0';
     }
 
     function register()

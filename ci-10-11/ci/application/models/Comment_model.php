@@ -23,6 +23,14 @@
             return $result;
         }
 
+        public function get_MAX($b_seq)
+        {
+            $this->db->from('comment_test');
+            $this->db->where('b_seq',$b_seq);
+            $max = $this->db->count_all_results();
+            return $max;
+        }
+
         public function get_comment($c_seq)
         {
             $result = $this->db->get_where('comment_test', array('c_seq' => $c_seq))->result_array();

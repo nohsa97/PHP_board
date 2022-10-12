@@ -19,15 +19,28 @@
 
         public function get_MAX()
         {
-            $max = $this->db->count_all('board');
-            return $max;
+            return $this->db->count_all('board');
+        }
 
+        public function get_MAX_search($search_index, $search_for)
+        {
+
+            $this->db->from('board');
+            $this->db->like($search_index, $search_for);
+            $max = $this->db->count_all_results();
+            return $max;
+        
         }
 
         public function get_content($b_seq)
         {
-            $result = $this->db->get_where('board', array('b_seq' => $b_seq))->result_array();
-            return $result;
+            return $this->db->get_where('board', array('b_seq' => $b_seq))->result_array();
+        }
+
+        public function get_content_search($search_index, $search_for, $limit, $start)
+        {
+            return $this->db->like($search_index, $search_for)->order_by('b_seq','DESC')->get('board', $limit, $start)->result_array();
+
         }
 
         public function visited_update($b_seq)
@@ -49,7 +62,7 @@
         public function insert_board($array)
         {
             $this->db->insert('board', $array);
-            return 0;
+            return $this->db->insert_id();
         }
 
 
@@ -77,7 +90,7 @@
               'b_seq' => $array['b_seq']  
             );
             $this->db->update('board', $array, $where);
-            return 0;
+            return 1;
         }
 
     }

@@ -6,6 +6,8 @@
         public function __construct()
         {
             parent::__construct();
+            $this->load->helper("url");
+            $this->load->model('User_model');
         }
 
                 
@@ -18,7 +20,6 @@
 
         public function check()
         {
-            $this->load->model('User_model');
 
             $inputID = $this->input->post('input_ID');
 
@@ -45,8 +46,6 @@
         {
             $this->load->helper('JS');
 
-
-            $this->load->model('User_model');
             $input_ID = $this->input->post('input_ID');
             $input_pass = $this->input->post('input_pass');
             $input_pass = hash("sha256", $input_pass);
@@ -66,11 +65,11 @@
 
             if ($result)
             {
-                alerting("회원 가입 성공");
+                redirect('http://ci.test.co.kr');
             }
             else
             {
-                alerting("실패");
+                alerting("가입에 실패했습니다.");
             }
         
 

@@ -7,10 +7,12 @@
         public function __construct()
         {
             parent::__construct();
+            $this->load->helper("url");
+            $this->load->helper("JS");
             $this->load->model('User_model');
         }
 
-        public function loginPage() //페이지 로드
+        public function index() //페이지 로드
         {
            
             $this->load->view('/templates/header');
@@ -39,13 +41,8 @@
 
             if ($result) // 값이 존재한다면
             {
-                // $session_data = array (
-                //     'userID' => $inputID,
-                // );
-                // $this->session->set_userdata($session_data);
-                // alerting("$inputID 님 환영합니다.");
-                header('Location: /board_con');
-                // redirect('blog');
+                $_SESSION['ID'] = $inputID;
+                header('Location: /board_con/0');
             }
             else
             {
@@ -56,6 +53,8 @@
 
         public function logout()
         {
+            unset($_SESSION['ID']);
+            alerting("로그아웃 하셨습니다.");
             $this->load->view('/templates/header');
             $this->load->view('/templates/login/login');
             $this->load->view('/templates/footer');

@@ -13,25 +13,18 @@
 <body style="background-color: #F2F2F2;">
     <header class="header text-center">
         <a href="http://ci.test.co.kr/board_con/0" style="color : white !important;"><h1>UCERT</h1></a>        
-        <?
-        
-            session_start();
+        <? 
             if( isset($_SESSION['ID']))
             {
-                echo '<h3>'.$_SESSION["ID"].'님 환영합니다.</h3>';
-                echo '<a href="/login_con/logout"><button class="float-end btn btn-warning">로그아웃</button></a>';
+                echo '<h3>'.$_SESSION["ID"].'님 환영합니다. <a href="/login_con/logout"><button class="float-end btn btn-warning">로그아웃</button></a></h3>';
             }
             else 
             {
-                    echo "nono";
-                  
+                    echo '<a href="/login_con"><button class="float-end btn btn-warning">로그인</button></a></h3>';
             }
+            header("Pragma: no-cache");
+            header("Cache-Control: no-cache, must-revalidate");
             
-            
-            
-                
-            // }
         ?>
         
     </header>
-<!-- <a href="/login_con/logout"><button class="float-end btn btn-warning">로그아웃</button></a> -->
