@@ -17,19 +17,27 @@
             return $result;
         }
 
-        public function get_MAX()
+        public function get_count()
         {
             return $this->db->count_all('board');
         }
 
-        public function get_MAX_search($search_index, $search_for)
+        public function get_count_search($search_index, $search_for)
         {
-
             $this->db->from('board');
             $this->db->like($search_index, $search_for);
             $max = $this->db->count_all_results();
             return $max;
+        }
+
         
+        public function get_comment_count($b_seq)
+        {
+            $this->db->select('b.b_seq, c.b_seq, c.c_seq, c.writer, c.body');
+            $this->db->from('board as b');
+            $this->db->join('comment_test as c', 'b.b_seq = '.$b_seq.' AND b.b_seq = c.b_seq');
+            $result = $this->db->count_all_results();
+            return $result;
         }
 
         public function get_content($b_seq)
@@ -39,7 +47,7 @@
 
         public function get_content_search($search_index, $search_for, $limit, $start)
         {
-            return $this->db->like($search_index, $search_for)->order_by('b_seq','DESC')->get('board', $limit, $start)->result_array();
+            return $this->db->like($search_index, $search_for)->order_by('b_seq', 'DESC')->get('board', $limit, $start)->result_array();
 
         }
 

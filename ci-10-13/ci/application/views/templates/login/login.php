@@ -1,6 +1,7 @@
 <div class="container text-center">
+
     <h1 class="sign-in"> 회원 로그인 </h1>
-    <form action="/login_con/login" method="post" class="sign-in">
+    <form action="/login/login" method="post" class="sign-in">
         
         <div class="form-floating">
             <input type="text" class="form-control" name="inputID" required placeholder="아이디">
@@ -25,11 +26,11 @@
 <script>
     function no_login()
     {
-        location.href = '/board_con?list_seq=0';
+        location.href = '/board?list_seq=0';
     }
 
     function register()
     {
-        location.href = 'http://ci.test.co.kr/login_set/register_con';
+        location.href = 'http://ci.test.co.kr/register';
     }
 </script>

@@ -1,11 +1,11 @@
 <div class="container text-center">
 
-    <form action="register_con/register_ID" method="post" class="sign-in">
+    <form action="register/register_ID" method="post" class="sign-in">
         <div class="form-floating id-box">
             <input type="text" class="form-control" name="input_ID" required placeholder="아이디">
             <label for="input_ID">ID</label>  
         </div>
-       
+
         <input class="btn btn-warning" style="margin-top: 10px;" type="button" onclick="check_ID()" value="ID 중복확인">
 
         <div class="form-floating my-2">

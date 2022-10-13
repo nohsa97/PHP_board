@@ -116,3 +116,19 @@ a {
     width:6% !important; 
     display:inline !important;
 }
+
+.reply_input
+{
+    margin-top:5px;
+    background-color:rgb(240, 240, 252); 
+    padding:5px; 
+    border-radius: 15px;
+}
+
+.reply
+{
+    margin-top:5px;
+    background-color:rgb(240, 240, 252); 
+    padding:5px; 
+    position: relative;
+}

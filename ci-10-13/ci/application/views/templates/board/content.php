@@ -39,7 +39,7 @@
 
 <div class="container content_box" style="margin-top:-3px;">
 
-        <form action="/comment_con/comment_write" method="post">    
+        <form action="/comment/comment_write" method="post">    
             <p> <h3 style="border-bottom: 3px solid blue;">댓글 작성</h3> </p>
             <div class="my-1">
                 <input type="text" required class="form-control w-25  mg-auto input_box inline" name="writer" placeholder="아이디를 입력해주세요.">
@@ -57,7 +57,11 @@
 
 <!-- 댓글 목록 -->
 <? foreach ($comments as $comment) : ?>
+    <? if ($comment['c_depth'] != 0) { ?>
+    <div class="container content_box reply" style="margin-top:-3px; left: <?=($comment['c_depth'] - 1) * 20 + 13?>px; width: <?=70 - ($comment['c_depth'] * 2)?>% !important;">
+    <? }  else {?>
     <div class="container content_box" style="margin-top:-3px;">
+    <? } ?>
         <p>
             <img src="/public/asset/person.png" width="25px" height="25px">
             <span id="comment_writer_<?=$comment['c_seq']?>"> <?=$comment["writer"]?> </span>
@@ -68,11 +72,17 @@
         <span id="comment_body_<?=$comment['c_seq']?>"><?=$comment["body"]?></span>
         <input type="text" required class="hidden form-control my-3 mg-auto input_box" name="body" id="c_modify_body_<?=$comment['c_seq']?>" value="<?=$comment['body']?>">
 
-        <div class="comment content_top2">
-            <button class="btn btn-primary" onclick="comment_confirm('modify', <?=$comment['c_seq']?>)">수정하기</button>
-            <button class="btn btn-danger remove" onclick="comment_confirm('remove', <?=$comment['c_seq']?>)">삭제하기</button>
+        <div class="comment content_top2 comment_<?=$comment['c_seq']?>">
+            <button class="btn btn-outline-success btn-sm" onclick="reply_btn(<?=$comment['c_seq']?>, <?=$content['b_seq']?>)">댓글달기</button>
+            <button class="btn btn-outline-primary btn-sm" onclick="comment_confirm('modify', <?=$comment['c_seq']?>)">수정하기</button>
+            <button class="btn btn-outline-danger remove btn-sm" onclick="comment_confirm('remove', <?=$comment['c_seq']?>)">삭제하기</button>
             <input type="password" id="c_remove_pass_<?=$comment['c_seq']?>" class="hidden">
-            <input type="button" id="c_remove_btn_<?=$comment['c_seq']?>"  data-c_seq="<?=$comment['c_seq']?>"  class="hidden btn btn-danger comment_change" value="삭제">     
+            <input type="button" id="c_remove_btn_<?=$comment['c_seq']?>"  data-c_seq="<?=$comment['c_seq']?>"  class="hidden btn btn-danger comment_change" value="삭제">          
         </div> 
+
+    
+    
+
     </div>
+    
 <? endforeach; ?>

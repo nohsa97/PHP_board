@@ -13,6 +13,19 @@
             return $result;
         }
 
+        public function get_AFK($ID)
+        {
+            $arr_ID = array(
+                'ID' => $ID
+            );
+            return $this->db->select('AFK')->get_where('user', $arr_ID)->result_array();
+        }
+
+        public function get_Max()
+        {
+            return $this->db->count_all('user');
+        }
+
         public function insert_user($input_arr)
         {
             $data = array(
@@ -27,4 +40,6 @@
             return $result;
         }
     }
+
+    //sha256 + user_seq 
 ?>

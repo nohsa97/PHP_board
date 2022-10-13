@@ -3,7 +3,7 @@
 
 
 <div class="container my-3">
-    <form action="/board_con/write_action" method="post">
+    <form action="/board/write_action" method="post">
         <h1 style="border-bottom : 3px solid black">게시글 수정</h1>
 
         <input type="text" required class="form-control my-3 mg-auto input_box" name="subject" id="" value="<?=$subject?>">
@@ -25,7 +25,7 @@
 
     
 <div class="container my-3">
-    <form action="/board_con/write_action" method="post">
+    <form action="/board/write_action" method="post">
         <h1 style="border-bottom : 3px solid black">게시글 작성</h1>
 
         <input type="text" required class="form-control my-3 mg-auto input_box" name="subject" id="" placeholder="제목을 입력해주세요">

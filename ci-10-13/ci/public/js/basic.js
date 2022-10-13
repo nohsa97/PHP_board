@@ -1,6 +1,6 @@
 function check_ID()
 {
-    var base_url = "register_con/check";
+    var base_url = "register/check";
     var input_val = $('input[name=input_ID]').val();
 
     if (input_val == "")
@@ -39,16 +39,16 @@ function check_ID()
 
 function go_login()
 {
-    location.href = "/login_con/loginpage";
+    location.href = "/login/loginpage";
 }
 
 function go_list(list_seq)
 {
-    location.href = "/board_con/"+list_seq;
+    location.href = "/board/"+list_seq;
 }
 
 
 function go_list_search(list_seq)
 {
-    location.href = "/board_con/search/"+list_seq;
+    location.href = "/board/search/"+list_seq;
 }
