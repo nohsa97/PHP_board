@@ -21,8 +21,9 @@
         <div class="form-floating my-2">
             <input type="email" class="form-control" name="input_email" required placeholder="이메일">
             <label for="input_email">EMAIL</label>
+            <input type="button" disabled="true" id="email_check" onclick="check_Email()"  class="btn btn-warning w-100" value="이메일 중복확인">    
         </div>
-
+        
         <input type="submit" disabled="true" id="register_submit"  class="btn btn-warning w-100" value="회원가입">
         
     </form>

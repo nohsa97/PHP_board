@@ -12,16 +12,18 @@
 
 <body style="background-color: #F2F2F2;">
     <header class="header text-center">
-        <a href="http://ci.test.co.kr/board/0" style="color : white !important;"><h1>UCERT</h1></a>        
+        <a href="http://ci.test.co.kr/board" style="color : white !important;"><h1>UCERT</h1></a>        
         <? 
-            if( isset($_SESSION['ID']))
+            if (isset($_SESSION['ID']))
             {
-                echo '<h3>'.$_SESSION["ID"].'님 환영합니다. <a href="/login/logout"><button class="float-end btn btn-warning">로그아웃</button></a></h3>';
+                echo '<h3>'.$_SESSION["ID"].'님 환영합니다. <a href="/login/logout_func"><button class="float-end btn btn-warning"> 로그아웃 </button></a></h3>';
             }
+
             else 
             {
-                    echo '<a href="/login"><button class="float-end btn btn-warning">로그인</button></a></h3>';
+                    echo '<a href="/login"><button class="float-end btn btn-warning"> 로그인 </button></a></h3>';
             }
+
             header("Pragma: no-cache");
             header("Cache-Control: no-cache, must-revalidate");
             

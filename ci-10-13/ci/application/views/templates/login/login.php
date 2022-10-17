@@ -1,7 +1,7 @@
 <div class="container text-center">
 
     <h1 class="sign-in"> 회원 로그인 </h1>
-    <form action="/login/login" method="post" class="sign-in">
+    <form action="/login/login_func" method="post" class="sign-in">
         
         <div class="form-floating">
             <input type="text" class="form-control" name="inputID" required placeholder="아이디">
@@ -16,21 +16,26 @@
         
         <input type="button" onclick="register()" class="btn btn-warning w-40 my-3" value="회원가입">
         
-        <input type="button" class="btn btn-warning w-40 my-3" value="ID/PW 찾기">
+        <input type="button" class="btn btn-warning w-40 my-3" onclick="findPw()" value="ID/PW 찾기">
         <input type="button" id="no-login" onclick="no_login()" class="btn btn-warning w-100" value="비회원접속">
     </form>
-    
+
 </div>
 
 
 <script>
     function no_login()
     {
-        location.href = '/board?list_seq=0';
+        location.href = '/board';
+    }
+
+    function findPw()
+    {
+        location.href = '/login/findPw_page';
     }
 
     function register()
     {
-        location.href = 'http://ci.test.co.kr/register';
+        location.href = '/register';
     }
 </script>

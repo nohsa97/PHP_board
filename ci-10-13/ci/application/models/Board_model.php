@@ -11,7 +11,7 @@
 
         public function get_lists($limit, $start)
         {
-            $this->db->select('b_seq, subject, writer, date, visited');
+            $this->db->select('b_seq, subject, writer, date, visited, permission');
             $this->db->order_by('b_seq', 'DESC');
             $result = $this->db->get('board', $limit, $start)->result_array();
             return $result;
@@ -28,16 +28,6 @@
             $this->db->like($search_index, $search_for);
             $max = $this->db->count_all_results();
             return $max;
-        }
-
-        
-        public function get_comment_count($b_seq)
-        {
-            $this->db->select('b.b_seq, c.b_seq, c.c_seq, c.writer, c.body');
-            $this->db->from('board as b');
-            $this->db->join('comment_test as c', 'b.b_seq = '.$b_seq.' AND b.b_seq = c.b_seq');
-            $result = $this->db->count_all_results();
-            return $result;
         }
 
         public function get_content($b_seq)

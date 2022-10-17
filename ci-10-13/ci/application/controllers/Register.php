@@ -13,32 +13,67 @@
                 
         public function index() //가입페이지 로드
         {
-            $this->load->view('/templates/header');
+            $this->load->view('/templates/header'); 
             $this->load->view('/templates/login/register');
-            $this->load->view('/templates/footer');
+            $this->load->view('/templates/footer'); 
         }
 
-        public function check()
+        public function check_ID()
         {
+            $pattern = "/^[a-zA-Z0-9]{5,19}+$/"; 
+            $input_ID = $this->input->post('input_ID');
+            
 
-            $inputID = $this->input->post('input_ID');
+            if (!preg_match($pattern, $input_ID)) // 유효성 검사
+            {
+                echo "incongruity"; //부적합
+                exit;
+            }
 
             $inputArr = array(
-                'ID' => $inputID
+                'ID' => $input_ID
             );
 
-            $result = $this->User_model->check_user($inputArr);
+            $result = $this->User_model->check($inputArr);
+            
 
-            if ($result)
+            if (isset($result[0]))
             {
-                echo "이미 존재하는 ID입니다.";
-                $this->CHECK_ID = false;
+                echo "DB";
             }
                     
             else
             {
-                echo "가능한 ID입니다.";
-                $this->CHECK_ID = true;
+                echo "success";
+            }
+        }
+
+        public function check_email()
+        {
+            $pattern = "/^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/"; 
+            $input_email = $this->input->post('input_email');
+            
+
+            if (!preg_match($pattern, $input_email)) // 유효성 검사
+            {
+                echo "incongruity"; //부적합
+                exit;
+            }
+
+            $inputArr = array(
+                'Email' => $input_email
+            );
+
+            $result = $this->User_model->check($inputArr);
+
+            if (isset($result[0]))
+            {
+                echo "DB";
+            }
+                    
+            else
+            {
+                echo "success";
             }
         }
 
@@ -52,14 +87,12 @@
             $input_name = $this->input->post('input_name');
             $input_email = $this->input->post('input_email');
             
-            $MAX = $this->User_model->get_Max() + 1;
-
 
 
             $input_arr = array(
                 'AFK' => null,
                 'ID' =>  $input_ID,
-                'Password' =>  $input_pass.(string)$MAX, //형변환하는 이유는 앞에건 문자열이고 뒤에건 숫자라 형변환 해줘야함
+                'Password' =>  $input_pass, //형변환하는 이유는 앞에건 문자열이고 뒤에건 숫자라 형변환 해줘야함
                 'Name' =>  $input_name,
                 'Email' =>  $input_email,
                 'Permission' =>  1,

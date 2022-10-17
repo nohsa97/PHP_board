@@ -13,6 +13,27 @@
                         $this->load->helper("JS");
                         $this->load->library("pagination");
                 }
+
+                public function _remap($method)
+                {
+
+                        if (!strpos($method, "_func"))  //함수만 쓸것 - 뷰를 안나타낼거면 헤더와 푸터가 필요없다.
+                        {
+                                $this->load->view('/templates/header');  
+                                
+                        }
+
+                	if (method_exists($this, $method)) {
+                                $this->{"{$method}"}();
+                        }
+
+                        if (!strpos($method, "_func"))
+                        {
+                                $this->load->view('/templates/footer');         
+                        }
+             
+   
+                }
                 
                 public function index()
                 {
@@ -55,17 +76,14 @@
                         
                         //페이징 라이브러리 사용 paging 사용은 넘버링/ 
                         
-
                         
-                        
-                        $this->load->view('/templates/header'); 
                         $this->load->view("/templates/board/list", $data);
-                        $this->load->view('/templates/footer'); 
+ 
                 }
 
                 public function search()
                 {
-                       if( !( $this->input->post('search_index') == NULL ) ) //찾는 값이 존재할 경우 => NULL이 아닐경우. 
+                       if(!($this->input->post('search_index') == NULL)) //찾는 값이 존재할 경우 => NULL이 아닐경우. 
                        {
                                 $_SESSION['search_index'] = $this->input->post('search_index');
                                 $_SESSION['search_for'] = $this->input->post('search_for');
@@ -99,7 +117,7 @@
                         $this->pagination->initialize($paging);
                         
                         
-                        $page = ( $this->uri->segment(3) ? $this->uri->segment(3) : 0 );
+                        $page = ($this->uri->segment(3) ? $this->uri->segment(3) : 0);
                         $_SESSION['list_seq'] = $page;
                         $data["links"] = $this->pagination->create_links();
                         $data['lists'] = $this->board_model->get_content_search($this->session->search_index, $this->session->search_for, $paging["per_page"], $page);
@@ -110,12 +128,10 @@
                                 'search_for' => $this->session->search_for
                         );
 
-                        $this->load->view('/templates/header'); 
                         $this->load->view('/templates/board/list', $data); 
-                        $this->load->view('/templates/footer');  
                 }
 
-                public function content()
+                public function get_content()
                 {
                         $b_seq = $this->input->get('b_seq');
                         $this->board_model->visited_update($b_seq);
@@ -128,13 +144,11 @@
                                 'comments' => $result_c,
                         );
 
-                        $this->load->view('/templates/header'); 
                         $this->load->view('/templates/board/content', $data);
-                        $this->load->view('/templates/footer'); 
                 }
 
            
-                public function write() //글작성 페이지 
+                public function write_page() //글작성 페이지 
                 {
                         $b_seq = $this->uri->segment(3);
    
@@ -149,23 +163,18 @@
                                         'password' => $result_b['password'],
                                         'body' => $result_b['body']
                                 );
-                                $this->load->view('/templates/header'); 
                                 $this->load->view('/templates/board/b_write', $data); 
-                                $this->load->view('/templates/footer');   
                         }
                         else
-                        {
-                                $this->load->view('/templates/header'); 
-                                $this->load->view('/templates/board/b_write'); 
-                                $this->load->view('/templates/footer');   
+                        { 
+                                $this->load->view('/templates/board/b_write');   
                         }
                       
                 }
                 
-                public function write_action()
+                public function write_action_func()
                 {
                         $b_seq = $this->input->post('b_seq'); //게시글 번호가 넘어옴
-                        
 
                         $inputPass_hash = $this->input->post('userPass');
                         $inputPass_hash = hash("sha256", $inputPass_hash);
@@ -194,11 +203,11 @@
                                $b_seq = $this->board_model->insert_board($data);
                         }
                         
-                        redirect('../board/content?b_seq='.$b_seq.'&list_seq=0');
+                        redirect('../board/get_content?b_seq='.$b_seq.'&list_seq=0');
                 }
 
 
-                public function remove_act()
+                public function remove_func()
                 {       
                         $input_pass = $this->input->post("input_pass");
                         $input_pass = hash("sha256", $input_pass);
@@ -213,7 +222,7 @@
                         //성공했을 경우 1을, 실패는 0
                 }
 
-                public function check() //수정하기전 체크하는 함수 -> 위에 제거함수는 직접 제거하는 것임.
+                public function check_func() //수정하기전 체크하는 함수 -> 위에 제거함수는 직접 제거하는 것임.
                 {
                        
                         $input_pass = $this->input->post("input_pass");
