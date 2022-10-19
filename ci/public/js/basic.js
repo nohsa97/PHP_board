@@ -101,6 +101,10 @@ function go_login()
 {
   location.href = "/login/loginpage";
 }
+function logout()
+{
+  location.href = "/login/logout_func";
+}
 
 function go_list(list)
 {

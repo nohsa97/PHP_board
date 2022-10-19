@@ -38,7 +38,9 @@ class Comment extends CI_Controller
         'permission' => $permission
       );
       $this->comment_model->insert_comment($data);
-      redirect('/board/get_content?b_seq='.$b_seq.'&list='.$list);
+      $pre_page = $_SERVER['HTTP_REFERER'];
+      alert("댓글이 작성되었습니다.");
+      location_href($pre_page);
     }
 
     else
@@ -47,13 +49,12 @@ class Comment extends CI_Controller
 
       if ($parent_comment['c_depth'] == 0)
       {
-        $sort =  ($this->comment_model->get_max_sort()['sort']);    
+        $sort = $this->comment_model->get_max_sort();    
       }
       else
       {
         $sort = $parent_comment['sort'];
       }
-
 
       $data = array(
         'c_seq' => null,
@@ -64,26 +65,36 @@ class Comment extends CI_Controller
         'writer' => $writer,
         'password' => $hash_pass,
         'body' => $body,
-        'permission' => 0
+        'permission' => $permission
       );
       $this->comment_model->insert_reply($data, $parent_c_seq);
-      redirect('/board/get_content?b_seq='.$b_seq.'&list='.$list);
+      $pre_page = $_SERVER['HTTP_REFERER'];
+      alert("대댓글이 작성되었습니다.");
+      location_href($pre_page);
     }
   }
 
   public function remove_func()
   {
     $input_pass = $this->input->post("input_pass");
-    $input_pass = hash("sha256", $input_pass);
     $c_seq = $this->input->post("c_seq");
-
-    $input_arr = array(
-      'c_seq' => $c_seq,
-      'password' => $input_pass      
-    );
-    echo $this->comment_model->remove_comment($input_arr);
-    // print_r($this->comment_model->remove_comment($input_arr));
+    $input_pass = hash("sha256", $input_pass);
+    $base_comment = $this->comment_model->get_comment($c_seq);
+    
+    if ($base_comment['c_depth'] == 0 && $base_comment['password'] == $input_pass)
+    {
+      echo $this->comment_model->remove_comment($c_seq); 
     }
+    else if ($base_comment['c_depth'] != 0 && $base_comment['password'] == $input_pass)
+    {
+      echo $this->comment_model->remove_reply($c_seq);
+    }
+    else
+    {
+      echo 0;
+    }
+
+  }
 
   public function update_func()
   {
@@ -111,7 +122,8 @@ class Comment extends CI_Controller
     {
       echo "비밀번호가 틀립니다.";
     }
-    exit;
+
+
   }
 
 

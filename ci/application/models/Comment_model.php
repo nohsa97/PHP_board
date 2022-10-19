@@ -45,6 +45,14 @@
       return $result;
     }
 
+    public function get_comment_count($b_seq)
+    {
+      $this->db->from('comment_test');
+      $this->db->where('b_seq', $b_seq);
+      $max = $this->db->count_all_results();
+      return $max;
+    }
+
     public function get_comment($c_seq)
     {
       return  $this->db->get_where('comment_test', array('c_seq' => $c_seq))->row_array();
@@ -54,44 +62,33 @@
     public function get_max_sort() //최대값 가져오기 - > 이를 통하여 대댓글 구현
     {
       $this->db->select_max('sort');
-      return $this->db->get('comment_test')->row_array();
+      return $this->db->get('comment_test')->row_array()['sort'];
     }
 
-    public function remove_comment($input_arr)
+    public function remove_comment($c_seq)
     {
-      $data =  $this->db->get_where('comment_test', array('c_seq' => $input_arr['c_seq']))->row_array();
-      
-      if (($data['password'] == $input_arr['password']) && ($data['c_depth'] == 0))
-      {
-        $this->db->where('parent_seq', $input_arr['c_seq']);
-        $this->db->delete("comment_test");
-        return 1;
-      }
-        
-        else if ($data['password'] == $input_arr['password'])
-        {
-          $result = $this->db->query('select MIN(sort) from comment_test where parent_seq = '.$data['parent_seq'].' and sort>='.$data['sort'].' AND baby = 0;');
-          $result = $result->row_array()['MIN(sort)'];
-          $sort = $data['sort'] - 1;
-          $this->db->query('delete from comment_Test where parent_seq = '.$data['parent_seq'].' and sort >= '.$data['sort'].' and sort <= '.$result.';'); // 자기 솔트부터 자기 아래 없는 솔트까지 다 삭제
-          $this->db->query("UPDATE comment_test SET baby = 0 WHERE parent_seq = ".$data['parent_seq']." AND sort = ".$sort." ; "); // 바로 윗 댓글 댓글쓰기 활성화 
-          return 1;
-        }
-        else //비번 틀렸으면 여기
-        {
-          return 0;
-        }
+      return $this->db->delete('comment_test', array('parent_seq' => $c_seq));
     }
 
+    public function remove_reply($c_seq)
+    {
+       $data =  $this->db->get_where('comment_test', array('c_seq' => $c_seq))->row_array();
+       $result = $this->db->query('select MIN(sort) from comment_test where parent_seq = '.$data['parent_seq'].' and sort>='.$data['sort'].' AND baby = 0;');
+       $result = $result->row_array()['MIN(sort)'];
+       $sort = $data['sort'] - 1;
+       $this->db->query('delete from comment_Test where parent_seq = '.$data['parent_seq'].' and sort >= '.$data['sort'].' and sort <= '.$result.';'); // 자기 솔트부터 자기 아래 없는 솔트까지 다 삭제
+       $this->db->query("UPDATE comment_test SET baby = 0 WHERE parent_seq = ".$data['parent_seq']." AND sort = ".$sort." ; "); // 바로 윗 댓글 댓글쓰기 활성화 
+       return 1;
+    }
 
     public function update_func($input_arr)
-  {
-      $where = array(
-      'c_seq' => $input_arr['c_seq']  
-      );
-      $this->db->update('comment_test', $input_arr, $where);
-      return 0;
-  }
+    {
+        $where = array(
+        'c_seq' => $input_arr['c_seq']  
+        );
+        $this->db->update('comment_test', $input_arr, $where);
+        return 0;
+    }
 
   }
 

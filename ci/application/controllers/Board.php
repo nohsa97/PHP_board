@@ -122,11 +122,12 @@
       $b_seq = $this->input->get('b_seq');
       $this->board_model->visited_update($b_seq);
 
-      $result_b = $this->board_model->get_content($b_seq);
+      $comment_count = $this->comment_model->get_comment_count($b_seq);
+      $result_b = $this->board_model->get_content_count_comment($b_seq, $comment_count);
       $result_c = $this->comment_model->get_comment_list($b_seq);
       
 
-      if ($this->input->get("search_input") != NULL)
+      if ($this->input->get("search_input") != NULL) //검색 결과가 있을 경우.
       {
         $search_by = $this->input->get("search_by");
         $search_input = $this->input->get("search_input");
@@ -145,7 +146,8 @@
       $data = array(
       'row' => $result_b,
       'comments' => $result_c,
-      'bottom' => $bottom_navigate
+      'bottom' => $bottom_navigate,
+      'count' => $comment_count
       );
 
       $this->load->view('/templates/board/content', $data);
@@ -167,7 +169,7 @@
         'body' => $result_b['body'],
         'permission' => $result_b['permission']
       );
-        $this->load->view('/templates/board/b_write', $data); 
+        $this->load->view('/templates/board/b_modify', $data); 
       }
       else
       { 
@@ -222,9 +224,9 @@
       else
       {
         $input_password = hash("sha256", $input_password);
-        $base_password = $this->board_model->get_content($b_seq)['password'];
+        $base_comment = $this->board_model->get_content($b_seq);
         
-        if ($base_password == $input_password)
+        if ($base_comment['password'] == $input_password)
         {
           echo $this->board_model->remove_board($b_seq);
         }
@@ -243,7 +245,6 @@
       $b_seq = $this->input->post("b_seq");
 
       $result = $this->board_model->get_content($b_seq); //값이 하나뿐일테니
-
       if($result['password'] == $input_pass)
       {
         echo 1;

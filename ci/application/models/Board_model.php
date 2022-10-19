@@ -11,7 +11,7 @@ class Board_model extends CI_Model
 
   public function get_board_list($limit, $start)
   {
-    $this->db->select('b_seq, subject, writer, date, visited, permission');
+    $this->db->select('b_seq, subject, writer, date, visited, permission, comment_count');
     $this->db->order_by('b_seq', 'DESC');
     $result = $this->db->get('board', $limit, $start)->result_array();
     return $result;
@@ -32,6 +32,12 @@ class Board_model extends CI_Model
 
   public function get_content($b_seq)
   {
+    return $this->db->get_where('board', array('b_seq' => $b_seq))->row_array();
+  }
+
+  public function get_content_count_comment($b_seq, $count)
+  {
+    $this->db->update('board', array('comment_count' => $count),  array('b_seq' => $b_seq));
     return $this->db->get_where('board', array('b_seq' => $b_seq))->row_array();
   }
 

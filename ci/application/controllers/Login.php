@@ -41,9 +41,6 @@ if (!defined('BASEPATH')) exit ('NO direct script access allowed');
 
     public function findPw_page()
     {
-      var_dump (isset($_GET['ASD']));
-
-      exit;
       $this->load->view('/templates/login/findPW');   
     }
 
@@ -154,7 +151,6 @@ if (!defined('BASEPATH')) exit ('NO direct script access allowed');
       $before_PW = hash("sha256", $before_PW);
 
       $user_seq = $this->User_model->get_user_seq($ID);//user_seq
-
 
       $input_arr = array(
         'ID' => $ID,

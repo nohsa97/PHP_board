@@ -12,12 +12,17 @@ $list = $page;
   </tr>
 
   <!-- th2번째 1씩 줄어드는건 다음걸로 넘어가야하니까 줄어듬. -->
-
-  <?    if (isset($search)) :  ?>
     <? foreach ($lists as $list) :?>
+      <? $comment_count = "(".$list['comment_count'].")"; ?> 
       <tr>
         <th><?=$MAX--?></th>
-        <th><a href="/board/get_content?b_seq=<?=$list['b_seq']--?>&list=<?=$page?>&search_by=<?=$search['search_by']?>&search_input=<?=$search['search_input']?>"> <?=$list['subject']?> </a></th>
+        <th>
+          <? if (isset($search)) { ?>
+          <a href="/board/get_content?b_seq=<?=$list['b_seq']--?>&list=<?=$page?>&search_by=<?=$search['search_by']?>&search_input=<?=$search['search_input']?>"> <? if ($list['comment_count'] != 0) echo $comment_count; ?>  <?=$list['subject']?>  </a>
+          <? } else {?>
+          <a href="/board/get_content?b_seq=<?=$list['b_seq']--?>&list=<?=$page?>"> <?=$list['subject']?> <? if ($list['comment_count'] != 0) echo $comment_count; ?> </a>
+          <? } ?>
+        </th>
         <th>
           <? if ($list['permission'] == 1) : ?>
           <img src="/public/asset/person.png" width="25px" height="25px">
@@ -28,28 +33,7 @@ $list = $page;
         <th><?=$list['visited']?></th>
       <tr>
     <? endforeach; ?>
-
-  <? else : ?>
-    <? foreach ($lists as $list) :?>
-      <!-- MAX의 경우 넘어옴. -->
-      <tr>
-        <th><?=$MAX--?></th>
-        <th><a href="/board/get_content?b_seq=<?=$list['b_seq']--?>&list=<?=$page?>"> <?=$list['subject']?> </a></th>
-        <th>
-          <? if ($list['permission'] == 1) : ?>
-          <img src="/public/asset/person.png" width="25px" height="25px">
-          <? endif; ?>
-          <?=$list['writer']?>
-        </th>
-        <th><?=$list['date']?></th>
-        <th><?=$list['visited']?></th>
-      <tr>
-    <? endforeach; ?>
-  <? endif; ?>
-
-
 </table>
-<!-- 팀장님이 제시해주신 번호 나열 구현완료. -->
 
 <!-- 찾는 값이 존재한다면 board search 함수에서 넘겨주는 변수 -->
 <?    if (isset($search)) :  ?>
