@@ -35,15 +35,26 @@ class Board_model extends CI_Model
     return $this->db->get_where('board', array('b_seq' => $b_seq))->row_array();
   }
 
+
+
+
   public function get_content_count_comment($b_seq, $count)
   {
     $this->db->update('board', array('comment_count' => $count),  array('b_seq' => $b_seq));
     return $this->db->get_where('board', array('b_seq' => $b_seq))->row_array();
   }
 
-  public function get_content_search($search_index, $search_for, $limit, $start)
+
+
+
+  // public function get_content_search($search_index, $search_for, $limit, $start)
+  // {
+  //   return $this->db->like($search_index, $search_for)->order_by('b_seq', 'DESC')->get('board', $limit, $start)->result_array();
+  // }
+  
+  public function get_content_search($limit, $start)
   {
-    return $this->db->like($search_index, $search_for)->order_by('b_seq', 'DESC')->get('board', $limit, $start)->result_array();
+    return $this->db->like($GLOBALS['search_by'], $GLOBALS['search_input'])->order_by('b_seq', 'DESC')->get('board', $limit, $start)->result_array();
   }
 
 

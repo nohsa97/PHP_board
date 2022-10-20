@@ -6,7 +6,7 @@ class Register extends CI_Controller
   public function __construct()
   {
     parent::__construct();
-    $this->load->helper("url");
+    $this->load->helper(array("url", "JS"));
     $this->load->model('User_model');
   }
 
@@ -77,13 +77,23 @@ class Register extends CI_Controller
 
   public function register_ID()
   {
-    $this->load->helper('JS');
-
-    $input_ID = $this->input->post('input_ID');
-    $input_pass = $this->input->post('input_pass');
-    $input_pass = hash("sha256", $input_pass);
-    $input_name = $this->input->post('input_name');
+    $input_ID    = $this->input->post('input_ID');
+    $input_pass  = $this->input->post('input_pass');
+    $input_name  = $this->input->post('input_name');
     $input_email = $this->input->post('input_email');
+
+    $pattern = "/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{6,}$/";
+    $id_check = $this->User_model->get_user(array('ID' => $input_ID));
+    $mail_check = $this->User_model->get_user(array('Email' => $input_email));
+
+    if (($id_check || $mail_check) || !preg_match($pattern, $input_pass)) //아디와 메일이 존재하거나 혹은 비밀번호가 양식에 맞지 않거나.
+    {
+      alert("가입에 실패했습니다.");
+      location_href("/login");
+      exit;
+    }
+
+    $input_pass = hash("sha256", $input_pass);
 
     $input_arr = array(
       'user_seq' => null,

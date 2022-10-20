@@ -132,3 +132,20 @@ a {
     padding:5px; 
     position: relative;
 }
+
+.password_check
+{
+    color : red;
+    margin-top : -8px !important;
+    margin-bottom : 10px;
+}
+
+
+.material-symbols-outlined {
+    font-size: 45px !important;
+    font-variation-settings:
+    'FILL' 1,
+    'wght' 700,
+    'GRAD' 200,
+    'opsz' 20;
+}

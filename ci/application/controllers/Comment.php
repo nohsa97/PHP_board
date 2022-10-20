@@ -6,8 +6,24 @@ class Comment extends CI_Controller
   {
     parent::__construct();
     $this->load->model('comment_model');
-    $this->load->helper(array("url", "JS"));
+    $this->load->helper(array("url", "JS")); 
   }
+
+  // public function get_data($array)
+  // {
+  //   $data = array(
+  //     'c_seq'       > null,
+  //     'b_seq'      => $array['b_seq'],
+  //     'parent_seq' => null,
+  //     'sort'       => 0,
+  //     'c_depth'    => 0,
+  //     'writer'     => $array['writer'],
+  //     'password'   => $array['password'],
+  //     'body'       => $array['body'],
+  //     'permission' => $array['permission']
+  //   );
+  //   return $data;
+  // }
 
 
   public function comment_write()
@@ -24,7 +40,7 @@ class Comment extends CI_Controller
     $hash_pass = $this->input->post('password');
     $hash_pass = hash("sha256", $hash_pass);
 
-    if (!isset($parent_c_seq))  //포스트로 시퀀스가 넘어왔으면 
+    if (!isset($parent_c_seq))  //포스트로 부모 시퀀스가 안넘어왔다 -> 댓글 
     {
       $data = array(
         'c_seq' => null,
@@ -37,6 +53,14 @@ class Comment extends CI_Controller
         'body' => $body,
         'permission' => $permission
       );
+      // $input = array(
+      //   'b_seq' => $b_seq,
+      //   'writer' => $writer,
+      //   'password' => $hash_pass,
+      //   'body' => $body,
+      //   'permission' => $permission
+      // );
+      // $data = $this->get_data($input);
       $this->comment_model->insert_comment($data);
       $pre_page = $_SERVER['HTTP_REFERER'];
       alert("댓글이 작성되었습니다.");

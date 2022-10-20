@@ -3,12 +3,20 @@
 
   class Board extends CI_Controller 
   {
+    public $setting;
     public function __construct()
     {
       parent::__construct();
       $this->load->model(array('board_model', 'comment_model'));
       $this->load->helper(array("url","js"));
       $this->load->library("pagination");
+      $this->setting = array(
+        'base_url'    => "/board",
+        'total_rows'  => 0,
+        'per_page'    => 5,
+        'uri_segment' => 2,
+        'num_links'   => 3
+      );
     }
 
     public function _remap($method)
@@ -29,92 +37,71 @@
       }
     }
 
-    public function index()
+    public function paging_func($setting)
     {
-      $max_board = $this->board_model->get_board_count();
-
-      
       $paging = array();
-      $paging['base_url'] = "/board";
-      $paging['total_rows'] = $max_board;
-      $paging['per_page'] = 5;
-      $paging['uri_segment'] = 2;
-      $paging['num_links'] = 3;
+      $paging['base_url']    = $setting['base_url'];
+      $paging['total_rows']  = $setting['total_rows'];
+
+      $paging['per_page']    = $setting['per_page'];
+      $paging['uri_segment'] = $setting['uri_segment'];
+      $paging['num_links']   = $setting['num_links'];
                                       
-      $paging['full_tag_open'] = '<ul class="pagination" style="justify-content : center !important; " >';
-      $paging['full_tag_close'] = '</ul>';
-      $paging['num_tag_open'] = '<div class="page-link">';
-      $paging['num_tag_close'] = '</div>';
-      $paging['cur_tag_open'] = '<b class="page-link"">';
-      $paging['cur_tag_close'] = '</b>';
-      $paging['next_tag_open'] = '<div class="page-link">';
-      $paging['next_tag_close'] = '</div>';
-      $paging['prev_tag_open'] = '<div class="page-link">';
-      $paging['prev_tag_close'] = '</div>';
-      $paging['last_tag_open'] = '<div class="page-link">';
-      $paging['last_tag_close'] = '</div>';
-      $paging['first_tag_open'] = '<div class="page-link">';
+      $paging['full_tag_open']   = '<ul class="pagination" style="justify-content : center !important; " >';
+      $paging['full_tag_close']  = '</ul>';
+      $paging['num_tag_open']    = '<div class="page-link">';
+      $paging['num_tag_close']   = '</div>';
+      $paging['cur_tag_open']    = '<b class="page-link"">';
+      $paging['cur_tag_close']   = '</b>';
+      $paging['next_tag_open']   = '<div class="page-link">';
+      $paging['next_tag_close']  = '</div>';
+      $paging['prev_tag_open']   = '<div class="page-link">';
+      $paging['prev_tag_close']  = '</div>';
+      $paging['last_tag_open']   = '<div class="page-link">';
+      $paging['last_tag_close']  = '</div>';
+      $paging['first_tag_open']  = '<div class="page-link">';
       $paging['first_tag_close'] = '</div>';
 
-      $this->pagination->initialize($paging);
-
-      $page = ( $this->uri->segment(2) ? $this->uri->segment(2) : 0 );
-      $data["links"] = $this->pagination->create_links();
-      $data['lists'] = $this->board_model->get_board_list($paging["per_page"], $page);
-      $data['MAX'] = $max_board - $page;
-      $data['page'] = $page;
-
-      //페이징 라이브러리 사용 paging 사용은 넘버링/ 
-      $this->load->view("/templates/board/list", $data);
+      return $paging;
     }
 
-    public function search()
+    public function index()
     {
-      $search_by = $this->input->get("search_by");
-      $search_input = $this->input->get("search_input");
-      $max_board = $this->board_model->get_count_search($search_by, $search_input);
+      if (isset($GLOBALS['search_input'])) // 검색값 존재
+      {
+        $search_by    = $GLOBALS['search_by'];
+        $search_input = $GLOBALS['search_input'];
+        $max_board    = $this->board_model->get_count_search($search_by, $search_input);
+  
+        $this->setting['per_page']    = 3;
+        $this->setting['total_rows']  = $max_board;
+        
+        $paging = $this->paging_func($this->setting);
+        $paging['reuse_query_string'] = TRUE;
+      }
+      else //검색값 없음.
+      {
+        $max_board = $this->board_model->get_board_count();
 
-      
+        $this->setting['total_rows'] = $max_board;
 
-      $paging = array();
-      $paging['base_url'] = "/board/search";
-      $paging['total_rows'] = $max_board;
-      $paging['per_page'] = 3;
-      $paging['uri_segment'] = 3;
-      $paging['num_links'] = 3;
-      $paging['reuse_query_string'] = TRUE;
-
-              
-      $paging['full_tag_open'] = '<ul class="pagination" style="justify-content : center !important; " >';
-      $paging['full_tag_close'] = '</ul>';
-      $paging['num_tag_open'] = '<div class="page-link">';
-      $paging['num_tag_close'] = '</div>';
-      $paging['cur_tag_open'] = '<b class="page-link"">';
-      $paging['cur_tag_close'] = '</b>';
-      $paging['next_tag_open'] = '<div class="page-link">';
-      $paging['next_tag_close'] = '</div>';
-      $paging['prev_tag_open'] = '<div class="page-link">';
-      $paging['prev_tag_close'] = '</div>';
-      $paging['last_tag_open'] = '<div class="page-link">';
-      $paging['last_tag_close'] = '</div>';
-      $paging['first_tag_open'] = '<div class="page-link">';
-      $paging['first_tag_close'] = '</div>';
+        $paging = $this->paging_func($this->setting);
+      }
 
       $this->pagination->initialize($paging);
-
-
-      $page = ($this->uri->segment(3) ? $this->uri->segment(3) : 0);
+      $page = ( $this->uri->segment(2) ? $this->uri->segment(2) : 0 );
       $data["links"] = $this->pagination->create_links();
-      $data['lists'] = $this->board_model->get_content_search($search_by, $search_input, $paging["per_page"], $page);
-      $data['page'] = $page;
-      $data['MAX'] = $max_board - $page;
-      $data['search'] = array(
-        'search_by' => $search_by,
-        'search_input' => $search_input
-      );
- 
 
-      $this->load->view('/templates/board/list', $data); 
+      if (isset($GLOBALS['search_input']))
+        $data['lists'] = $this->board_model->get_content_search($paging["per_page"], $page);
+      
+      else
+        $data['lists'] = $this->board_model->get_board_list($paging["per_page"], $page);
+
+      $data['MAX']   = $max_board - $page;
+      $data['page']  = $page;
+
+      $this->load->view("/templates/board/list", $data);
     }
 
     public function get_content()
@@ -123,16 +110,18 @@
       $this->board_model->visited_update($b_seq);
 
       $comment_count = $this->comment_model->get_comment_count($b_seq);
+
       $result_b = $this->board_model->get_content_count_comment($b_seq, $comment_count);
       $result_c = $this->comment_model->get_comment_list($b_seq);
       
 
-      if ($this->input->get("search_input") != NULL) //검색 결과가 있을 경우.
+      if (isset($GLOBALS['seach_input'])) //검색 결과가 있을 경우.
       {
-        $search_by = $this->input->get("search_by");
-        $search_input = $this->input->get("search_input");
-        $input_array = array(
-          'search_by' => $search_by,
+        $search_by    = $GLOBALS['seach_by'];
+        $search_input = $GLOBALS['seach_input'];
+
+        $input_array     = array(
+          'search_by'    => $search_by,
           'search_input' => $search_input
         );
         $bottom_navigate = $this->board_model->pre_next_content_search($b_seq, $input_array);
@@ -143,14 +132,14 @@
         $bottom_navigate = $this->board_model->pre_next_content($b_seq);
       }
 
-      $data = array(
-      'row' => $result_b,
+      $content = array(
+      'content'  => $result_b,
       'comments' => $result_c,
-      'bottom' => $bottom_navigate,
-      'count' => $comment_count
+      'bottom'   => $bottom_navigate,
+      'count'    => $comment_count
       );
 
-      $this->load->view('/templates/board/content', $data);
+      $this->load->view('/templates/board/content', $content);
     }
 
 
@@ -161,15 +150,7 @@
       if ( $b_seq != 0 )
       {
         $result_b = $this->board_model->get_content($b_seq);
-        $data = array(
-        'b_seq' => $result_b['b_seq'],
-        'subject' => $result_b['subject'],
-        'writer' => $result_b['writer'],
-        'password' => $result_b['password'],
-        'body' => $result_b['body'],
-        'permission' => $result_b['permission']
-      );
-        $this->load->view('/templates/board/b_modify', $data); 
+        $this->load->view('/templates/board/b_modify', $result_b); 
       }
       else
       { 
@@ -181,16 +162,17 @@
     public function write_action_func()
     {
       $b_seq = $this->input->post('b_seq'); //게시글 번호가 넘어옴
+      
       $inputPass_hash = $this->input->post('input_pass');
       $inputPass_hash = hash("sha256", $inputPass_hash);
 
       $data = array(
-      'b_seq' => null,
-      'subject' => $this->input->post('subject'),
-      'writer' => $this->input->post('input_ID'),
-      'Password' => $inputPass_hash,
-      'body' => $this->input->post('body'),
-      'visited' => 0,
+      'b_seq'      => null,
+      'subject'    => $this->input->post('subject'),
+      'writer'     => $this->input->post('input_ID'),
+      'Password'   => $inputPass_hash,
+      'body'       => $this->input->post('body'),
+      'visited'    => 0,
       'permission' => $this->input->post('permission')
       );
 
@@ -198,8 +180,9 @@
       {
         $row = $this->board_model->get_content($b_seq); //데이터값 가져오기
 
-        $data['b_seq'] = $b_seq;
+        $data['b_seq']   = $b_seq;
         $data['visited'] = $row['visited'];
+        
         $this->board_model->update_board($data);
       }
 
@@ -215,6 +198,7 @@
     public function remove_func()
     {       
       $b_seq = $this->input->post("b_seq");
+
       $input_password = $this->input->post("input_pass");
       if ($input_password == NULL)
       {
@@ -224,7 +208,7 @@
       else
       {
         $input_password = hash("sha256", $input_password);
-        $base_comment = $this->board_model->get_content($b_seq);
+        $base_comment   = $this->board_model->get_content($b_seq);
         
         if ($base_comment['password'] == $input_password)
         {

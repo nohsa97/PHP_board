@@ -8,9 +8,14 @@
 
     public function check($input_arr)
     {
-      $row = $this->db->get_where('user', $input_arr)->row_array();  
-      return $row;
+      return $this->db->get_where('user', $input_arr)->row_array();  
     }
+
+    public function get_user($Array) //유저 정보 모든걸 가져옴 
+    {
+      return $this->db->get_where('user', $Array)->row_array();
+    }
+
 
     public function get_user_Seq($ID)
     {
@@ -47,6 +52,4 @@
       return $this->db->select('ID')->get_where("user", $input_arr)->row_array()['ID'];//row 
     }
   }
-
-  //sha256 + user_seq 
 ?>

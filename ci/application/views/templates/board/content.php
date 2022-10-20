@@ -1,18 +1,16 @@
 <?
-  $content = $row;
   $list = $_GET['list'];
 ?>
-
 
 <div class="container content_box" id="board" data-permission="<?=$content['permission']?>" data-b_seq="<?=$content['b_seq']?>">
   <h1 style="border-bottom: 3px solid blue;"> <?=$content['subject']?> </h1>
 
   <p class="content_top2">
     <span class="mr-30">작성자 : <?=$content['writer']?></span>
-    <span class="mr-30">날짜 : <?=$content['date']?></span>
+    <span class="mr-30">날짜 :   <?=$content['date']?></span>
     <span class="mr-30">조회수 : <?=$content['visited']?></span>
+
     <!--  퍼미션이 0인 게시글이거나 세션 로그인된 아이디와 같은 작성자인 게시글은 수정 삭제 표현  -->
-    
     <? if ($content['permission'] == 0 || (isset($_SESSION['ID'])) && ($_SESSION['ID'] == $content['writer'])) {?> 
     <button class="btn btn-primary me-3 b_modify" >수정하기</button>
     <button class="btn btn-danger b_remove" >삭제하기</button>
@@ -21,8 +19,8 @@
 
   <pre class="content_body"><?=$content['body']?></pre>
 
-  <? if (isset($_GET['search_input'])) {?>
-  <button class="btn btn-primary" onclick="go_list_search(<?=$list?>, '<?=$_GET['search_by']?>', '<?=$_GET['search_input']?>')">목록으로</button>
+  <? if (isset($GLOBALS['search_input'])) {?>
+  <button class="btn btn-primary" onclick="go_list_search(<?=$list?>, '<?=$GLOBALS['search_by']?>', '<?=$GLOBALS['search_input']?>')">목록으로</button>
   <? } else {?>
   <button class="btn btn-primary" onclick="go_list(<?=$list?>)">목록으로</button>
   <? } ?>
@@ -70,7 +68,7 @@
     <p id="c_modify_box_<?=$comment['c_seq']?>" style="border-bottom : 3px solid red;">
 
       <? if ($comment['permission']) { ?>
-      <img src="/public/asset/person.png" width="25px" height="25px">
+      <img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=http%3A%2F%2Fcfile24.uf.tistory.com%2Fimage%2F2667F24F572004EE122B46" width="25px" height="25px">
       <? } ?>
       <b id="comment_writer_<?=$comment['c_seq']?>"><?=$comment["writer"]?></b>
     </p>
@@ -116,9 +114,9 @@
   <div class="text-center my-5">
     <?
       if (isset($pre))
-        $pre_url = "/board/get_content?b_seq=".$pre['b_seq']."&list=$list&search_by=".$_GET['search_by']."&search_input=".$_GET['search_input']."";
+        $pre_url = "/board/get_content?b_seq=".$pre['b_seq']."&list=$list&search_by=".$GLOBALS['search_by']."&search_input=".$GLOBALS['search_input']."";
       if (isset($next))
-        $next_url = "/board/get_content?b_seq=".$next['b_seq']."&list=$list&search_by=".$_GET['search_by']."&search_input=".$_GET['search_input']."";
+        $next_url = "/board/get_content?b_seq=".$next['b_seq']."&list=$list&search_by=".$GLOBALS['search_by']."&search_input=".$GLOBALS['search_input']."";
     ?>
 
     <? if (!isset($next) && isset($pre)) {?>
@@ -131,3 +129,17 @@
     <? } ?>
   </div>
 <? } ?>
+
+
+<script>
+  function go_list(list)
+  {
+    location.href = "/board/"+list;
+  }
+
+
+  function go_list_search(list, search_by, search_input)
+  {
+    location.href = "/board/" + list + "?search_by=" + search_by + "&search_input=" + search_input;
+  }
+</script>

@@ -1,8 +1,6 @@
 <div class="container text-center">
-
   <h1 class="sign-in"> 회원 로그인 </h1>
   <form action="/login/login_func" method="post" class="sign-in">
-      
     <div class="form-floating">
       <input type="text" class="form-control" name="inputID" required placeholder="아이디">
       <label for="inputID">ID</label>
@@ -19,23 +17,4 @@
     <input type="button" class="btn btn-warning w-40 my-3" onclick="findPw_page()" value="ID/PW 찾기">
     <input type="button" id="no-login" onclick="no_login_page()" class="btn btn-warning w-100" value="비회원접속">
   </form>
-
 </div>
-
-
-<script>
-  function no_login_page()
-  {
-    location.href = '/board';
-  }
-
-  function findPw_page()
-  {
-    location.href = '/login/findPw_page';
-  }
-
-  function register_page()
-  {
-    location.href = '/register';
-  }
-</script>
