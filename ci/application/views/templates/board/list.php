@@ -12,8 +12,8 @@
 <? foreach ($lists as $list) :?>
   <? 
     $comment_count = "(".$list['comment_count'].")"; 
-    $board_url = "/board/get_content?b_seq=".$list['b_seq']."&list=".$page."";
-    if (isset($GLOBALS['search_input'])) //글로벌 전역변수로 검색값이 존재한다 - > 검색기록이 남아있다.
+    $board_url = "/board/get_content_view?b_seq=".$list['b_seq']."&list=".$page."";
+    if (isset($GLOBALS['search_input'])) 
     {
       $board_url .= "&search_by=".$GLOBALS['search_by']."&search_input=".$GLOBALS['search_input']."";
     }  

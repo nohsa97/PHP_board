@@ -181,7 +181,7 @@ $(function()  //수정 버튼 추가
       var before_comment = $('#comment_body_' + c_seq).text(); // 댓글 원본
       
       var input = '<input type="text" id="c_modify_body_'+ c_seq +'" required class="form-control my-3 mg-auto input_box" name="body" value="' + before_comment + '"></input>';
-      $('#c_modify_box_' + c_seq).append(add);
+      $('#c_writer_' + c_seq).append(add);
       $('#comment_body_' + c_seq).after(input);
     }
     
@@ -212,13 +212,14 @@ $(function()  //삭제 버튼 추가
       }   
       else
       {
+        var id = $('#comment_writer_' + c_seq).text();
         if (confirm("삭제하시겠습니까?"))
         {
           $.ajax({
           url : "/comment/remove_func",
           data : {
           "c_seq" : c_seq,
-          "input_pass" :  null
+          "ID" : id
           },
           type : "POST",
           }).done(function (data) 
@@ -248,7 +249,7 @@ $(function()  //삭제 버튼 추가
 
 $(document).on("click", ".c_set", function() //상황에 맞는 버튼 클릭
 {
-  var c_seq = $(this).parent().parent().data('c_seq');
+  var c_seq = $(this).data('c_seq');
   if ($(this).val() == "수정")
   {
     if ( confirm("수정하시겠습니까?") )
@@ -320,46 +321,36 @@ function reply_btn(c_seq, b_seq, permission)
     newForm.attr('id', 'reply_box_' + c_seq);
     newForm.attr('class', 'reply_input');
 
+    var input_area = '\
+    <input type="submit" class="btn btn-success c_write" value="대댓글 쓰기">\
+    <input type="hidden" name="c_seq" value="'+ c_seq +'">\
+    <input type="hidden" name="b_seq" value="'+ b_seq +'">\
+    <input type="hidden" name="list" value="'+ b_seq +'">\
+    <input type="hidden" name="permission" value="'+ permission +'">\
+    <input type="text" required class="form-control my-3 mg-auto input_box" name="body" placeholder="댓글을 입력해주세요">\
+    ';
+
     if (permission == 0)
     {
-      var test = ' \
+      var user_info = ' \
       <div class="my-1">\
           <input type="text" required class="form-control w-25  mg-auto input_box inline" name="writer" placeholder="아이디를 입력해주세요.">\
           <input type="password" required class="form-control w-25  mg-auto input_box inline" name="password" placeholder="비밀번호를 입력해주세요.">\
-      </div>\
-      <input type="submit" class="btn btn-success c_write" value="대댓글 쓰기">\
-      <input type="hidden" name="c_seq" value="'+ c_seq +'">\
-      <input type="hidden" name="b_seq" value="'+ b_seq +'">\
-      <input type="hidden" name="list" value="'+ b_seq +'">\
-      <input type="text" required class="form-control my-3 mg-auto input_box" name="body" placeholder="댓글을 입력해주세요">\
-      ';
-      newForm.append(test);
-      
-      $('.comment_' + c_seq).after(newForm);
+      </div>';
     }
-
     else 
     {
       var writer = $('#comment_writer').val();
-      var test = ' \
-      <div class="my-1">\
+      var user_info = ' \
+      <div class="my-1" style="height:58px;">\
         <img src="/public/asset/person.png" width="25px" height="25px">\
         <b>'+ writer + '</b>\
         <input type="hidden" name="writer" value="'+ writer +'">\
-      </div>\
-      <input type="submit" class="btn btn-success c_write" style="margin-top: -1.8rem;" value="대댓글 쓰기">\
-      <input type="hidden" name="c_seq" value="'+ c_seq +'">\
-      <input type="hidden" name="b_seq" value="'+ b_seq +'">\
-      <input type="hidden" name="list" value="'+ b_seq +'">\
-      <input type="hidden" name="permission" value="'+ permission +'">\
-      <input type="text" required class="form-control my-3 mg-auto input_box" name="body" placeholder="댓글을 입력해주세요">\
-      ';
-      newForm.append(test);
-      
-      $('.comment_' + c_seq).after(newForm);
+      </div>';
     }
-
-
+    newForm.append(user_info);
+    newForm.append(input_area);
+    $('.comment_' + c_seq).after(newForm);
   }
   
 }

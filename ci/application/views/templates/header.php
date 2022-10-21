@@ -15,7 +15,7 @@
 <body style="background-color: #F2F2F2;">
   <header class="header text-center">
   <h1><span class="material-symbols-outlined">lock</span> UCERT </h1>
-  <a href="/board"><button class="float-start btn btn-warning"> 메인으로 </button></a></h3>       
+  <a href="/board"><button class="float-start btn btn-warning"> 게시판 메인으로 </button></a></h3>       
 <? if (isset($_SESSION['ID'])) { ?>
   <h3> <?=$_SESSION["ID"]?>님 환영합니다.</h3>
   <button class="float-end btn btn-warning" onclick="logout()"> 로그아웃 </button>

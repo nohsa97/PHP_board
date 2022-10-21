@@ -1,4 +1,5 @@
 <?
+
   $list = $_GET['list'];
 ?>
 
@@ -65,7 +66,7 @@
   <div class="container content_box" style="margin-top:-3px;">
   <? } ?>
 
-    <p id="c_modify_box_<?=$comment['c_seq']?>" style="border-bottom : 3px solid red;">
+    <p id="c_writer_<?=$comment['c_seq']?>" style="border-bottom : 3px solid red;">
 
       <? if ($comment['permission']) { ?>
       <img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=http%3A%2F%2Fcfile24.uf.tistory.com%2Fimage%2F2667F24F572004EE122B46" width="25px" height="25px">
@@ -78,8 +79,8 @@
       <? if ($comment['baby'] == 0 || $comment['c_depth'] == 0) {?>
       <button class="btn btn-outline-success btn-sm" onclick="reply_btn(<?=$comment['c_seq']?>, <?=$content['b_seq']?>, <?=(isset($_SESSION['ID']) ? 1 : 0 )?>)">댓글달기</button>
       <? } ?>
-      <? if ($comment['permission'] == 0 || ((isset($_SESSION['ID'])) && ($_SESSION['ID'] == $comment['writer']))) {?> 
 
+      <? if ($comment['permission'] == 0 || ((isset($_SESSION['ID'])) && ($_SESSION['ID'] == $comment['writer']))) {?> 
       <button class="btn btn-outline-primary btn-sm c_modify">수정하기</button>
       <button class="btn btn-outline-danger remove btn-sm c_remove">삭제하기</button>
       <?  } ?>
@@ -94,9 +95,9 @@
   <div class="text-center my-5"> 
     <? 
       if (isset($pre))
-        $pre_url = "/board/get_content?b_seq=".$pre['b_seq']."&list=$list"; 
+        $pre_url = "/board/get_content_view?b_seq=".$pre['b_seq']."&list=$list"; 
       if (isset($next))
-        $next_url = "/board/get_content?b_seq=".$next['b_seq']."&list=$list";
+        $next_url = "/board/get_content_view?b_seq=".$next['b_seq']."&list=$list";
     ?>
     <!-- 4가지 경우의 수 이전이 없거나 이후가 없거나 다있거나 다없거나 -->
     <? if (!isset($next) && isset($pre)) {?>    
@@ -114,32 +115,18 @@
   <div class="text-center my-5">
     <?
       if (isset($pre))
-        $pre_url = "/board/get_content?b_seq=".$pre['b_seq']."&list=$list&search_by=".$GLOBALS['search_by']."&search_input=".$GLOBALS['search_input']."";
+        $pre_url = "/board/get_content_view?b_seq=".$pre['b_seq']."&list=$list&search_by=".$GLOBALS['search_by']."&search_input=".$GLOBALS['search_input']."";
       if (isset($next))
-        $next_url = "/board/get_content?b_seq=".$next['b_seq']."&list=$list&search_by=".$GLOBALS['search_by']."&search_input=".$GLOBALS['search_input']."";
+        $next_url = "/board/get_content_view?b_seq=".$next['b_seq']."&list=$list&search_by=".$GLOBALS['search_by']."&search_input=".$GLOBALS['search_input']."";
     ?>
 
     <? if (!isset($next) && isset($pre)) {?>
     <a href="<?=$pre_url?>">이전 게시글 : <?=$pre['subject']?></a>
     <? } else if (!isset($pre) && isset($next)) {?>
     <a href="<?=$next_url?>">다음 게시글 : <?=$next['subject']?></a>
-    <? } else {?>
+    <? } else if ((isset($pre) && isset($next))) {?>
     <a href="<?=$next_url?>">다음 게시글 : <?=$next['subject']?></a><br>
     <a href="<?=$pre_url?>">이전 게시글 : <?=$pre['subject']?></a>
     <? } ?>
   </div>
 <? } ?>
-
-
-<script>
-  function go_list(list)
-  {
-    location.href = "/board/"+list;
-  }
-
-
-  function go_list_search(list, search_by, search_input)
-  {
-    location.href = "/board/" + list + "?search_by=" + search_by + "&search_input=" + search_input;
-  }
-</script>

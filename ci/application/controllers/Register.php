@@ -34,7 +34,7 @@ class Register extends CI_Controller
      'ID' => $input_ID
     );
 
-    $row = $this->User_model->check($inputArr);
+    $row = $this->User_model->get_user($inputArr);
 
     if (isset($row))
     {
@@ -62,7 +62,7 @@ class Register extends CI_Controller
       'Email' => $input_email
     );
 
-    $row = $this->User_model->check($inputArr);
+    $row = $this->User_model->get_user($inputArr);
 
     if (isset($row))
     {

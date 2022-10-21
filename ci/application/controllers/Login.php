@@ -65,7 +65,7 @@ if (!defined('BASEPATH')) exit ('NO direct script access allowed');
         'Password' => $input_pass.(string) $user_seq
         );
 
-        $row = $this->User_model->check($inputArr);
+        $row = $this->User_model->get_user($inputArr);
 
         if ($row) // 값이 존재한다면
         {
@@ -157,7 +157,7 @@ if (!defined('BASEPATH')) exit ('NO direct script access allowed');
         'Password' => $before_PW.(string) $user_seq
       );
 
-      if ($this->User_model->check($input_arr) != NULL)
+      if ($this->User_model->get_user($input_arr) != NULL)
       {
         $new_PW = $this->input->post('after_PW');
         $new_PW = hash("sha256", $new_PW);

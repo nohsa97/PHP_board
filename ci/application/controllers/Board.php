@@ -104,7 +104,7 @@
       $this->load->view("/templates/board/list", $data);
     }
 
-    public function get_content()
+    public function get_content_view()
     {
       $b_seq = $this->input->get('b_seq');
       $this->board_model->visited_update($b_seq);
@@ -115,10 +115,10 @@
       $result_c = $this->comment_model->get_comment_list($b_seq);
       
 
-      if (isset($GLOBALS['seach_input'])) //검색 결과가 있을 경우.
+      if (isset($GLOBALS['search_input'])) //검색 결과가 있을 경우.
       {
-        $search_by    = $GLOBALS['seach_by'];
-        $search_input = $GLOBALS['seach_input'];
+        $search_by    = $GLOBALS['search_by'];
+        $search_input = $GLOBALS['search_input'];
 
         $input_array     = array(
           'search_by'    => $search_by,
@@ -136,7 +136,7 @@
       'content'  => $result_b,
       'comments' => $result_c,
       'bottom'   => $bottom_navigate,
-      'count'    => $comment_count
+      'count'    => $comment_count,
       );
 
       $this->load->view('/templates/board/content', $content);

@@ -33,3 +33,14 @@ function register_page()
 {
   location.href = '/register';
 }
+
+function go_list(list)
+{
+  location.href = "/board/"+list;
+}
+
+
+function go_list_search(list, search_by, search_input)
+{
+  location.href = "/board/" + list + "?search_by=" + search_by + "&search_input=" + search_input;
+}

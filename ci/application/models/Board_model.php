@@ -22,6 +22,12 @@ class Board_model extends CI_Model
     return $this->db->count_all('board');
   }
 
+  public function get_content_search($limit, $start)
+  {
+    return $this->db->like($GLOBALS['search_by'], $GLOBALS['search_input'])->order_by('b_seq', 'DESC')->get('board', $limit, $start)->result_array();
+  }
+
+
   public function get_count_search($search_by, $search_input)
   {
     $this->db->from('board');
@@ -36,27 +42,11 @@ class Board_model extends CI_Model
   }
 
 
-
-
   public function get_content_count_comment($b_seq, $count)
   {
     $this->db->update('board', array('comment_count' => $count),  array('b_seq' => $b_seq));
     return $this->db->get_where('board', array('b_seq' => $b_seq))->row_array();
   }
-
-
-
-
-  // public function get_content_search($search_index, $search_for, $limit, $start)
-  // {
-  //   return $this->db->like($search_index, $search_for)->order_by('b_seq', 'DESC')->get('board', $limit, $start)->result_array();
-  // }
-  
-  public function get_content_search($limit, $start)
-  {
-    return $this->db->like($GLOBALS['search_by'], $GLOBALS['search_input'])->order_by('b_seq', 'DESC')->get('board', $limit, $start)->result_array();
-  }
-
 
   public function visited_update($b_seq)
   {
@@ -99,10 +89,10 @@ class Board_model extends CI_Model
 
   public function pre_next_content($b_seq)
   {
-    $pre = $this->db->query("SELECT b_seq, subject FROM board WHERE b_seq < $b_seq ORDER BY b_seq DESC LIMIT 1;")->row_array();
+    $pre  = $this->db->query("SELECT b_seq, subject FROM board WHERE b_seq < $b_seq ORDER BY b_seq DESC LIMIT 1;")->row_array();
     $next = $this->db->query("SELECT b_seq, subject FROM board WHERE b_seq > $b_seq ORDER BY b_seq ASC LIMIT 1;")->row_array();
     $result = array(
-      'pre' => $pre,
+      'pre'  => $pre,
       'next' => $next
     );
     return $result;
@@ -110,12 +100,12 @@ class Board_model extends CI_Model
 
   public function pre_next_content_search($b_seq, $input_array)
   {
-    $search_by = $input_array['search_by'];
+    $search_by    = $input_array['search_by'];
     $search_input = $input_array['search_input'];
-    $pre = $this->db->query("SELECT b_seq, subject FROM board WHERE $search_by LIKE '%$search_input%' AND b_seq < $b_seq ORDER BY b_seq DESC LIMIT 1;")->row_array();
+    $pre  = $this->db->query("SELECT b_seq, subject FROM board WHERE $search_by LIKE '%$search_input%' AND b_seq < $b_seq ORDER BY b_seq DESC LIMIT 1;")->row_array();
     $next = $this->db->query("SELECT b_seq, subject FROM board WHERE $search_by LIKE '%$search_input%' AND b_seq > $b_seq ORDER BY b_seq ASC LIMIT 1;")->row_array();
     $result = array(
-      'pre' => $pre,
+      'pre'  => $pre,
       'next' => $next
     );
     return $result;
