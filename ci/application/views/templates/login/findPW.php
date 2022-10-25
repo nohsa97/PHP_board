@@ -6,7 +6,7 @@
 
 <div class="container text-center">
 
-  <form action="/login/find" id="find_form" method="post" class="sign-in">
+  <form action="/login/find_ID" id="find_form" method="post" class="sign-in">
     <div class="form-floating" style="margin-top: 10px;">
       <input type="text"  class="form-control"  name="input_name" required placeholder="이름">
       <label for="input_name">NAME</label>

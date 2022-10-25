@@ -16,6 +16,15 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
         location.href = '$VAR';
     </script>";
   }
+  
+  function refresh()
+  {
+    echo "
+    <script>
+    location.replace(location.href);
+    </script>
+    ";
+  }
 
   function history_back()
   {

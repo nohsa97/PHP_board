@@ -7,7 +7,8 @@ class Register extends CI_Controller
   {
     parent::__construct();
     $this->load->helper(array("url", "JS"));
-    $this->load->model('User_model');
+    $this->load->model('user_model');
+    $this->load->library('email');
   }
 
 
@@ -20,7 +21,7 @@ class Register extends CI_Controller
 
   public function check_ID()
   {
-    $pattern = "/^[a-zA-Z0-9]{5,19}+$/"; 
+    $pattern  = "/^[a-zA-Z0-9]{5,19}+$/"; 
     $input_ID = $this->input->post('input_ID');
 
 
@@ -34,7 +35,7 @@ class Register extends CI_Controller
      'ID' => $input_ID
     );
 
-    $row = $this->User_model->get_user($inputArr);
+    $row = $this->user_model->get_user('ID', $inputArr);
 
     if (isset($row))
     {
@@ -49,7 +50,7 @@ class Register extends CI_Controller
 
   public function check_email()
   {
-    $pattern = "/^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/"; 
+    $pattern     = "/^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/"; 
     $input_email = $this->input->post('input_email');
 
     if (!preg_match($pattern, $input_email)) // 유효성 검사
@@ -62,7 +63,7 @@ class Register extends CI_Controller
       'Email' => $input_email
     );
 
-    $row = $this->User_model->get_user($inputArr);
+    $row = $this->user_model->get_user('Email', $inputArr);
 
     if (isset($row))
     {
@@ -82,9 +83,9 @@ class Register extends CI_Controller
     $input_name  = $this->input->post('input_name');
     $input_email = $this->input->post('input_email');
 
-    $pattern = "/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{6,}$/";
-    $id_check = $this->User_model->get_user(array('ID' => $input_ID));
-    $mail_check = $this->User_model->get_user(array('Email' => $input_email));
+    $pattern    = "/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{6,}$/";
+    $id_check   = $this->user_model->get_user('ID' ,array('ID' => $input_ID));
+    $mail_check = $this->user_model->get_user('Email', array('Email' ,'Email' => $input_email));
 
     if (($id_check || $mail_check) || !preg_match($pattern, $input_pass)) //아디와 메일이 존재하거나 혹은 비밀번호가 양식에 맞지 않거나.
     {
@@ -96,14 +97,14 @@ class Register extends CI_Controller
     $input_pass = hash("sha256", $input_pass);
 
     $input_arr = array(
-      'user_seq' => null,
-      'ID' =>  $input_ID,
-      'Password' =>  $input_pass, //형변환하는 이유는 앞에건 문자열이고 뒤에건 숫자라 형변환 해줘야함
-      'Name' =>  $input_name,
-      'Email' =>  $input_email,
-      'Permission' =>  1,
+      'user_seq'   => null,
+      'ID'         => $input_ID,
+      'Password'   => $input_pass, //형변환하는 이유는 앞에건 문자열이고 뒤에건 숫자라 형변환 해줘야함 라는걸 user_model에서 실행함 .
+      'Name'       => $input_name,
+      'Email'      => $input_email,
+      'Permission' => 1,
     );
-    $result = $this->User_model->insert_user($input_arr);
+    $result = $this->user_model->insert_user($input_arr);
 
     if ($result)
     {

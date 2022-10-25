@@ -32,11 +32,11 @@ class Comment extends CI_Controller
     $writer       = $this->input->post('writer');
     $body         = $this->input->post('body');
     $hash_pass    = $this->input->post('password');
-    $permission   = ($this->input->post('permission') ? 1 : 0); //값이 존재한다면 1 아니면 0 
+    $permission   = ($this->input->post('permission') ? 1 : 0); //값이 존재한다면 1 아니면 0  회원 댓글만 퍼미션 변수를 넘김/
 
     if ($permission == 1) // 
     {
-      $hash_pass = $this->user_model->get_user_Seq($writer);
+      $hash_pass = $this->user_model->get_user('user_seq', array('ID' => $writer))['user_seq'];
     }
 
     if ($writer == null || $hash_pass == null || $body == null)
@@ -81,7 +81,7 @@ class Comment extends CI_Controller
 
       $data['parent_seq'] = $parent_comment['parent_seq'];
       $data['sort']       = $sort + 1;
-      $data['c_depth']    =  $parent_comment['c_depth'] + 1;
+      $data['c_depth']    = $parent_comment['c_depth'] + 1;
 
       $this->comment_model->insert_reply($data, $parent_c_seq);
       $pre_page = $_SERVER['HTTP_REFERER'];
@@ -96,9 +96,9 @@ class Comment extends CI_Controller
     $c_seq      = $this->input->post("c_seq");
     $user_id    = $this->input->post("ID");
 
-    if(isset($user_id)) //유저아이디가 존재한다 > 유저의 댓글 
+    if(isset($user_id)) //유저아이디가 존재한다 > 유저의 댓글  비회원 댓글은 아이디를 안넘기고 비밀번호를 넘김.
     {
-      $input_pass = $this->user_model->get_user_Seq($user_id);
+      $input_pass = $this->user_model->get_user('user_seq', array('ID' => $user_id))['user_seq'];
     }
     $input_pass   = hash("sha256", $input_pass);
     $base_comment = $this->comment_model->get_comment($c_seq);
@@ -118,31 +118,29 @@ class Comment extends CI_Controller
   }
   public function update_func()
   {
-    $input_pass = $this->input->post("input_pass");
-    $c_seq = $this->input->post("c_seq");
-    $input_body = $this->input->post("body");
+    $input_pass   = $this->input->post("input_pass");
+    $c_seq        = $this->input->post("c_seq");
+    $input_body   = $this->input->post("body");
     $base_comment = $this->comment_model->get_comment($c_seq);
 
     if ($base_comment['permission'] == 1) // 
     {
-      $input_pass = $this->user_model->get_user_Seq($base_comment['writer']);
+      $input_pass = $this->user_model->get_user('user_seq', array('ID' => $base_comment['writer']))['user_seq'];
     }
 
     $input_pass = hash("sha256", $input_pass);
     if($base_comment['password'] == $input_pass)
     {
       $input_arr = array(
-      'c_seq' => $c_seq,
+      'c_seq'    => $c_seq,
       'password' => $input_pass,
-      'body' => $input_body      
+      'body'     => $input_body      
       );
-      $this->comment_model->update_func($input_arr);
-      echo "댓글을 수정하였습니다.";
+      echo $this->comment_model->update_func($input_arr);
     }
-
     else 
     {
-      echo "비밀번호가 틀립니다.";
+      echo 0;
     }
 
   }

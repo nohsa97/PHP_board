@@ -10,7 +10,7 @@
     public function insert_comment($data)
     {
       $this->db->insert('comment_test', $data);
-      $parent_seq = $this->db->insert_id();
+      $parent_seq  = $this->db->insert_id();
       $update_data = array(
         'parent_seq' => $parent_seq  
         );
@@ -18,7 +18,6 @@
         'c_seq' => $parent_seq
       );
       $this->db->update('comment_test', $update_data, $where);
-
       return 0;
     }
 
@@ -35,7 +34,7 @@
     public function get_comment_list($b_seq) //댓글 출력 
     {
       $this->db->select('b.b_seq, c.b_seq, c.c_seq, c.writer, c.body, c.c_depth, c.baby, c.permission');
-      $this->db->order_by('parent_seq', 'ASC');
+      $this->db->order_by('c.parent_seq', 'ASC');
       $this->db->order_by('sort', 'ASC');
       $this->db->order_by('c_depth', 'ASC');
       $this->db->order_by('c_seq', 'ASC');
@@ -55,7 +54,7 @@
 
     public function get_comment($c_seq)
     {
-      return  $this->db->get_where('comment_test', array('c_seq' => $c_seq))->row_array();
+      return $this->db->get_where('comment_test', array('c_seq' => $c_seq))->row_array();
     }
 
 
@@ -72,10 +71,10 @@
 
     public function remove_reply($c_seq)
     {
-       $data =  $this->db->get_where('comment_test', array('c_seq' => $c_seq))->row_array();
+       $data   =  $this->db->get_where('comment_test', array('c_seq' => $c_seq))->row_array();
        $result = $this->db->query('select MIN(sort) from comment_test where parent_seq = '.$data['parent_seq'].' and sort>='.$data['sort'].' AND baby = 0;');
        $result = $result->row_array()['MIN(sort)'];
-       $sort = $data['sort'] - 1;
+       $sort   = $data['sort'] - 1;
        $this->db->query('delete from comment_Test where parent_seq = '.$data['parent_seq'].' and sort >= '.$data['sort'].' and sort <= '.$result.';'); // 자기 솔트부터 자기 아래 없는 솔트까지 다 삭제
        $this->db->query("UPDATE comment_test SET baby = 0 WHERE parent_seq = ".$data['parent_seq']." AND sort = ".$sort." ; "); // 바로 윗 댓글 댓글쓰기 활성화 
        return 1;
@@ -86,8 +85,7 @@
         $where = array(
         'c_seq' => $input_arr['c_seq']  
         );
-        $this->db->update('comment_test', $input_arr, $where);
-        return 0;
+        return $this->db->update('comment_test', $input_arr, $where);
     }
 
   }

@@ -33,7 +33,7 @@
 
       if (!strpos($method, "_func"))
       {
-        $this->load->view('/templates/footer');         
+        $this->load->view('/templates/footer');     
       }
     }
 
@@ -82,14 +82,13 @@
       else //검색값 없음.
       {
         $max_board = $this->board_model->get_board_count();
-
         $this->setting['total_rows'] = $max_board;
 
         $paging = $this->paging_func($this->setting);
       }
 
       $this->pagination->initialize($paging);
-      $page = ( $this->uri->segment(2) ? $this->uri->segment(2) : 0 );
+      $page = $this->uri->segment(2) ? $this->uri->segment(2) : 0;
       $data["links"] = $this->pagination->create_links();
 
       if (isset($GLOBALS['search_input']))
@@ -111,19 +110,23 @@
 
       $comment_count = $this->comment_model->get_comment_count($b_seq);
 
-      $result_b = $this->board_model->get_content_count_comment($b_seq, $comment_count);
+      $result_b = $this->board_model->load_content($b_seq, $comment_count);
       $result_c = $this->comment_model->get_comment_list($b_seq);
-      
+      $writer = null;
+      if ($result_b['permission'] == 1)
+      {
+        $writer = $result_b['writer'];
+      }
 
       if (isset($GLOBALS['search_input'])) //검색 결과가 있을 경우.
       {
         $search_by    = $GLOBALS['search_by'];
         $search_input = $GLOBALS['search_input'];
-
-        $input_array     = array(
+        $input_array  = array(
           'search_by'    => $search_by,
           'search_input' => $search_input
         );
+        
         $bottom_navigate = $this->board_model->pre_next_content_search($b_seq, $input_array);
       }
       
@@ -133,10 +136,11 @@
       }
 
       $content = array(
-      'content'  => $result_b,
-      'comments' => $result_c,
-      'bottom'   => $bottom_navigate,
-      'count'    => $comment_count,
+        'content'  => $result_b,
+        'comments' => $result_c,
+        'bottom'   => $bottom_navigate,
+        'count'    => $comment_count,
+        'writer'   => $writer
       );
 
       $this->load->view('/templates/board/content', $content);
@@ -156,13 +160,15 @@
       { 
         $this->load->view('/templates/board/b_write');   
       }
-
     }
 
+    public function test()
+    {
+      $this->load->view('/templates/board/test');   
+    }
+    
     public function write_action_func()
     {
-      $b_seq = $this->input->post('b_seq'); //게시글 번호가 넘어옴
-      
       $inputPass_hash = $this->input->post('input_pass');
       $inputPass_hash = hash("sha256", $inputPass_hash);
 
@@ -176,8 +182,9 @@
       'permission' => $this->input->post('permission')
       );
 
-      if (isset($b_seq)) // 게시글 번호가 정의된 경우 -> 수정
+      if ($this->input->post('b_seq') != NULL) // 게시글 번호가 정의된 경우 -> 수정
       {
+        $b_seq = $this->input->post('b_seq'); //게시글 번호가 넘어옴
         $row = $this->board_model->get_content($b_seq); //데이터값 가져오기
 
         $data['b_seq']   = $b_seq;
@@ -188,10 +195,10 @@
 
       else 
       {
-      $b_seq = $this->board_model->insert_board($data);
+        $b_seq = $this->board_model->insert_board($data);
       }
 
-      redirect('../board/get_content?b_seq='.$b_seq.'&list=0');
+      redirect('../board/get_content_view?b_seq='.$b_seq.'&list=0');
     }
 
 
@@ -238,7 +245,6 @@
         echo "비밀번호가 다릅니다.";
       }
     }
-
   }
 
 ?>

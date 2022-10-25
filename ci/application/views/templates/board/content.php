@@ -1,13 +1,23 @@
 <?
-
   $list = $_GET['list'];
+  function img($user)
+  {
+    echo '<img src="/public/asset/user/'.$user.'.jpg"  onerror="this.onerror=null; this.src="/public/asset/user/person.png" " width="25px" height="25px">';  
+  }  
 ?>
 
 <div class="container content_box" id="board" data-permission="<?=$content['permission']?>" data-b_seq="<?=$content['b_seq']?>">
   <h1 style="border-bottom: 3px solid blue;"> <?=$content['subject']?> </h1>
 
   <p class="content_top2">
-    <span class="mr-30">작성자 : <?=$content['writer']?></span>
+    <span class="mr-30">
+      작성자 : 
+      <?  //코드가 불편하다. 수정.
+        if ($content['permission'] == 1) 
+          img($content['writer']);
+        echo $content['writer']
+      ?>
+    </span>
     <span class="mr-30">날짜 :   <?=$content['date']?></span>
     <span class="mr-30">조회수 : <?=$content['visited']?></span>
 
@@ -19,7 +29,6 @@
   </p>
 
   <pre class="content_body"><?=$content['body']?></pre>
-
   <? if (isset($GLOBALS['search_input'])) {?>
   <button class="btn btn-primary" onclick="go_list_search(<?=$list?>, '<?=$GLOBALS['search_by']?>', '<?=$GLOBALS['search_input']?>')">목록으로</button>
   <? } else {?>
@@ -44,7 +53,7 @@
       <input type="password" required class="form-control w-25  mg-auto input_box inline" name="password" placeholder="비밀번호를 입력해주세요.">
     </div>
     <?  } else {?>
-      <p> <img src="/public/asset/person.png" width="25px" height="25px"> <b> <?=$_SESSION['ID']?> </b> </p>
+      <p> <?=img($_SESSION['ID'])?> <b> <?=$_SESSION['ID']?> </b> </p>
       <input type="hidden" id="comment_writer" name="writer" value="<?=$_SESSION['ID']?>">
       <input type="hidden" name="permission" value="1">
     <?  }?>
@@ -69,7 +78,7 @@
     <p id="c_writer_<?=$comment['c_seq']?>" style="border-bottom : 3px solid red;">
 
       <? if ($comment['permission']) { ?>
-      <img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=http%3A%2F%2Fcfile24.uf.tistory.com%2Fimage%2F2667F24F572004EE122B46" width="25px" height="25px">
+      <?=img($comment['writer'])?>
       <? } ?>
       <b id="comment_writer_<?=$comment['c_seq']?>"><?=$comment["writer"]?></b>
     </p>
@@ -91,35 +100,23 @@
 
 <? $pre = $bottom['pre']; $next = $bottom['next']; //네비게이터를 위한 변수 ?>
 <!-- 검색결과 없을때 아래 네비게이터 -->
-<? if (!isset($_GET['search_input'])) {?>
-  <div class="text-center my-5"> 
-    <? 
+<div class="text-center my-5"> 
+  <? 
+    if (!isset($_GET['search_input'])) 
+    {
       if (isset($pre))
-        $pre_url = "/board/get_content_view?b_seq=".$pre['b_seq']."&list=$list"; 
+          $pre_url = "/board/get_content_view?b_seq=".$pre['b_seq']."&list=$list"; 
       if (isset($next))
         $next_url = "/board/get_content_view?b_seq=".$next['b_seq']."&list=$list";
-    ?>
-    <!-- 4가지 경우의 수 이전이 없거나 이후가 없거나 다있거나 다없거나 -->
-    <? if (!isset($next) && isset($pre)) {?>    
-    <a href="<?=$pre_url?>">이전 게시글 : <?=$pre['subject']?></a>
-    <? } else if (!isset($pre) && isset($next)) {?>
-    <a href="<?=$next_url?>">다음 게시글 : <?=$next['subject']?></a>
-    <? } else if ((isset($pre) && isset($next))) {?>
-    <a href="<?=$next_url?>">다음 게시글 : <?=$next['subject']?></a><br>
-    <a href="<?=$pre_url?>">이전 게시글 : <?=$pre['subject']?></a>
-    <? } else {?>
-    <? } ?>
-  </div>
-  <!-- 검색 결과기 있을때 네비게이터 -->
-<? } else { ?>
-  <div class="text-center my-5">
-    <?
+    }
+    else
+    {
       if (isset($pre))
-        $pre_url = "/board/get_content_view?b_seq=".$pre['b_seq']."&list=$list&search_by=".$GLOBALS['search_by']."&search_input=".$GLOBALS['search_input']."";
+      $pre_url = "/board/get_content_view?b_seq=".$pre['b_seq']."&list=$list&search_by=".$GLOBALS['search_by']."&search_input=".$GLOBALS['search_input']."";
       if (isset($next))
-        $next_url = "/board/get_content_view?b_seq=".$next['b_seq']."&list=$list&search_by=".$GLOBALS['search_by']."&search_input=".$GLOBALS['search_input']."";
-    ?>
-
+      $next_url = "/board/get_content_view?b_seq=".$next['b_seq']."&list=$list&search_by=".$GLOBALS['search_by']."&search_input=".$GLOBALS['search_input']."";
+    }
+  ?>
     <? if (!isset($next) && isset($pre)) {?>
     <a href="<?=$pre_url?>">이전 게시글 : <?=$pre['subject']?></a>
     <? } else if (!isset($pre) && isset($next)) {?>
@@ -128,5 +125,4 @@
     <a href="<?=$next_url?>">다음 게시글 : <?=$next['subject']?></a><br>
     <a href="<?=$pre_url?>">이전 게시글 : <?=$pre['subject']?></a>
     <? } ?>
-  </div>
-<? } ?>
+</div>

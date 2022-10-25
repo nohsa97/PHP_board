@@ -4,7 +4,7 @@
 
     <input type="text" required class="form-control my-3 mg-auto input_box" name="subject" id="" value="<?=$subject?>">
     <input type="hidden" name="b_seq" value="<?=$b_seq?>">
-    <!-- 회원 로그인 상태. -->
+    <!-- 회원 로그인 상태. 세션으로 안한 이유는 게시글 퍼미션 따라서 해야하기 때문.  -->
     <? if ($permission == 1) {?> 
 
     <div class="my-1">

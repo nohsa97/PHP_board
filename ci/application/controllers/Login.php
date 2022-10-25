@@ -8,7 +8,7 @@ if (!defined('BASEPATH')) exit ('NO direct script access allowed');
     {
       parent::__construct();
       $this->load->helper(array("url", "JS"));
-      $this->load->model('User_model');
+      $this->load->model('user_model');
     }
 
     public function _remap($method)
@@ -53,21 +53,21 @@ if (!defined('BASEPATH')) exit ('NO direct script access allowed');
 
     public function login_func()
     {
-      $input_ID = $this->input->post('inputID');
+      $input_ID   = $this->input->post('inputID');
       $input_pass = $this->input->post('inputPass');
       $input_pass = hash("sha256", $input_pass);
-      $user_seq = $this->User_model->get_user_seq($input_ID);
+      $user_seq   = $this->user_model->get_user('user_seq', array('ID' => $input_ID));
 
       if (isset($user_seq)) 
       {
         $inputArr = array(
-        'ID' => $input_ID,
-        'Password' => $input_pass.(string) $user_seq
+        'ID'       => $input_ID,
+        'Password' => $input_pass.(string) $user_seq['user_seq']
         );
 
-        $row = $this->User_model->get_user($inputArr);
+        $row = $this->user_model->get_user(array('ID', 'Password'), $inputArr);
 
-        if ($row) // 값이 존재한다면
+        if (isset($row)) // 값이 존재한다면
         {
           $_SESSION['ID'] = $input_ID;
           header('Location: /board');
@@ -94,20 +94,20 @@ if (!defined('BASEPATH')) exit ('NO direct script access allowed');
       location_href("../login");
     }
 
-    public function find()
+    public function find_ID()
     {
-      if ($this->input->post('input_ID') == NULL)
+      if ($this->input->post('input_ID') == NULL) //아이디 입력란이 공백 ==> 아이디 찾기
       {
-        $input_name = $this->input->post('input_name');
+        $input_name  = $this->input->post('input_name');
         $input_email = $this->input->post('input_email');
         $input_arr = array(
-          'Name' => $input_name,
+          'Name'  => $input_name,
           'Email' => $input_email
         );
-        $ID = $this->User_model->findPW($input_arr);
+        $ID = $this->user_model->findPW($input_arr);
 
         if (isset($ID))
-        {
+        {     
           alert("회원님의 아이디는 ".$ID." 입니다");
           location_href("../login");
         }
@@ -118,17 +118,17 @@ if (!defined('BASEPATH')) exit ('NO direct script access allowed');
         }
       }
 
-      else
+      else // 차있을 경우 =-> 비밀번호 찾기.
       {
-        $input_ID = $this->input->post('input_ID');
-        $input_name = $this->input->post('input_name');
+        $input_ID    = $this->input->post('input_ID');
+        $input_name  = $this->input->post('input_name');
         $input_email = $this->input->post('input_email');
         $input_arr = array(
-          'ID' => $input_ID,
-          'Name' => $input_name,
+          'ID'    => $input_ID,
+          'Name'  => $input_name,
           'Email' => $input_email
         );
-        $result = $this->User_model->findPW($input_arr);
+        $result = $this->user_model->findPW($input_arr);
 
         if (isset($result[0]))
         {
@@ -146,36 +146,37 @@ if (!defined('BASEPATH')) exit ('NO direct script access allowed');
 
     public function newPW_func()
     {
-      $before_PW = $this->input->post('before_PW');
       $ID = $this->input->post('ID');
-      $before_PW = hash("sha256", $before_PW);
+      $new_PW = $this->input->post('input_pass');
 
-      $user_seq = $this->User_model->get_user_seq($ID);//user_seq
+      if ($new_PW == NULL)
+      {
+        alert('비밀번호를 입력해주세요.');
+        history_back();
+        exit;
+      }
+
+      $user_seq = $this->user_model->get_user('user_seq', array('ID' => $ID))['user_seq'];
+      $pattern = "/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{6,}$/";
+  
+      if (!preg_match($pattern, $new_PW)) //비밀번호가 양식에 맞지 않다.
+      {
+        alert("비밀번호 양식에 맞춰주세요.");
+        history_back();
+        exit;
+      }
+
+      $new_PW = hash("sha256", $new_PW);
 
       $input_arr = array(
-        'ID' => $ID,
-        'Password' => $before_PW.(string) $user_seq
+        'ID'       => $ID,
+        'Password' => $new_PW.(string) $user_seq
       );
 
-      if ($this->User_model->get_user($input_arr) != NULL)
-      {
-        $new_PW = $this->input->post('after_PW');
-        $new_PW = hash("sha256", $new_PW);
+      $this->user_model->update_user($input_arr);
+      alert("변경 완료");
+      location_href("/");
 
-        $input_arr = array(
-          'ID' => $ID,
-          'Password' => $new_PW.(string) $user_seq
-        );
-
-        $this->User_model->update_user($input_arr);
-        alert("변경 완료");
-        location_href("/");
-      }
-      else 
-      {
-        alert("비밀번호를 다시 확인해주세요.");
-        history_back();
-      }
 
     }
 

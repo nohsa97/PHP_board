@@ -142,10 +142,11 @@ a {
 
 
 .material-symbols-outlined {
-    font-size: 45px !important;
+    font-size: 20px !important;
     font-variation-settings:
     'FILL' 1,
-    'wght' 700,
+    'wght' 300,
     'GRAD' 200,
     'opsz' 20;
+    transform: rotate(180deg);
 }

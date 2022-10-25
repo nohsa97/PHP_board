@@ -192,7 +192,7 @@ $(function()  //삭제 버튼 추가
 {
   $('.c_remove').on("click", function()
   {
-    var c_seq = $(this).parent().data('c_seq');
+    const c_seq = $(this).parent().data('c_seq');
     var permission = $('.comment_' + c_seq).data('permission');
 
     if ($('#c_remove_input_' + c_seq).length > 0)
@@ -204,7 +204,7 @@ $(function()  //삭제 버튼 추가
     {
       if (permission == 0)
       {
-        var add = '<span id="c_remove_input_'+ c_seq + '">\
+        const add = '<span id="c_remove_input_'+ c_seq + '">\
                     <input type="password"  id="c_remove_pass_' + c_seq + '" class="form-control w-75 inline">\
                     <input type="button" class="btn btn-danger comment_change c_set" data-c_seq="'+c_seq+'" value="삭제">\
                   </span>';
@@ -212,7 +212,7 @@ $(function()  //삭제 버튼 추가
       }   
       else
       {
-        var id = $('#comment_writer_' + c_seq).text();
+        const id = $('#comment_writer_' + c_seq).text();
         if (confirm("삭제하시겠습니까?"))
         {
           $.ajax({
@@ -249,7 +249,7 @@ $(function()  //삭제 버튼 추가
 
 $(document).on("click", ".c_set", function() //상황에 맞는 버튼 클릭
 {
-  var c_seq = $(this).data('c_seq');
+  const c_seq = $(this).data('c_seq');
   if ($(this).val() == "수정")
   {
     if ( confirm("수정하시겠습니까?") )
@@ -264,8 +264,21 @@ $(document).on("click", ".c_set", function() //상황에 맞는 버튼 클릭
         type : "POST",
       }).done(function (data) 
       {
-        alert(data);
-        history.go(0);
+        if (data == 1)
+        {
+          alert("수정되었습니다.");
+          history.go(0);
+        }
+        
+        else if (data == 0)
+        {
+          alert("비밀번호가 다릅니다.");
+          history.go(0);
+        }
+        else
+        {
+          alert(data);
+        }
       });
     }
   }
@@ -343,7 +356,7 @@ function reply_btn(c_seq, b_seq, permission)
       var writer = $('#comment_writer').val();
       var user_info = ' \
       <div class="my-1" style="height:58px;">\
-        <img src="/public/asset/person.png" width="25px" height="25px">\
+      <img src="/public/asset/user/' + writer + '.jpg"  onerror="this.onerror=null; this.src="/public/asset/user/person.png" " width="25px" height="25px">\
         <b>'+ writer + '</b>\
         <input type="hidden" name="writer" value="'+ writer +'">\
       </div>';

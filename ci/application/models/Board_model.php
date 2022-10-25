@@ -42,7 +42,7 @@ class Board_model extends CI_Model
   }
 
 
-  public function get_content_count_comment($b_seq, $count)
+  public function load_content($b_seq, $count)
   {
     $this->db->update('board', array('comment_count' => $count),  array('b_seq' => $b_seq));
     return $this->db->get_where('board', array('b_seq' => $b_seq))->row_array();
@@ -67,9 +67,9 @@ class Board_model extends CI_Model
   public function insert_board($array)
   {
     $this->db->insert('board', $array);
-    return $this->db->insert_id();
+    $last_id = $this->db->insert_id();
+    return $last_id;
   }
-
 
   public function remove_board($b_seq)
   {
@@ -102,8 +102,10 @@ class Board_model extends CI_Model
   {
     $search_by    = $input_array['search_by'];
     $search_input = $input_array['search_input'];
+
     $pre  = $this->db->query("SELECT b_seq, subject FROM board WHERE $search_by LIKE '%$search_input%' AND b_seq < $b_seq ORDER BY b_seq DESC LIMIT 1;")->row_array();
     $next = $this->db->query("SELECT b_seq, subject FROM board WHERE $search_by LIKE '%$search_input%' AND b_seq > $b_seq ORDER BY b_seq ASC LIMIT 1;")->row_array();
+    
     $result = array(
       'pre'  => $pre,
       'next' => $next

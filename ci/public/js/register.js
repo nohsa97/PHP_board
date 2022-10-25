@@ -21,7 +21,6 @@ function check_ID()
         if (data == "DB") // 3의 경우 db에 해당 아이디 존재.
         {
           alert("이미 존재하는 ID입니다.");
-          $('input[name=input_ID]').val("");
           $('#email_check').attr('disabled', true);
           $('input[name=input_ID]').focus();
           $('input[name=input_pass]').val('');
@@ -40,6 +39,10 @@ function check_ID()
           $('#email_check').attr('disabled', true);
           $('input[name=input_ID]').focus();
         }
+        else 
+        {
+          alert(data);
+        }
       }
     );
   }
@@ -48,8 +51,8 @@ function check_ID()
 
 function check_Email_js()
 {
-  var base_url = "register/check_email";
-  var input_val = $('input[name=input_email]').val();
+  let base_url = "register/check_email";
+  const input_val = $('input[name=input_email]').val();
 
   if (input_val == "")
   {
@@ -95,9 +98,8 @@ function check_Email_js()
 
 $(function()
 {
-  $('input[name=input_pass').on('change',function(){
-    // $('.password_check').text("asdasd");
-    var check = $('input[name=input_pass').val();
+  $('input[name=input_pass]').on('change',function(){
+    var check = $('input[name=input_pass]').val();
     var test = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{6,}$/g;
     if (test.test(check))
     {
@@ -113,3 +115,26 @@ $(function()
     }
   })
 });
+
+$(function()
+{
+  $('input[name=input_pass_check').on('change',function(){
+    var base = $('input[name=input_pass]').val();
+    var check = $('input[name=input_pass_check').val();
+    if (base == check)
+    {
+      $('.password_same').text("동일하게 입력하셨습니다.");
+      $('.password_same').attr("style","color : blue");
+      $('#submit').attr('disabled', false);
+    }
+    else
+    {
+      $('.password_same').text("새 비밀번호와 동일하게 입력해주세요.");
+      $('.password_same').attr("style","color : red");
+      $('#submit').attr('disabled', true);
+    }
+  })
+});
+
+
+

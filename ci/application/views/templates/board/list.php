@@ -2,11 +2,11 @@
 
 <table class="table table-hover table-bordered list">
   <tr style="background-color:aqua; --bs-table-accent-bg: none !important; ">
-    <th class="w-10" >번호</th>
+    <th class="w-10">번호</th>
     <th class="w-65">제목</th>
     <th class="w-10">작성자</th>
     <th class="w-10">날짜</th>
-    <th class="w-5">조회수</th>
+    <th class="w-5 ">조회수</th>
   </tr>
 
 <? foreach ($lists as $list) :?>
@@ -25,11 +25,12 @@
     </th>
     <th>
       <? if ($list['permission'] == 1) : ?>
-      <img src="/public/asset/person.png" width="25px" height="25px">
+        <!-- onerror 이미지없을시 이미지를 null한다음 대체이미지 출력 그냥 src만할경우 무한루프 가능성 존재. -->
+      <img src="/public/asset/user/<?=$list['writer']?>.jpg" onerror="this.onerror=null; this.src='/public/asset/user/person.png'"  alt="이미지" width="25px" height="25px">
       <? endif; ?>
       <?=$list['writer']?>
     </th>
-    <th><?=$list['date']?></th>
+    <th><?=date("y-m-d", strtotime($list['date']))?></th>
     <th><?=$list['visited']?></th>
   <tr>
 <? endforeach; ?>
@@ -60,3 +61,4 @@
 <div class="align-items-end justify-content-end d-flex">
   <a href="/board/write_page/0"><button class="btn btn-primary mr-80">글 작성</button></a>
 </div>
+

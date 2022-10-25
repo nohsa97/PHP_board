@@ -44,3 +44,32 @@ function go_list_search(list, search_by, search_input)
 {
   location.href = "/board/" + list + "?search_by=" + search_by + "&search_input=" + search_input;
 }
+
+function mypage()
+{
+  location.href = "/user";
+}
+
+
+function withdrawal()
+{
+  if (confirm('계정을 삭제하시겠습니까?'))
+  {
+    let user_id = $('#user_id').text();
+    $.ajax({
+      url : "/user/withdrawal_func",
+      data : { 'ID' : user_id },
+      type : 'POST'
+    }).done(
+      function (data)
+      {
+        alert(data);
+        location.href = '/';
+      }
+    );
+  }
+  else
+  {
+    history.go(0);
+  }
+}
