@@ -15,3 +15,8 @@
 2022/10/18 기준
 코드 이그나이터 사용.
 게시판 80프로 
+![Uploading 회원가입.png…]()
+![게시글](https://user-images.githubusercontent.com/81568105/197728518-608c0769-897d-48dd-b68d-fbd021028beb.png)
+![게시판 메인](https://user-images.githubusercontent.com/81568105/197728522-cb4471b3-d15b-43a3-9bfc-de96f80bb961.png)
+![로그인](https://user-images.githubusercontent.com/81568105/197728525-b78b0362-e55f-4e90-ba5a-d9ce7770fc6b.png)
+![비밀번호찾기](https://user-images.githubusercontent.com/81568105/197728530-3246e13b-cd15-4846-af9b-5f19fd5e7273.png)
