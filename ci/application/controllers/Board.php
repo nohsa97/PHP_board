@@ -168,7 +168,7 @@
     }
     
     public function write_action_func()
-    {
+    { 
       $inputPass_hash = $this->input->post('input_pass');
       $inputPass_hash = hash("sha256", $inputPass_hash);
 
@@ -195,6 +195,15 @@
 
       else 
       {
+        if (isset($_FILES['file']['tmp_name']))
+        {
+          $tmp = $_FILES['file']['tmp_name'];
+          $name = $this->input->post('input_ID'). "-" .$_FILES['file']['name'];
+          $upload = "./public/asset/board/$name";
+          move_uploaded_file($tmp, $upload);
+  
+          $data['upload_file'] = $upload;
+        }
         $b_seq = $this->board_model->insert_board($data);
       }
 

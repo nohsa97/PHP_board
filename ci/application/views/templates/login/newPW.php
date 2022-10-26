@@ -19,4 +19,4 @@
 
 </form>
 
-<script src="/public/js/register.js"></script>
+<script src="/public/js/login.js"></script>

@@ -29,7 +29,7 @@ class User extends CI_Controller
   public function index()
   {
     $data = $this->user_model->get_user('ID, Name, Email, user_img', array('ID' => $_SESSION['ID']));
-    $this->load->view('/templates/login/mypage.php', $data);
+    $this->load->view('/templates/login/mypage', $data);
   }
 
   public function upload_userImg()
@@ -40,7 +40,7 @@ class User extends CI_Controller
     move_uploaded_file($tmp, "./public/asset/user/$name");
 
     $name = '/public/asset/user/'.$name;
-    $this->user_model->update_img(array('user_img' => $name, 'ID' => $user));
+    $this->user_model->update_user(array('set' => 'user_img', 'user_img' => $name, 'ID' => $user));
     redirect('/user');
   }
 
@@ -63,9 +63,9 @@ class User extends CI_Controller
     }
   }
 
-  public function test()
+  public function test_func()
   {
-    echo "asd";
+    echo "curl반송";
   }
 
 }

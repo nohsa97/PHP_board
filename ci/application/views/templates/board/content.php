@@ -10,16 +10,10 @@
   <h1 style="border-bottom: 3px solid blue;"> <?=$content['subject']?> </h1>
 
   <p class="content_top2">
-    <span class="mr-30">
-      작성자 : 
-      <?  //코드가 불편하다. 수정.
-        if ($content['permission'] == 1) 
-          img($content['writer']);
-        echo $content['writer']
-      ?>
-    </span>
+    <span class="mr-30">작성자 : <? if ($content['permission'] == 1) img($content['writer']);?> <?=$content['writer']?> </span>
     <span class="mr-30">날짜 :   <?=$content['date']?></span>
     <span class="mr-30">조회수 : <?=$content['visited']?></span>
+
 
     <!--  퍼미션이 0인 게시글이거나 세션 로그인된 아이디와 같은 작성자인 게시글은 수정 삭제 표현  -->
     <? if ($content['permission'] == 0 || (isset($_SESSION['ID'])) && ($_SESSION['ID'] == $content['writer'])) {?> 
@@ -28,13 +22,25 @@
     <? } ?>
   </p>
 
-  <pre class="content_body"><?=$content['body']?></pre>
+  <pre class="content_body">
+    <?=$content['body']?>
+
+    <? if (isset($content['upload_file'])) { ?>
+    <img src=".<?=$content['upload_file']?>">
+    <? } ?>
+  </pre>
   <? if (isset($GLOBALS['search_input'])) {?>
   <button class="btn btn-primary" onclick="go_list_search(<?=$list?>, '<?=$GLOBALS['search_by']?>', '<?=$GLOBALS['search_input']?>')">목록으로</button>
   <? } else {?>
   <button class="btn btn-primary" onclick="go_list(<?=$list?>)">목록으로</button>
   <? } ?>
-  
+
+  <? if (isset($content['upload_file'])) { ?>
+  <? $file_name = substr( $content['upload_file'], 21) ?>
+  <p class="text-end">업로드된 파일 : <a href=".<?=$content['upload_file']?>" download="<?=$file_name?>"><span class="material-symbols-outlined" >file_download</span><?=$file_name?></a></p>
+  <? } ?>
+
+
   <? if ($count != 0) :?>
   <span class="float-end">댓글 수 : (<?=$count?>개)</span>
   <? endif;?>
@@ -44,13 +50,14 @@
 
 <div class="container content_box" style="margin-top:-3px;">
 
-  <form action="/comment/comment_write" method="post">    
+  <!-- <form action="/comment/comment_write" method="post">     -->
+  <form method="post" onsubmit="return checkBox(<?=$content['b_seq']?>);" id="comment_insert">    
     <p> <h3 style="border-bottom: 3px solid blue;">댓글 작성</h3> </p>
 
     <? if (!isset($_SESSION['ID'])) {?>
     <div class="my-1">
-      <input type="text" required class="form-control w-25  mg-auto input_box inline" name="writer" placeholder="아이디를 입력해주세요.">
-      <input type="password" required class="form-control w-25  mg-auto input_box inline" name="password" placeholder="비밀번호를 입력해주세요.">
+      <input type="text" id="logout_writer" class="form-control w-25  mg-auto input_box inline" name="writer" placeholder="아이디를 입력해주세요.">
+      <input type="password"id="logout_password" class="form-control w-25  mg-auto input_box inline" name="password" placeholder="비밀번호를 입력해주세요.">
     </div>
     <?  } else {?>
       <p> <?=img($_SESSION['ID'])?> <b> <?=$_SESSION['ID']?> </b> </p>
@@ -62,7 +69,7 @@
       <input type="hidden" name="b_seq" value="<?=$content['b_seq']?>">
       <input type="hidden" name="list" value="<?=$list?>">
 
-      <input type="text" required class="form-control my-3 mg-auto input_box" name="body" placeholder="댓글을 입력해주세요">
+      <input type="text" id="comment_input" class="form-control my-3 mg-auto input_box" name="body" placeholder="댓글을 입력해주세요">
   </form>
 
 </div>

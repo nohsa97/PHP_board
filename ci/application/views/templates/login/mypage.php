@@ -16,8 +16,3 @@
     <h2 class="text-center">회원탈퇴<br> <button class="btn btn-danger" onclick="withdrawal()">탈퇴</button></h2>
   </div>
 </div>
-
-
-
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-<p class="text-end"><a href="/user/test">test</a></p>

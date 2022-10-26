@@ -70,20 +70,21 @@ if (!defined('BASEPATH')) exit ('NO direct script access allowed');
         if (isset($row)) // 값이 존재한다면
         {
           $_SESSION['ID'] = $input_ID;
-          header('Location: /board');
+          // header('Location: /board');
+          echo "success";
         }
 
         else
         {
-          alert("ID와 PW가 일치하지 않습니다.");
-          history_back();
+
+          echo 'NoDB';
         }
       }
 
       else
       {
-        alert("ID와 PW가 일치하지 않습니다.");
-        history_back();
+
+        echo 'NoDB';
       }
     }
 
@@ -173,13 +174,25 @@ if (!defined('BASEPATH')) exit ('NO direct script access allowed');
         'Password' => $new_PW.(string) $user_seq
       );
 
-      $this->user_model->update_user($input_arr);
+      $this->user_model->update_user(array('set' => 'Password', 'Password' => $new_PW.(string) $user_seq, 'ID' => $ID));
       alert("변경 완료");
       location_href("/");
-
-
     }
 
+    function curl()
+    {
+      $url = "http://ci.test.co.kr/user/test_func";
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_URL, $url);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+      $response = curl_exec($ch);
+      echo $response;
+      
+      curl_close($ch);      
+    }
+
+//http_build_query() url인코딩된 쿼리 문자열을 생성하는 함수
 
 
   }

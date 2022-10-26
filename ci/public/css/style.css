@@ -84,8 +84,9 @@ a {
 
 .content_body
 {
+    font-size: 30px;
     border:5px solid #00BFFF; 
-    padding:25px 30px 25px 30px !important;
+    padding:15px 10px 10px 10px !important;
     text-align: start;
 }
 
@@ -148,5 +149,4 @@ a {
     'wght' 300,
     'GRAD' 200,
     'opsz' 20;
-    transform: rotate(180deg);
 }

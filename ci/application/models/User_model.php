@@ -30,12 +30,8 @@
 
     public function update_user($input_arr)
     {
-      return $this->db->update('user', array('Password' => $input_arr['Password']), array('ID' => $input_arr['ID']));
-    }
-
-    public function update_img($input_arr)
-    {
-      return $this->db->update('user', array('user_img' => $input_arr['user_img']), array('ID' => $input_arr['ID']));
+      $set = $input_arr['set'];
+      return $this->db->update('user', array( $set => $input_arr[$set]), array('ID' => $input_arr['ID']));
     }
 
     public function findPW($input_arr)
@@ -51,14 +47,6 @@
       }
       return $ID;
     }
-
-    public function upload_userImg($data)
-    {
-      $img = $_FILES['Image'];
-      print_r ($_FILES['Image']);
-      move_uploaded_file($img['tmp_name'], "/views/templates/login");
-    }
-
 
     public function withdrawal($ID)
     {

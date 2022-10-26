@@ -254,6 +254,7 @@ $(document).on("click", ".c_set", function() //상황에 맞는 버튼 클릭
   {
     if ( confirm("수정하시겠습니까?") )
     {
+      alert( $("#c_modify_body_" + c_seq).val());
       $.ajax({
         url : "/comment/update_func",
         data : {
@@ -366,4 +367,68 @@ function reply_btn(c_seq, b_seq, permission)
     $('.comment_' + c_seq).after(newForm);
   }
   
+}
+
+// $(function() {
+//   $('#comment_insert').validate({
+//     rules : {
+//       logout_writer : {
+//         required : true,
+//       },
+//       logout_password : {
+//         required : true,
+//       },
+//     },
+//     message : {
+//       logout_writer : {
+//         required : alert("작성자를 입력해주세요."),
+//       },
+//       logout_password : {
+//         required : alert("비밀번호를 입력해주세요."),
+//       }
+//     },
+//     submitHandler : function()
+//     {
+//     }
+//   })
+// });
+
+function checkBox(b_seq)
+{
+  if ($('#logout_writer').val() == "")
+  {
+    alert ("아이디를 입력해주세요.");
+    $('#logout_writer').focus();
+    return false;
+  }
+  else if ($('#logout_password').val() == "")
+  {
+    alert ("비밀번호를 입력해주세요.");
+    $('#logout_password').focus();
+    return false;
+  }
+  else if ($('#comment_input').val() == "")
+  {
+    alert ("내용을 입력해주세요.");
+    $('#comment_input').focus();
+    return false;
+  }
+  else
+  {
+    $.ajax({
+      url : "/comment/comment_write",
+      type : "post",
+      data : {
+        'writer'   : $('#logout_writer').val(),
+        'body'     : $('#comment_input').val(),
+        'password' : $('#logout_password').val(),
+        'b_seq'    : b_seq
+      }
+    }).done(function(data){
+      if (data == 1)
+      {
+        history.go(0);
+      }
+    });
+  }
 }

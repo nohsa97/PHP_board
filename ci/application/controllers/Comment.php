@@ -39,13 +39,6 @@ class Comment extends CI_Controller
       $hash_pass = $this->user_model->get_user('user_seq', array('ID' => $writer))['user_seq'];
     }
 
-    if ($writer == null || $hash_pass == null || $body == null)
-    {
-      alert("빈칸이 존재합니다.");
-      history_back();
-      exit;
-    }
-
     $hash_pass = hash("sha256", $hash_pass);
     $input = array(
       'b_seq'      => $b_seq,
@@ -59,10 +52,7 @@ class Comment extends CI_Controller
     if (!isset($parent_c_seq))  //포스트로 부모 시퀀스가 안넘어왔다 -> 댓글 
     {
       $data = $this->get_data($input);
-      $this->comment_model->insert_comment($data);
-      $pre_page = $_SERVER['HTTP_REFERER'];
-      alert("댓글이 작성되었습니다.");
-      location_href($pre_page);
+      echo $this->comment_model->insert_comment($data);
     }
 
     else
@@ -85,7 +75,6 @@ class Comment extends CI_Controller
 
       $this->comment_model->insert_reply($data, $parent_c_seq);
       $pre_page = $_SERVER['HTTP_REFERER'];
-      alert("대댓글이 작성되었습니다.");
       location_href($pre_page);
     }
   }
