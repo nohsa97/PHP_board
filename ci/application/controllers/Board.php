@@ -111,7 +111,7 @@
       $comment_count = $this->comment_model->get_comment_count($b_seq);
 
       $result_b = $this->board_model->load_content($b_seq, $comment_count);
-      $result_c = $this->comment_model->get_comment_list($b_seq);
+      //result c 를 ajax로. html json으로 
       $writer = null;
       if ($result_b['permission'] == 1)
       {
@@ -129,7 +129,6 @@
         
         $bottom_navigate = $this->board_model->pre_next_content_search($b_seq, $input_array);
       }
-      
       else 
       {
         $bottom_navigate = $this->board_model->pre_next_content($b_seq);
@@ -137,7 +136,6 @@
 
       $content = array(
         'content'  => $result_b,
-        'comments' => $result_c,
         'bottom'   => $bottom_navigate,
         'count'    => $comment_count,
         'writer'   => $writer
@@ -205,12 +203,14 @@
           $data['upload_file'] = $upload;
         }
         $b_seq = $this->board_model->insert_board($data);
+        echo $b_seq;
+        exit;
       }
 
-      redirect('../board/get_content_view?b_seq='.$b_seq.'&list=0');
+      // redirect('../board/get_content_view?b_seq='.$b_seq.'&list=0');
     }
 
-
+    // 게시글 삭제할때 unlink활용해서 사진도 같이 삭제되도록 구현
     public function remove_func()
     {       
       $b_seq = $this->input->post("b_seq");

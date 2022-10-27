@@ -1,16 +1,13 @@
 <?
   $list = $_GET['list'];
-  function img($user)
-  {
-    echo '<img src="/public/asset/user/'.$user.'.jpg"  onerror="this.onerror=null; this.src="/public/asset/user/person.png" " width="25px" height="25px">';  
-  }  
+
 ?>
 
 <div class="container content_box" id="board" data-permission="<?=$content['permission']?>" data-b_seq="<?=$content['b_seq']?>">
   <h1 style="border-bottom: 3px solid blue;"> <?=$content['subject']?> </h1>
 
   <p class="content_top2">
-    <span class="mr-30">작성자 : <? if ($content['permission'] == 1) img($content['writer']);?> <?=$content['writer']?> </span>
+    <span class="mr-30">작성자 : <?=$content['writer']?> </span>
     <span class="mr-30">날짜 :   <?=$content['date']?></span>
     <span class="mr-30">조회수 : <?=$content['visited']?></span>
 
@@ -25,9 +22,7 @@
   <pre class="content_body">
     <?=$content['body']?>
 
-    <? if (isset($content['upload_file'])) { ?>
-    <img src=".<?=$content['upload_file']?>">
-    <? } ?>
+
   </pre>
   <? if (isset($GLOBALS['search_input'])) {?>
   <button class="btn btn-primary" onclick="go_list_search(<?=$list?>, '<?=$GLOBALS['search_by']?>', '<?=$GLOBALS['search_input']?>')">목록으로</button>
@@ -35,10 +30,7 @@
   <button class="btn btn-primary" onclick="go_list(<?=$list?>)">목록으로</button>
   <? } ?>
 
-  <? if (isset($content['upload_file'])) { ?>
-  <? $file_name = substr( $content['upload_file'], 21) ?>
-  <p class="text-end">업로드된 파일 : <a href=".<?=$content['upload_file']?>" download="<?=$file_name?>"><span class="material-symbols-outlined" >file_download</span><?=$file_name?></a></p>
-  <? } ?>
+
 
 
   <? if ($count != 0) :?>
@@ -48,7 +40,7 @@
 
 <!-- 댓글 작성-->
 
-<div class="container content_box" style="margin-top:-3px;">
+<div class="container content_box" id="comment_list"style="margin-top:-3px;">
 
   <!-- <form action="/comment/comment_write" method="post">     -->
   <form method="post" onsubmit="return checkBox(<?=$content['b_seq']?>);" id="comment_insert">    
@@ -56,11 +48,11 @@
 
     <? if (!isset($_SESSION['ID'])) {?>
     <div class="my-1">
-      <input type="text" id="logout_writer" class="form-control w-25  mg-auto input_box inline" name="writer" placeholder="아이디를 입력해주세요.">
-      <input type="password"id="logout_password" class="form-control w-25  mg-auto input_box inline" name="password" placeholder="비밀번호를 입력해주세요.">
+      <input type="text"  class="form-control w-25  mg-auto input_box inline" name="writer" placeholder="아이디를 입력해주세요.">
+      <input type="password" class="form-control w-25  mg-auto input_box inline" name="password" placeholder="비밀번호를 입력해주세요.">
+      <input type="hidden" name="permission" value="0">
     </div>
     <?  } else {?>
-      <p> <?=img($_SESSION['ID'])?> <b> <?=$_SESSION['ID']?> </b> </p>
       <input type="hidden" id="comment_writer" name="writer" value="<?=$_SESSION['ID']?>">
       <input type="hidden" name="permission" value="1">
     <?  }?>
@@ -75,35 +67,7 @@
 </div>
 
 <!-- 댓글 목록 -->
-<? foreach ($comments as $comment) : ?>
-  <? if ($comment['c_depth'] != 0) { ?>
-  <div class="container content_box reply" style="margin-top:-3px; left: <?=($comment['c_depth'] - 1) * 20 + 13?>px; width: <?=70 - ($comment['c_depth'] * 2)?>% !important;">
-  <? }  else {?>
-  <div class="container content_box" style="margin-top:-3px;">
-  <? } ?>
 
-    <p id="c_writer_<?=$comment['c_seq']?>" style="border-bottom : 3px solid red;">
-
-      <? if ($comment['permission']) { ?>
-      <?=img($comment['writer'])?>
-      <? } ?>
-      <b id="comment_writer_<?=$comment['c_seq']?>"><?=$comment["writer"]?></b>
-    </p>
-
-    <span id="comment_body_<?=$comment['c_seq']?>"><?=$comment["body"]?></span>
-    <div class="comment content_top2 comment_<?=$comment['c_seq']?>" data-c_seq="<?=$comment['c_seq']?>" data-permission="<?=$comment['permission']?>">
-      <? if ($comment['baby'] == 0 || $comment['c_depth'] == 0) {?>
-      <button class="btn btn-outline-success btn-sm" onclick="reply_btn(<?=$comment['c_seq']?>, <?=$content['b_seq']?>, <?=(isset($_SESSION['ID']) ? 1 : 0 )?>)">댓글달기</button>
-      <? } ?>
-
-      <? if ($comment['permission'] == 0 || ((isset($_SESSION['ID'])) && ($_SESSION['ID'] == $comment['writer']))) {?> 
-      <button class="btn btn-outline-primary btn-sm c_modify">수정하기</button>
-      <button class="btn btn-outline-danger remove btn-sm c_remove">삭제하기</button>
-      <?  } ?>
-    </div>  
-    <!-- 각종 컨펌들은 js에 구현되어있음.  -->
-  </div>
-<? endforeach; ?>
 
 <? $pre = $bottom['pre']; $next = $bottom['next']; //네비게이터를 위한 변수 ?>
 <!-- 검색결과 없을때 아래 네비게이터 -->
@@ -133,3 +97,6 @@
     <a href="<?=$pre_url?>">이전 게시글 : <?=$pre['subject']?></a>
     <? } ?>
 </div>
+
+<script src="/public/js/board.js"></script>
+<script>test()</script>

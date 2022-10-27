@@ -7,9 +7,9 @@
       
     }
 
-    public function get_user($get, $Array) //유저 정보를 가져옴  select로 정해서.
+    public function get_user($Array)
     {
-      return $this->db->select($get)->get_where('user', $Array)->row_array();
+      return $this->db->get_where('user', $Array)->row_array();
     }
 
     public function insert_user($input_arr)

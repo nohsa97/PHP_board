@@ -56,16 +56,11 @@ if (!defined('BASEPATH')) exit ('NO direct script access allowed');
       $input_ID   = $this->input->post('inputID');
       $input_pass = $this->input->post('inputPass');
       $input_pass = hash("sha256", $input_pass);
-      $user_seq   = $this->user_model->get_user('user_seq', array('ID' => $input_ID));
+      $user_seq   = $this->user_model->get_user(array('ID' => $input_ID));
 
       if (isset($user_seq)) 
       {
-        $inputArr = array(
-        'ID'       => $input_ID,
-        'Password' => $input_pass.(string) $user_seq['user_seq']
-        );
-
-        $row = $this->user_model->get_user(array('ID', 'Password'), $inputArr);
+        $row = $this->user_model->get_user(array('ID' => $input_ID, 'Password' => $input_pass.(string) $user_seq['user_seq']));
 
         if (isset($row)) // 값이 존재한다면
         {
@@ -157,7 +152,7 @@ if (!defined('BASEPATH')) exit ('NO direct script access allowed');
         exit;
       }
 
-      $user_seq = $this->user_model->get_user('user_seq', array('ID' => $ID))['user_seq'];
+      $user_seq = $this->user_model->get_user(array('ID' => $ID))['user_seq'];
       $pattern = "/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{6,}$/";
   
       if (!preg_match($pattern, $new_PW)) //비밀번호가 양식에 맞지 않다.

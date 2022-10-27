@@ -9,9 +9,14 @@
     <h2 class="text-center">프로필 이미지: <img class="align-center" src="<?=$user_img?>" onerror="this.onerror=null; this.src='/public/asset/user/person.png'"  alt="이미지" width="80px" height="80px"></h2>
     <!-- enctype  데이터가 인코딩되는 방법을 명시  -->
     <h2 class="text-center"> 프로필 이미지 변경 </h2>
+
+
     <form class="text-center" enctype="multipart/form-data" action="/User/upload_userImg" method="post"> 
       <input type="file" name="image" accept="image/jpeg, image/png">
       <input class="btn btn-primary" type="submit" value="변경">
+      <? if($user_img) { ?>
+      <input class="btn btn-danger" type="button"  value="초기화">
+      <? } ?>
     </form>
     <h2 class="text-center">회원탈퇴<br> <button class="btn btn-danger" onclick="withdrawal()">탈퇴</button></h2>
   </div>

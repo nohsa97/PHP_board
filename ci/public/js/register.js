@@ -76,13 +76,11 @@ function check_Email_js()
           $('#register_submit').attr('disabled', true);
           $('input[name=input_email]').focus();
         }
-
         else if (data == "success")
         {
           alert("가입이 가능합니다.");
           $('#register_submit').attr('disabled', false);
         }
-
         else if (data == "incongruity") //-1의경우 아이디 패턴에 적합하지 않음 영어 대소문자 숫자 제외 5~20자리의 문자
         {
           alert("적합하지 않은 이메일입니다.");
@@ -135,6 +133,3 @@ $(function()
     }
   })
 });
-
-
-

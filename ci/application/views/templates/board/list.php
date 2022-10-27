@@ -26,7 +26,7 @@
     <th>
       <? if ($list['permission'] == 1) : ?>
         <!-- onerror 이미지없을시 이미지를 null한다음 대체이미지 출력 그냥 src만할경우 무한루프 가능성 존재. -->
-      <img src="/public/asset/user/<?=$list['writer']?>.jpg" onerror="this.onerror=null; this.src='/public/asset/user/person.png'"  alt="이미지" width="25px" height="25px">
+      
       <? endif; ?>
       <?=$list['writer']?>
     </th>

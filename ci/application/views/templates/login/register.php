@@ -28,4 +28,4 @@
   </form>
 </div>
 
-<script src="/public/js/login.js"></script>
+<script src="/public/js/register.js"></script>

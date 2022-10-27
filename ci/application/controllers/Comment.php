@@ -25,6 +25,15 @@ class Comment extends CI_Controller
     return $data;
   }
 
+  public function get_comment_list()
+  {
+    $b_seq = $this->input->get('b_seq');
+    $list = $this->comment_model->get_comment_list($b_seq);
+    
+    return $this->output->set_content_type('text/json')->set_output(json_encode($list));
+  }
+
+
   public function comment_write()
   {
     $parent_c_seq = $this->input->post('c_seq');
@@ -32,11 +41,11 @@ class Comment extends CI_Controller
     $writer       = $this->input->post('writer');
     $body         = $this->input->post('body');
     $hash_pass    = $this->input->post('password');
-    $permission   = ($this->input->post('permission') ? 1 : 0); //값이 존재한다면 1 아니면 0  회원 댓글만 퍼미션 변수를 넘김/
+    $permission   = $this->input->post('permission'); //값이 존재한다면 1 아니면 0  회원 댓글만 퍼미션 변수를 넘김/
 
     if ($permission == 1) // 
     {
-      $hash_pass = $this->user_model->get_user('user_seq', array('ID' => $writer))['user_seq'];
+      $hash_pass = $this->user_model->get_user(array('ID' => $writer))['user_seq'];
     }
 
     $hash_pass = hash("sha256", $hash_pass);
@@ -87,7 +96,7 @@ class Comment extends CI_Controller
 
     if(isset($user_id)) //유저아이디가 존재한다 > 유저의 댓글  비회원 댓글은 아이디를 안넘기고 비밀번호를 넘김.
     {
-      $input_pass = $this->user_model->get_user('user_seq', array('ID' => $user_id))['user_seq'];
+      $input_pass = $this->user_model->get_user(array('ID' => $user_id))['user_seq'];
     }
     $input_pass   = hash("sha256", $input_pass);
     $base_comment = $this->comment_model->get_comment($c_seq);
@@ -114,7 +123,7 @@ class Comment extends CI_Controller
 
     if ($base_comment['permission'] == 1) // 
     {
-      $input_pass = $this->user_model->get_user('user_seq', array('ID' => $base_comment['writer']))['user_seq'];
+      $input_pass = $this->user_model->get_user(array('ID' => $base_comment['writer']))['user_seq'];
     }
 
     $input_pass = hash("sha256", $input_pass);

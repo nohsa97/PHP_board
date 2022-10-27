@@ -31,11 +31,8 @@ class Register extends CI_Controller
       exit;
     }
 
-    $inputArr = array(
-     'ID' => $input_ID
-    );
 
-    $row = $this->user_model->get_user('ID', $inputArr);
+    $row = $this->user_model->get_user(array('ID' => $input_ID));
 
     if (isset($row))
     {
@@ -48,6 +45,7 @@ class Register extends CI_Controller
     }
   }
 
+
   public function check_email()
   {
     $pattern     = "/^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/"; 
@@ -59,11 +57,7 @@ class Register extends CI_Controller
       exit;
     }
 
-    $inputArr = array(
-      'Email' => $input_email
-    );
-
-    $row = $this->user_model->get_user('Email', $inputArr);
+    $row = $this->user_model->get_user(array('Email' => $input_email));
 
     if (isset($row))
     {
@@ -84,8 +78,8 @@ class Register extends CI_Controller
     $input_email = $this->input->post('input_email');
 
     $pattern    = "/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{6,}$/";
-    $id_check   = $this->user_model->get_user('ID' ,array('ID' => $input_ID));
-    $mail_check = $this->user_model->get_user('Email', array('Email' ,'Email' => $input_email));
+    $id_check   = $this->user_model->get_user(array('ID' => $input_ID));
+    $mail_check = $this->user_model->get_user(array('Email' ,'Email' => $input_email));
 
     if (($id_check || $mail_check) || !preg_match($pattern, $input_pass)) //아디와 메일이 존재하거나 혹은 비밀번호가 양식에 맞지 않거나.
     {
