@@ -1,4 +1,19 @@
-<?$list = $page;?>
+<? 
+$list = $page;
+?>
+<script>
+function test(user_id)
+{
+  $.ajax({
+    url : "/user/get_user_img_func",
+    type : "post",
+    data : { 'user' : user_id },
+    success : function(data) {
+      $('.profile_' + user_id).attr('src', data);
+    }
+  })
+}
+</script>
 
 <table class="table table-hover table-bordered list">
   <tr style="background-color:aqua; --bs-table-accent-bg: none !important; ">
@@ -25,8 +40,8 @@
     </th>
     <th>
       <? if ($list['permission'] == 1) : ?>
-        <!-- onerror 이미지없을시 이미지를 null한다음 대체이미지 출력 그냥 src만할경우 무한루프 가능성 존재. -->
-      
+      <img src="/public/asset/user/person.png" onerror="this.onerror=null; this.src='/public/asset/user/person.png'" class="profile_<?=$list['writer']?>" data-ts="<?=$list['writer']?>"  alt="" width="25" height="25">
+      <script>test('<?=$list['writer']?>')</script>
       <? endif; ?>
       <?=$list['writer']?>
     </th>

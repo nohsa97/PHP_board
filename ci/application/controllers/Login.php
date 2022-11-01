@@ -65,7 +65,6 @@ if (!defined('BASEPATH')) exit ('NO direct script access allowed');
         if (isset($row)) // 값이 존재한다면
         {
           $_SESSION['ID'] = $input_ID;
-          // header('Location: /board');
           echo "success";
         }
 

@@ -32,6 +32,13 @@ class User extends CI_Controller
     $this->load->view('/templates/login/mypage', $data);
   }
 
+  public function get_user_img_func()
+  {
+    $user = $this->input->post("user");
+    $img = $this->user_model->get_user(array('ID' => $user))['user_img'];
+    echo $img;
+  }
+
   public function upload_userImg()
   {
     if ($_FILES['image']['name'] == null)
@@ -100,11 +107,6 @@ class User extends CI_Controller
     {
       echo "탈퇴 실패";
     }
-  }
-
-  public function test_func()
-  {
-    echo "curl반송";
   }
 
 }

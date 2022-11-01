@@ -150,3 +150,20 @@ a {
     'GRAD' 200,
     'opsz' 20;
 }
+
+.thumbnail {
+    width: 200px;
+    height: 200px;
+    margin: 10px;
+}
+
+.thumbnail-box {
+    width: 100%;
+    background-color: white;
+    height: 300px;
+    margin-bottom: 10px;
+    align-items: center;
+    display: flex;
+    padding: 10px;
+    border: 4px solid pink;
+}

@@ -65,6 +65,19 @@
       return $paging;
     }
 
+    // public function board_data($array)
+    // {
+    //   $data = array(
+    //     'b_seq'      => null,
+    //     'subject'    => $this->input->post('subject'),
+    //     'writer'     => $this->input->post('input_ID'),
+    //     'Password'   => $inputPass_hash,
+    //     'body'       => $this->input->post('body'),
+    //     'visited'    => 0,
+    //     'permission' => $this->input->post('permission')
+    //     );
+    // }
+
     public function index()
     {
       if (isset($GLOBALS['search_input'])) // 검색값 존재
@@ -165,7 +178,7 @@
       $this->load->view('/templates/board/test');   
     }
     
-    public function write_action_func()
+    public function insert_board_func()
     { 
       $inputPass_hash = $this->input->post('input_pass');
       $inputPass_hash = hash("sha256", $inputPass_hash);
@@ -180,35 +193,51 @@
       'permission' => $this->input->post('permission')
       );
 
-      if ($this->input->post('b_seq') != NULL) // 게시글 번호가 정의된 경우 -> 수정
-      {
-        $b_seq = $this->input->post('b_seq'); //게시글 번호가 넘어옴
-        $row = $this->board_model->get_content($b_seq); //데이터값 가져오기
-
-        $data['b_seq']   = $b_seq;
-        $data['visited'] = $row['visited'];
-        
-        $this->board_model->update_board($data);
-      }
-
-      else 
-      {
-        if (isset($_FILES['file']['tmp_name']))
-        {
-          $tmp = $_FILES['file']['tmp_name'];
-          $name = $this->input->post('input_ID'). "-" .$_FILES['file']['name'];
-          $upload = "./public/asset/board/$name";
-          move_uploaded_file($tmp, $upload);
+      // else 
+      // {
+        // if (isset($_FILES['file']['tmp_name']))
+        // {
+        //   $tmp = $_FILES['file']['tmp_name'];
+        //   $name = $this->input->post('input_ID'). "-" .$_FILES['file']['name'];
+        //   $upload = "./public/asset/board/$name";
+        //   move_uploaded_file($tmp, $upload);
   
-          $data['upload_file'] = $upload;
-        }
+        //   $data['upload_file'] = $upload;
+        // }
         $b_seq = $this->board_model->insert_board($data);
         echo $b_seq;
         exit;
-      }
-
-      // redirect('../board/get_content_view?b_seq='.$b_seq.'&list=0');
+      // }
     }
+
+    public function modify_board_func()
+    { 
+      $inputPass_hash = $this->input->post('input_pass');
+      $inputPass_hash = hash("sha256", $inputPass_hash);
+
+      $data = array(
+      'b_seq'      => null,
+      'subject'    => $this->input->post('subject'),
+      'writer'     => $this->input->post('input_ID'),
+      'Password'   => $inputPass_hash,
+      'body'       => $this->input->post('body'),
+      'visited'    => 0,
+      'permission' => $this->input->post('permission')
+      );
+
+      $b_seq = $this->input->post('b_seq'); //게시글 번호가 넘어옴
+      $row = $this->board_model->get_content($b_seq); //데이터값 가져오기
+
+      $data['b_seq']   = $b_seq;
+      $data['visited'] = $row['visited'];
+      
+      $this->board_model->update_board($data);
+      echo $b_seq;
+      
+    }
+
+
+
 
     // 게시글 삭제할때 unlink활용해서 사진도 같이 삭제되도록 구현
     public function remove_func()

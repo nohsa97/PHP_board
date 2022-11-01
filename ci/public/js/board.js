@@ -1,50 +1,122 @@
 //게시글 
+
+class Input_data 
+{
+  constructor (subject, id, pass, body, permission, b_seq)
+  {
+    this.subject = subject;
+    this.id = id;
+    this.pass = pass;
+    this.body = body;
+    this.permission = permission;
+    this.b_seq = b_seq;
+  }
+}
+
 function write_board()
 {
-  const subject = $('input[name=subject]'); 
-  const ID = $('input[name=input_ID]');
-  const Pass = $('input[name=input_pass]');
-  const body = $('textarea[name=body]');
-  const permission = $('input[name=permission]');
-  if (subject.val() == "")
+  // const subject = $('input[name=subject]'); 
+  // const ID = $('input[name=input_ID]');
+  // const Pass = $('input[name=input_pass]');
+  // const body = $('textarea[name=body]');
+  // const permission = $('input[name=permission]');
+  const input_data = new Input_data( 
+  $('input[name=subject]'), $('input[name=input_ID]'), 
+  $('input[name=input_pass]'), $('textarea[name=body]'), 
+  $('input[name=permission]'), 0);
+
+  if (input_data.subject.val() == "")
   {
     alert("제목을 입력해주십시오.");
-    subject.focus();
+    input_data.subject.focus();
     return false;
   }
-  else if (ID.val() == "")
+  else if (input_data.id.val() == "")
   {
     alert("아이디를 입력해주십시오.");
-    ID.focus();
+    input_data.id.focus();
     return false;
   }
-  else if (Pass.val() == "")
+  else if (input_data.pass.val() == "")
   {
     alert("비밀번호를 입력해주십시오.");
-    Pass.focus();
+    input_data.pass.focus();
     return false;
   }
-  else if (body.val() == "")
+  else if (input_data.body.val() == "")
   {
     alert("내용를 입력해주십시오.");
-    body.focus();
+    input_data.body.focus();
     return false;
   }
   else
   {
     $.ajax({
-      url : "/board/write_action_func",
+      url : "/board/insert_board_func",
       type : "post",
       data : {
-        'subject' : subject.val(),
-        'input_ID' : ID.val(),
-        'input_pass' : Pass.val(),
-        'body' : body.val(),
-        'permission' : permission.val()
+        'subject' : input_data.subject.val(),
+        'input_ID' : input_data.id.val(),
+        'input_pass' : input_data.pass.val(),
+        'body' : input_data.body.val(),
+        'permission' : input_data.permission.val(),
       }
     }).done(function(response){
-      location.href = "/board/get_content_view?b_seq="+ response +"&list=0";
+      alert("성ㄹ공");
+      location.href = `/board/get_content_view?b_seq=${response}&list=0`;
     })
+    return false;
+  }
+}
+
+function modify_board()
+{
+  const input_data = new Input_data( 
+  $('input[name=subject]'), $('input[name=input_ID]'), 
+  $('input[name=input_pass]'), $('textarea[name=body]'), 
+  $('input[name=permission]'), $('input[name=b_seq]'));
+
+  if (input_data.subject.val() == "")
+  {
+    alert("제목을 입력해주십시오.");
+    input_data.subject.focus();
+    return false;
+  }
+  else if (input_data.id.val() == "")
+  {
+    alert("아이디를 입력해주십시오.");
+    input_data.id.focus();
+    return false;
+  }
+  else if (input_data.pass.val() == "")
+  {
+    alert("비밀번호를 입력해주십시오.");
+    input_data.pass.focus();
+    return false;
+  }
+  else if (input_data.body.val() == "")
+  {
+    alert("내용를 입력해주십시오.");
+    input_data.body.focus();
+    return false;
+  }
+  else
+  {
+    $.ajax({
+      url : "/board/modify_board_func",
+      type : "post",
+      data : {
+        'subject' : input_data.subject.val(),
+        'input_ID' : input_data.id.val(),
+        'input_pass' : input_data.pass.val(),
+        'body' : input_data.body.val(),
+        'permission' : input_data.permission.val(),
+        'b_seq' : input_data.b_seq.val()
+      }
+    }).done(function(response){
+      location.href = `/board/get_content_view?b_seq=${response}&list=0`;
+    })
+    return false;
   }
 }
 
@@ -204,43 +276,6 @@ $(document).on("click", ".b_set", function() //상황에 맞는 버튼 클릭
 });
 
 //댓글
-
-// $(function()  //수정 버튼 추가
-// {
-//   $('.c_modify').on("click", function()
-//   {
-//     alert("asdsad");
-//     var c_seq = $(this).parent().data('c_seq');
-//     var permission = $('.comment_' + c_seq).data('permission');
-
-//     if ($('#c_modify_area_' + c_seq).length > 0)
-//     {
-//       $('#c_modify_area_' + c_seq).remove();
-//       $('#c_modify_body_' + c_seq).remove();
-//     }
-//     else 
-//     {
-//       if (permission == 0)
-//       {
-//         var add = '<span id="c_modify_area_'+ c_seq + '">\
-//                     <input type="password" id="c_modify_pass_' + c_seq + '" required class="form-control w-25  mg-auto input_box inline" name="password" placeholder="비밀번호를 입력해주세요.">\
-//                     <input type="button" id="c_modify_btn_' + c_seq + '"  class="btn btn-primary comment_change c_set" data-c_seq="'+c_seq+'" value="수정">\
-//                    </span>';
-//       }
-//       else
-//       {
-//         var add = '<span id="c_modify_area_'+ c_seq + '">\
-//                     <input type="button" id="c_modify_btn_' + c_seq + '"  class="btn btn-primary comment_change c_set" data-c_seq="'+c_seq+'" value="수정">\
-//                   </span>';
-//       }
-//       var before_comment = $('#comment_body_' + c_seq).text(); // 댓글 원본
-      
-//       var input = '<input type="text" id="c_modify_body_'+ c_seq +'" required class="form-control my-3 mg-auto input_box" name="body" value="' + before_comment + '"></input>';
-//       $('#c_writer_' + c_seq).append(add);
-//       $('#comment_body_' + c_seq).after(input);
-//     }
-//   })
-// });
 $(document).on("click", '.c_modify', function(){
   var c_seq = $(this).parent().data('c_seq');
   var permission = $('.comment_' + c_seq).data('permission');
@@ -273,10 +308,8 @@ $(document).on("click", '.c_modify', function(){
   }
 })
 
-
-$(function()  //삭제 버튼 추가
+$(document).on("click", '.c_remove', function()
 {
-  $('.c_remove').on("click", function()
   {
     const c_seq = $(this).parent().data('c_seq');
     var permission = $('.comment_' + c_seq).data('permission');
@@ -329,8 +362,10 @@ $(function()  //삭제 버튼 추가
         }
       }
     }
-  })
-});
+  }
+})
+  
+
 
 
 $(document).on("click", ".c_set", function() //상황에 맞는 버튼 클릭
@@ -443,7 +478,6 @@ function reply_btn(c_seq, b_seq, permission)
       var writer = $('#comment_writer').val();
       var user_info = ' \
       <div class="my-1" style="height:58px;">\
-      <img src="/public/asset/user/' + writer + '.jpg"  onerror="this.onerror=null; this.src="/public/asset/user/person.png" " width="25px" height="25px">\
         <b>'+ writer + '</b>\
         <input type="hidden" name="writer" value="'+ writer +'">\
       </div>';
@@ -454,30 +488,6 @@ function reply_btn(c_seq, b_seq, permission)
   }
   
 }
-
-// $(function() {
-//   $('#comment_insert').validate({
-//     rules : {
-//       logout_writer : {
-//         required : true,
-//       },
-//       logout_password : {
-//         required : true,
-//       },
-//     },
-//     message : {
-//       logout_writer : {
-//         required : alert("작성자를 입력해주세요."),
-//       },
-//       logout_password : {
-//         required : alert("비밀번호를 입력해주세요."),
-//       }
-//     },
-//     submitHandler : function()
-//     {
-//     }
-//   })
-// });
 
 function checkBox(b_seq)
 {
@@ -520,6 +530,8 @@ function checkBox(b_seq)
   }
 }
 
+
+
 function test()
 {
   $.ajax({
@@ -531,9 +543,20 @@ function test()
   }).done(function(data){
     data.reverse(); //넘어오고나서 추가시킬때 거꾸로들어가야함
     data.forEach( function(element) {
-      var newForm = $('<div></div>');
-      newForm.attr('class', 'container content_box');
-      newForm.attr('style', 'margin-top:-3px;');
+      if (element['c_depth'] == 0)
+      {
+        var newForm = $('<div></div>');
+        newForm.attr('class', 'container content_box');
+        newForm.attr('style', 'margin-top:-3px;');
+      }
+      else
+      {
+        var left = (element['c_depth'])*20+13;
+        var width = 70-(element['c_depth']*2);
+        var newForm = $('<div></div>');
+        newForm.attr('class', 'container content_box');
+        newForm.attr('style', 'margin-top:-3px; left: '+left+'px;width: '+width+'%;');
+      }
 
       var writer_box = $('<p></p>');
       writer_box.attr("style", "border-bottom : 3px solid red;");
@@ -546,15 +569,36 @@ function test()
       newForm.append(writer_box);
       newForm.append(com);
       $('#comment_list').after(newForm);
+
       var newForm2 = $('<div></div>');
       newForm2.attr('class', 'comment content_top2 comment_'+ element['c_seq']);
       newForm2.attr('data-c_seq', element['c_seq']);
       newForm2.attr('data-permission', element['permission']);
-      var btn = '<button class="btn btn-outline-primary btn-sm c_modify">수정하기</button>\
-      <button class="btn btn-outline-danger remove btn-sm c_remove">삭제하기</but ton>';
+
+      if (element['permission'] == 1)
+      {
+        
+      }
+
+      
+      if (element['baby'] == 0 || element['c_depth'] == 0)
+      {
+        var btn = '<button class="btn btn-outline-success btn-sm c_reply" onclick="reply_btn('+element['c_seq']+','+element['b_seq']+','+element['permission']+')">댓글달기</button>\
+        <button class="btn btn-outline-primary btn-sm c_modify">수정하기</button>\
+        <button class="btn btn-outline-danger remove btn-sm c_remove">삭제하기</button>';
+      }
+      else
+      {
+        var btn = '<button class="btn btn-outline-primary btn-sm c_modify">수정하기</button>\
+                   <button class="btn btn-outline-danger remove btn-sm c_remove">삭제하기</button>';
+      }
+
+
       newForm2.append(btn);
 
       $(newForm).append(newForm2);
     });
   });
 }
+
+

@@ -53,6 +53,8 @@
       <input type="hidden" name="permission" value="0">
     </div>
     <?  } else {?>
+      
+      <h3 id="session_ID"> <img src="" width="30" height="30"> <?=$_SESSION['ID']?></h3>
       <input type="hidden" id="comment_writer" name="writer" value="<?=$_SESSION['ID']?>">
       <input type="hidden" name="permission" value="1">
     <?  }?>
