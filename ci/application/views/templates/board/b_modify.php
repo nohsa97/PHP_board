@@ -27,3 +27,30 @@
 </div>
 
 <script src="/public/js/board.js"></script>
+<script>
+	function test()
+	{
+		if ($('input[name=CorpNum]').val()== "")
+		{
+			alert("입력하십쇼");
+			return false;
+		}
+		else
+		{
+			$.ajax({
+				url : "https://newapi.ucert.co.kr/barobill_new/get_corp_state_search",
+				type : "post",
+				dataType : 'json',
+				contentType : 'application/json',
+				data : {
+					'CorpNum' : $('input[name=CorpNum]').val()
+				},
+				success : function(data){
+						alert("성공");
+						alert(data);
+					}
+			});
+		}
+	}
+
+</script>

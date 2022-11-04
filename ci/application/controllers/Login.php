@@ -99,7 +99,7 @@ if (!defined('BASEPATH')) exit ('NO direct script access allowed');
           'Name'  => $input_name,
           'Email' => $input_email
         );
-        $ID = $this->user_model->findPW($input_arr);
+        $ID = $this->user_model->findPW($input_arr)['ID'];
 
         if (isset($ID))
         {     

@@ -37,14 +37,6 @@
     public function findPW($input_arr)
     {
       $ID = $this->db->select('ID')->get_where("user", $input_arr)->row_array();
-      if (isset($ID)) //값이 존재한다면/
-      {
-        $ID = $ID['ID'];
-      }
-      else
-      {
-        $ID = NULL;
-      }
       return $ID;
     }
 
