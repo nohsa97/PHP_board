@@ -1,3 +1,4 @@
+
 <div class="container text-center">
   <h1 class="sign-in"> 회원 로그인 </h1>
   <!-- <form action="/login/login_func" id="login_box" method="post" class="sign-in"> -->
@@ -22,6 +23,17 @@
     <input type="button" class="btn btn-warning w-40 my-3" onclick="findPw_page()" value="ID/PW 찾기">
     <input type="button" id="no-login" onclick="no_login_page()" class="btn btn-warning w-100" value="비회원접속">
   </form>
-    <a href="/oauth/action"><button>OAuth 접속</button></a>
+    <a href="/oauth/authorization"><button>OAuth 테스트</button></a>
+    <a href="/oauth/get_authorization_code2_func"><button id="test">OAuth2 테스트</button></a>
+    
+    <a href="/oauth/authorize_acount"><button>1년 테스트</button></a>
+    <a href="/oauth/refresh_token_func"><button>OAuth 갱신?</button></a>
+    <a href="/oauth/account_list"><button>계좌</button></a>
+    <a href="/oauth/transaction_list"><button>거래내역 조회</button></a>
+    <a href="/oauth/transaction_list_save_func"><button>거래내역 조회</button></a>
 </div>
 <script src="/public/js/login.js"></script>
+
+<script>
+
+</script>

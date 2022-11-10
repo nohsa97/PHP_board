@@ -108,6 +108,12 @@ class User extends CI_Controller
       echo "탈퇴 실패";
     }
   }
+  
+public function test()
+{
+  $this->load->view('/templates/test');      
+}
+
 
 }
 

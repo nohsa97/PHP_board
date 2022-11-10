@@ -31,6 +31,7 @@ if (!defined('BASEPATH')) exit ('NO direct script access allowed');
 
     public function index() //페이지 로드
     {
+
       if (isset($this->session->ID)) //로그인 되어있을 시. 바로 리스트 페이지 이동 
       {
         redirect("/board");
